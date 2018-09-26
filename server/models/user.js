@@ -6,7 +6,7 @@ const { Schema } = mongoose;
 // models
 const AuthToken = require("./authToken");
 
-const { milliFromNow } = require("../utils/timeUtils");
+const { milliFromNow, daysFromNow } = require("../utils/timeUtils");
 const tokenExpirationTime = 30 * 1000; // 30 seconds TESTING
 const tokenExpirationDays = 7; // 7 days; USE this for real token
 
@@ -64,18 +64,19 @@ UserSchema.methods.generateAuthToken = async function() {
 
   // Testing 30 seconds from now
   const expires = milliFromNow(tokenExpirationTime);
-  console.log("Expires", expires);
+  // const expires = daysFromNow(new Date(), tokenExpirationDays);
 
   // Token
   const token = jwt
-    .sign({
-      _id: _id.toString(),
-      expires,
-      role
-    })
+    .sign(
+      {
+        _id: _id.toString(),
+        expires,
+        role
+      },
+      process.env.TOKEN_SECRET
+    )
     .toString();
-
-  console.log("Token", token);
 
   try {
     // Check if the user already has a token array
@@ -96,12 +97,11 @@ UserSchema.methods.generateAuthToken = async function() {
       await newAuthToken.save();
     }
 
-    return { token, expires };
+    return { token };
   } catch (err) {
     console.log("Err: generateAuthToken", err);
     return {
-      err: "generateAuthToken",
-      msg: "An error ocurred while trying to generate the auth token."
+      err: "An error ocurred while trying to generate the auth token."
     };
   }
 };

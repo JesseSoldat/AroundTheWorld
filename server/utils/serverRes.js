@@ -1,4 +1,4 @@
-const getErrMsg = (type, method, target, code) => {
+const getErrMsg = (type, method, target, code = null) => {
   const msgTypes = {
     err: `An error ocurred while trying to ${method} the ${target}.`,
     allFields: "All form fields must be filled in.",
@@ -11,13 +11,7 @@ const getErrMsg = (type, method, target, code) => {
   return { info: msgTypes[type], color: "red", code };
 };
 
-const getMsg = (type, method, target, code) => {
-  const msgTypes = {
-    info: `An error ocurred while trying to ${method} the ${target}.`
-  };
-
-  return { info: msgTypes[type], color: "blue", code };
-};
+const getMsg = (info, color = "red", code = null) => ({ info, color, code });
 
 const serverRes = (res, status, msg = null, payload = null) => {
   res.status(status).send({ msg, payload });
