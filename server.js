@@ -1,10 +1,15 @@
+require("./server/config/config");
+
 const express = require("express");
+const bodyParser = require("body-parser");
 
 const app = express();
 
-const PORT = process.env.PORT || 5000;
+app.listen(process.env.PORT);
 
-app.listen(PORT);
+app.use(bodyParser.json());
+
+require("./server/routes/auth")(app);
 
 if (process.env.NODE_ENV === "production") {
   const path = require("path");
