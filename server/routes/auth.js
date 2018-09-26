@@ -1,7 +1,9 @@
 // Models
 const User = require("../models/user");
+const AuthToken = require("../models/authToken");
 // Middleware
 const authCheckForm = require("../middleware/authCheckForm");
+const isAuth = require("../middleware/isAuth");
 // Utils
 const { serverRes, getMsg, getErrMsg } = require("../utils/serverRes");
 
@@ -38,7 +40,7 @@ module.exports = app => {
       serverRes(res, 200, msg, { token });
     } catch (err) {
       console.log("Err: Register", err);
-      const msg = getErrMsg("error", "register", "user");
+      const msg = getErrMsg("err", "register", "user");
       serverRes(res, 400, msg, null);
     }
   });
@@ -64,18 +66,34 @@ module.exports = app => {
         return serverRes(res, 400, msg, null);
       }
 
-      const msg = getMsg(`${user.email} has logged in successfully..`, "blue");
+      const msg = getMsg(`${user.email} has logged in successfully.`, "blue");
 
       serverRes(res, 200, msg, { token });
     } catch (err) {
       console.log("Err: Login", err);
-      const msg = getErrMsg("error", "login", "user");
+      const msg = getErrMsg("err", "login", "user");
       serverRes(res, 400, msg, null);
     }
   });
 
   // Logout
-  app.delete("/api/logout", async (req, res) => {});
+  app.delete("/api/logout", isAuth, async (req, res) => {
+    const { token, user } = req;
+
+    try {
+      await AuthToken.findOneAndUpdate(
+        { tokens: token },
+        { $pull: { tokens: token } }
+      );
+
+      const msg = getMsg(`${user.email} is now logged out.`, "blue");
+
+      serverRes(res, 200, msg, null);
+    } catch (err) {
+      console.log("Err: Logout", err);
+      const msg = getErrMsg("err", "logout", "user");
+    }
+  });
 
   // Reset Password
   app.patch("/api/resetPasswordEmail", async (req, res) => {});
