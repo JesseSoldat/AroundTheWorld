@@ -106,6 +106,26 @@ UserSchema.methods.generateAuthToken = async function() {
   }
 };
 
+UserSchema.statics.findByCredentials = async function(email, password) {
+  const User = this;
+
+  try {
+    const user = await User.findOne({ email });
+
+    if (!user) return null;
+
+    const matchedUser = await new Promise((resolve, reject) => {
+      bcrypt.compare(password, user.password, (err, matched) => {
+        matched ? resolve(user) : resolve(null);
+      });
+    });
+
+    return matchedUser;
+  } catch (err) {
+    return null;
+  }
+};
+
 const User = mongoose.model("user", UserSchema);
 
 module.exports = User;
