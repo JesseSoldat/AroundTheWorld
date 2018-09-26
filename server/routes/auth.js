@@ -1,6 +1,12 @@
+const authCheckForm = require("../middleware/authCheckForm");
+
 module.exports = app => {
   // Register
-  app.post("/api/register", async (req, res) => {});
+  app.post("/api/register", authCheckForm, async (req, res) => {
+    const { username, email, password } = req.body;
+
+    res.status(200).send({ msg: "ok" });
+  });
 
   // Login
   app.post("/api/login", async (req, res) => {});
