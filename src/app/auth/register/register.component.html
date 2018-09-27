@@ -12,13 +12,19 @@
         <app-form-group [data$]="formGroupData$" formControlName="email" ngDefaultControl (appBlurEvent)="blurEvent($event)"
           [errMsg]="controlNameErrs.email"></app-form-group>
 
-        <!-- password -->
-        <app-form-group [data$]="formGroupData$" formControlName="password" ngDefaultControl (appBlurEvent)="blurEvent($event)"
-          [errMsg]="controlNameErrs.password"></app-form-group>
 
-        <!-- confirm password -->
-        <app-form-group [data$]="formGroupData$" formControlName="confirmPassword" ngDefaultControl (appBlurEvent)="blurEvent($event)"
-          [errMsg]="controlNameErrs.confirmPassword"></app-form-group>
+        <!-- password group  -->
+        <div formGroupName="passwordGroup">
+
+          <!-- password -->
+          <app-form-group [data$]="formGroupData$" formControlName="password" ngDefaultControl (appBlurEvent)="blurEvent($event)"
+            [errMsg]="controlNameErrs.password"></app-form-group>
+
+          <!-- confirm password -->
+          <app-form-group [data$]="formGroupData$" formControlName="confirmPassword" ngDefaultControl (appBlurEvent)="blurEvent($event)"
+            [errMsg]="controlNameErrs.confirmPassword"></app-form-group>
+
+        </div>
 
         <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary btn-block">Submit</button>
       </form>

@@ -37,31 +37,33 @@ export class RegisterComponent implements OnInit {
   };
 
   constructor(private formBuilder: FormBuilder) {
-    this.registerForm = this.formBuilder.group(
-      {
-        username: new FormControl("jesse", [
-          Validators.required,
-          Validators.minLength(3),
-          Validators.maxLength(15)
-        ]),
-        email: new FormControl("jlab@jlab.com", [
-          Validators.required,
-          Validators.email
-        ]),
-        password: [
-          "123456",
-          [
-            Validators.required,
-            Validators.minLength(6),
-            Validators.maxLength(15)
-          ]
-        ],
-        confirmPassword: ["123456", [Validators.required]]
-      },
-      {
-        validator: confirmPasswordValidator
-      }
-    );
+    this.registerForm = this.formBuilder.group({
+      username: new FormControl("jesse", [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(15)
+      ]),
+      email: new FormControl("jlab@jlab.com", [
+        Validators.required,
+        Validators.email
+      ]),
+      passwordGroup: this.formBuilder.group(
+        {
+          password: [
+            "123456",
+            [
+              Validators.required,
+              Validators.minLength(6),
+              Validators.maxLength(15)
+            ]
+          ],
+          confirmPassword: ["123456", [Validators.required]]
+        },
+        {
+          validator: confirmPasswordValidator
+        }
+      )
+    });
   }
 
   ngOnInit() {
@@ -69,16 +71,33 @@ export class RegisterComponent implements OnInit {
   }
 
   // Helpers -----------------------------------
-  createErrMsg(controlName: string) {
-    const currentControlErr = this.registerForm.get(controlName).errors;
-    console.log(currentControlErr);
-
+  createErrMsg(controlName: string, currentControlErr) {
     this.controlNameErrs[controlName] = fieldValidation(currentControlErr);
+  }
+
+  handlePasswordGroupErrs(controlName: string) {
+    const passwordGroup = this.registerForm.get("passwordGroup");
+
+    // Handle the Group Validator Error
+    if (controlName === "confirmPassword") {
+      const currentControlGroupErr = passwordGroup.errors;
+      return this.createErrMsg(controlName, currentControlGroupErr);
+    }
+
+    // Handle a Single Control Error
+    const currentControlErr = passwordGroup.get(controlName).errors;
+    this.createErrMsg(controlName, currentControlErr);
   }
 
   // Events & Cbs ---------------------------
   blurEvent(controlName: string) {
-    this.createErrMsg(controlName);
+    // Handle Group Controls
+    if (controlName === "password" || controlName === "confirmPassword") {
+      return this.handlePasswordGroupErrs(controlName);
+    }
+    // Handle any other Controls
+    const currentControlErr = this.registerForm.get(controlName).errors;
+    this.createErrMsg(controlName, currentControlErr);
   }
 
   handleSubmit() {
