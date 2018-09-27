@@ -14,6 +14,8 @@ import { Auth } from "../../models/auth.model";
 import { InputGroup } from "../../models/input-group.model";
 // Data
 import { formGroupData } from "../formGroupData";
+// Helpers
+import { fieldValidation } from "../helpers/fieldValidation";
 
 @Component({
   selector: "app-register",
@@ -25,10 +27,12 @@ export class RegisterComponent implements OnInit {
   // Form
   registerForm: FormGroup;
   // Form Errors
-  usernameErr: string;
-  emailErr: string;
-  passwordErr: string;
-  confirmPasswordErr: string;
+  controlNameErrs = {
+    username: null,
+    email: null,
+    password: null,
+    confirmPassword: null
+  };
 
   constructor(private formBuilder: FormBuilder) {
     this.registerForm = this.formBuilder.group({
@@ -53,8 +57,17 @@ export class RegisterComponent implements OnInit {
     this.formGroupData$ = of(formGroupData);
   }
 
-  blurEvent(from) {
-    console.log("from", from);
+  // Helpers -----------------------------------
+  createErrMsg(controlName: string) {
+    const currentControlErr = this.registerForm.get(controlName).errors;
+    console.log(currentControlErr);
+
+    this.controlNameErrs[controlName] = fieldValidation(currentControlErr);
+  }
+
+  // Events & Cbs ---------------------------
+  blurEvent(controlName: string) {
+    this.createErrMsg(controlName);
   }
 
   handleSubmit() {

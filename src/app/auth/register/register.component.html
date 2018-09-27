@@ -4,10 +4,14 @@
   <div class="row">
     <div class="col-sm-12 col-md-10 mx-auto">
       <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()" novalidate>
-        <app-form-group [data$]="formGroupData$" formControlName="username" ngDefaultControl (appBlurEvent)="blurEvent($event)"></app-form-group>
-        <app-form-group [data$]="formGroupData$" formControlName="email" ngDefaultControl (appBlurEvent)="blurEvent($event)"></app-form-group>
-        <app-form-group [data$]="formGroupData$" formControlName="password" ngDefaultControl (appBlurEvent)="blurEvent($event)"></app-form-group>
-        <app-form-group [data$]="formGroupData$" formControlName="confirmPassword" ngDefaultControl (appBlurEvent)="blurEvent($event)"></app-form-group>
+        <app-form-group [data$]="formGroupData$" formControlName="username" ngDefaultControl (appBlurEvent)="blurEvent($event)"
+          [errMsg]="controlNameErrs.username"></app-form-group>
+        <app-form-group [data$]="formGroupData$" formControlName="email" ngDefaultControl (appBlurEvent)="blurEvent($event)"
+          [errMsg]="controlNameErrs.email"></app-form-group>
+        <app-form-group [data$]="formGroupData$" formControlName="password" ngDefaultControl (appBlurEvent)="blurEvent($event)"
+          [errMsg]="controlNameErrs.password"></app-form-group>
+        <app-form-group [data$]="formGroupData$" formControlName="confirmPassword" ngDefaultControl (appBlurEvent)="blurEvent($event)"
+          [errMsg]="controlNameErrs.confirmPassword"></app-form-group>
 
         <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary btn-block">Submit</button>
       </form>
