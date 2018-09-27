@@ -4,12 +4,12 @@
   <div class="row">
     <div class="col-sm-12 col-md-10 mx-auto">
       <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()" novalidate>
-        <app-form-group [data$]="formGroupData$" key="username" ngDefaultControl></app-form-group>
-        <app-form-group [data$]="formGroupData$" key="email" ngDefaultControl></app-form-group>
-        <app-form-group [data$]="formGroupData$" key="password" ngDefaultControl></app-form-group>
-        <app-form-group [data$]="formGroupData$" key="confirmPassword" ngDefaultControl></app-form-group>
+        <app-form-group [data$]="formGroupData$" formControlName="username" ngDefaultControl (appBlurEvent)="blurEvent($event)"></app-form-group>
+        <app-form-group [data$]="formGroupData$" formControlName="email" ngDefaultControl (appBlurEvent)="blurEvent($event)"></app-form-group>
+        <app-form-group [data$]="formGroupData$" formControlName="password" ngDefaultControl (appBlurEvent)="blurEvent($event)"></app-form-group>
+        <app-form-group [data$]="formGroupData$" formControlName="confirmPassword" ngDefaultControl (appBlurEvent)="blurEvent($event)"></app-form-group>
 
-
+        <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary btn-block">Submit</button>
       </form>
     </div>
   </div>

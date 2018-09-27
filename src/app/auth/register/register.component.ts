@@ -53,6 +53,10 @@ export class RegisterComponent implements OnInit {
     this.formGroupData$ = of(formGroupData);
   }
 
+  blurEvent(from) {
+    console.log("from", from);
+  }
+
   handleSubmit() {
     const formValues = this.registerForm.value;
     console.log(formValues);

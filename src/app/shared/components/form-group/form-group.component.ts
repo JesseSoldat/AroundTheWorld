@@ -10,14 +10,16 @@ import { InputGroup } from "../../../models/input-group.model";
   styleUrls: ["./form-group.component.css"]
 })
 export class FormGroupComponent implements OnInit {
+  @Input("formControlName")
+  key;
   @Input()
   data$: Observable<InputGroup>;
-  @Input()
-  key: string;
   @Input()
   errMsg: string;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    // console.log(this.key);
+  }
 }
