@@ -16,6 +16,8 @@ import { InputGroup } from "../../models/input-group.model";
 import { formGroupData } from "../formGroupData";
 // Helpers
 import { fieldValidation } from "../helpers/fieldValidation";
+// Validators
+import { confirmPasswordValidator } from "../helpers/confirmPassword.validator";
 
 @Component({
   selector: "app-register",
@@ -35,22 +37,31 @@ export class RegisterComponent implements OnInit {
   };
 
   constructor(private formBuilder: FormBuilder) {
-    this.registerForm = this.formBuilder.group({
-      username: new FormControl("jesse", [
-        Validators.required,
-        Validators.minLength(3),
-        Validators.maxLength(15)
-      ]),
-      email: new FormControl("jlab@jlab.com", [
-        Validators.required,
-        Validators.email
-      ]),
-      password: [
-        "123456",
-        [Validators.required, Validators.minLength(6), Validators.maxLength(15)]
-      ],
-      confirmPassword: ["123456", [Validators.required]]
-    });
+    this.registerForm = this.formBuilder.group(
+      {
+        username: new FormControl("jesse", [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(15)
+        ]),
+        email: new FormControl("jlab@jlab.com", [
+          Validators.required,
+          Validators.email
+        ]),
+        password: [
+          "123456",
+          [
+            Validators.required,
+            Validators.minLength(6),
+            Validators.maxLength(15)
+          ]
+        ],
+        confirmPassword: ["123456", [Validators.required]]
+      },
+      {
+        validator: confirmPasswordValidator
+      }
+    );
   }
 
   ngOnInit() {
