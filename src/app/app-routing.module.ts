@@ -1,9 +1,12 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule, PreloadAllModules } from "@angular/router";
 
-// Components
-
-const routes: Routes = [];
+const routes: Routes = [
+  {
+    path: "dashboard",
+    loadChildren: "./dashboard/dashboard.module#DashboardModule"
+  }
+];
 
 @NgModule({
   imports: [

@@ -6,6 +6,12 @@ a {
 .navbar-brand {
   color: white;
 }
+.navbar-brand:hover {
+  color: white;
+}
+.navbar-brand.active {
+  color: white;
+}
 
 @media (max-width: 768px) {
   .nav-item {

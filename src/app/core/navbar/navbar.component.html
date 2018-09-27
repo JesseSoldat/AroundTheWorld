@@ -1,6 +1,8 @@
-<nav class="navbar navbar-expand-md navbar-light bg-dark fixed-top">
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+
   <!-- Brand -->
-  <a href="" class="navbar-brand">Around The World</a>
+  <a routerLink="/" class="navbar-brand" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Around
+    The World</a>
 
   <!-- Responsive Btn -->
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile" aria-controls="navbarCollapse"
@@ -15,7 +17,10 @@
 
     <!-- Right Links -->
     <ul class="navbar-nav ml-auto">
+      <app-link text="Dashboard"></app-link>
       <app-link text="Register"></app-link>
+      <app-link text="Login"></app-link>
+
     </ul>
   </div>
 

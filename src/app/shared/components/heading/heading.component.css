@@ -1,2 +1,9 @@
 .heading {
+  font-size: 3em;
+}
+
+@media (max-width: 768px) {
+  .heading {
+    font-size: 2em;
+  }
 }

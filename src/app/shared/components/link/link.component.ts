@@ -1,10 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 
-const links = {
-  dashboard: "/dashboard",
-  register: "/register",
-  login: "/login"
-};
+import linkMap from "./linkMap";
 
 @Component({
   selector: "app-link",
@@ -19,7 +15,6 @@ export class LinkComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    this.link = links[this.text.toLowerCase()];
-    console.log(this.link);
+    this.link = linkMap[this.text.toLowerCase()];
   }
 }
