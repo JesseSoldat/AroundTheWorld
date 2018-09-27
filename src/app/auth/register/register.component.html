@@ -1,1 +1,16 @@
 <app-heading heading="Register"></app-heading>
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-12 col-md-10 mx-auto">
+      <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()" novalidate>
+        <app-form-group [data$]="formGroupData$" key="username" ngDefaultControl></app-form-group>
+        <app-form-group [data$]="formGroupData$" key="email" ngDefaultControl></app-form-group>
+        <app-form-group [data$]="formGroupData$" key="password" ngDefaultControl></app-form-group>
+        <app-form-group [data$]="formGroupData$" key="confirmPassword" ngDefaultControl></app-form-group>
+
+
+      </form>
+    </div>
+  </div>
+</div>

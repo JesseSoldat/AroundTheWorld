@@ -5,7 +5,7 @@ import { AuthRoutingModule } from "./auth-routing.module";
 // Components
 import { RegisterComponent } from "./register/register.component";
 import { LoginComponent } from "./login/login.component";
-import { WelcomeComponent } from './welcome/welcome.component';
+import { WelcomeComponent } from "./welcome/welcome.component";
 
 @NgModule({
   imports: [SharedModule, AuthRoutingModule],
