@@ -4,8 +4,7 @@ import { NgModule } from "@angular/core";
 // Modules
 import { CoreModule } from "./core/core.module";
 import { AuthModule } from "./auth/auth.module";
-// Routing
-import { AppRoutingModule } from "./app-routing.module";
+
 // Components
 import { AppComponent } from "./app.component";
 // SW
@@ -18,7 +17,6 @@ import { environment } from "../environments/environment";
     BrowserModule,
     CoreModule,
     AuthModule,
-    AppRoutingModule,
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production
     })

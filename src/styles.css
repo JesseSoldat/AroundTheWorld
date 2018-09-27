@@ -1,1 +1,26 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", sans-serif;
+}
+
+.appWrapper {
+  position: relative;
+}
+
+.spacer100 {
+  height: 100px;
+}
+
+.spacer80 {
+  height: 80px;
+}
+.spacer70 {
+  height: 70px;
+}
+.spacer60 {
+  height: 60px;
+}
+.spacer50 {
+  height: 50px;
+}

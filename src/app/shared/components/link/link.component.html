@@ -1,0 +1,8 @@
+<li *ngIf="text === 'dashboard'" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+  <a class="nav-link" [routerLink]="link">{{text}}</a>
+</li>
+
+
+<li class="nav-item" routerLinkActive="active">
+  <a class="nav-link" [routerLink]="link">{{text}}</a>
+</li>

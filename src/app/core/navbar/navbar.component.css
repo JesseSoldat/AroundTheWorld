@@ -1,0 +1,18 @@
+a {
+  font-size: 1.2em;
+  padding: 0;
+}
+
+.navbar-brand {
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .nav-item {
+    padding-top: 10px;
+  }
+
+  .navbar-brand {
+    padding-top: 0;
+  }
+}

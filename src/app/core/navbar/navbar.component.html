@@ -1,3 +1,23 @@
-<p>
-  navbar works!
-</p>
+<nav class="navbar navbar-expand-md navbar-light bg-dark fixed-top">
+  <!-- Brand -->
+  <a href="" class="navbar-brand">Around The World</a>
+
+  <!-- Responsive Btn -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile" aria-controls="navbarCollapse"
+    aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+
+  <div class="collapse navbar-collapse" id="mobile">
+    <!-- Left Links -->
+    <ul class="navbar-nav mr-auto"></ul>
+
+    <!-- Right Links -->
+    <ul class="navbar-nav ml-auto">
+      <app-link text="Register"></app-link>
+    </ul>
+  </div>
+
+
+</nav>
