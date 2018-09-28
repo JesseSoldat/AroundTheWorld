@@ -6,8 +6,8 @@ import { tap } from "rxjs/operators";
 import { Actions, Effect, ofType } from "@ngrx/effects";
 import { Register, AuthActionTypes } from "./auth.actions";
 
-const localSave = "Could not save the user to local storage.";
-const localDelete = "Could not remove the user from local storage.";
+const localSaveErr = "Could not save the user to local storage.";
+const localDeleteErr = "Could not remove the user from local storage.";
 
 @Injectable()
 export class AuthEffects {
@@ -25,7 +25,7 @@ export class AuthEffects {
         localStorage.setItem("user", JSON.stringify(action.payload.user));
         this.nav("dashboard");
       } catch (err) {
-        console.log(localSave);
+        console.log(localSaveErr);
         this.nav("dashboard");
       }
     })

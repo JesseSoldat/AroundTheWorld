@@ -60,7 +60,7 @@ UserSchema.pre("save", function(next) {
 
 UserSchema.methods.generateAuthToken = async function() {
   const user = this;
-  const { _id, role } = user;
+  const { _id, username, role } = user;
 
   // Testing 30 seconds from now
   const expires = milliFromNow(tokenExpirationTime);
@@ -71,6 +71,7 @@ UserSchema.methods.generateAuthToken = async function() {
     .sign(
       {
         _id: _id.toString(),
+        username,
         expires,
         role
       },

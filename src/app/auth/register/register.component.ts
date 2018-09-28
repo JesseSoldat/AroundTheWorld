@@ -9,15 +9,17 @@ import {
 } from "@angular/forms";
 
 // Models
-import { User } from "../../models/user.model";
 import { Auth } from "../../models/auth.model";
 import { InputGroup } from "../../models/input-group.model";
+import { HttpRes } from "../../models/http-res.model";
 // Data
 import { formGroupData } from "../formGroupData";
 // Helpers
 import { fieldValidation } from "../helpers/fieldValidation";
 // Validators
 import { confirmPasswordValidator } from "../helpers/confirmPassword.validator";
+// Services
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: "app-register",
@@ -36,7 +38,10 @@ export class RegisterComponent implements OnInit {
     confirmPassword: null
   };
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private authService: AuthService
+  ) {
     this.registerForm = this.formBuilder.group({
       username: new FormControl("jesse", [
         Validators.required,
@@ -102,6 +107,20 @@ export class RegisterComponent implements OnInit {
 
   handleSubmit() {
     const formValues = this.registerForm.value;
-    console.log(formValues);
+
+    const auth: Auth = {
+      username: formValues.username,
+      email: formValues.email,
+      password: formValues.passwordGroup.password
+    };
+
+    this.authService.registerByEmail(auth).subscribe(
+      (res: HttpRes) => {
+        console.log("Res", res);
+      },
+      err => {
+        console.log("Err", err);
+      }
+    );
   }
 }
