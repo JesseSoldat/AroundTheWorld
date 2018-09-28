@@ -1,4 +1,4 @@
-import { Msg } from "./mgs.model";
+import { Msg } from "./msg.model";
 
 export interface HttpRes {
   msg: Msg;

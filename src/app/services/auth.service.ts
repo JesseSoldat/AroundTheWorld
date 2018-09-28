@@ -6,6 +6,7 @@ import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
 import { AppState } from "../reducers";
 import { Register, Login } from "../auth/auth.actions";
+import { ShowMsg } from "../shared/shared.actions";
 // Models
 import { Auth } from "../models/auth.model";
 import { User } from "../models/user.model";
@@ -37,6 +38,7 @@ export class AuthService {
           role: token.role
         };
 
+        this.store.dispatch(new ShowMsg({ msg }));
         this.store.dispatch(new Register({ user }));
       })
     );
@@ -55,6 +57,7 @@ export class AuthService {
           role: token.role
         };
 
+        this.store.dispatch(new ShowMsg({ msg }));
         this.store.dispatch(new Login({ user }));
       })
     );

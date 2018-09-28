@@ -3,8 +3,12 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
+// Ngrx
+import { StoreModule } from "@ngrx/store";
+import { sharedReducer } from "./shared.reducer";
 // Directives
 import { BlurEventDirective } from "./directives/blur-event.directive";
+// Pipes
 // Components
 import { HeadingComponent } from "./components/heading/heading.component";
 import { FormGroupComponent } from "./components/form-group/form-group.component";
@@ -17,7 +21,8 @@ const routes: Routes = [];
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    StoreModule.forFeature("shared", sharedReducer)
   ],
   declarations: [
     BlurEventDirective,

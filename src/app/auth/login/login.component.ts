@@ -69,11 +69,9 @@ export class LoginComponent implements OnInit {
       password: formValues.password
     };
 
-    console.log(auth);
-
     this.authService.loginByEmail(auth).subscribe(
       (res: HttpRes) => {
-        console.log("Login Res", res);
+        // console.log("Login Res", res);
       },
       err => {
         console.log("Login Err", err);
