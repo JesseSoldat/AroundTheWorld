@@ -1,6 +1,5 @@
 // Models
 const User = require("../models/user");
-const AuthToken = require("../models/authToken");
 // Middleware
 const authCheckForm = require("../middleware/authCheckForm");
 const isAuth = require("../middleware/isAuth");
@@ -77,21 +76,9 @@ module.exports = app => {
   });
 
   // Logout
-  app.delete("/api/logout", isAuth, async (req, res) => {
-    const { token, user } = req;
-
-    try {
-      await AuthToken.findOneAndUpdate(
-        { tokens: token },
-        { $pull: { tokens: token } }
-      );
-
-      serverRes(res, 200, null, null);
-    } catch (err) {
-      console.log("Err: Logout", err);
-      const msg = getErrMsg("err", "logout", "user");
-    }
-  });
+  app.delete("/api/logout", isAuth, (req, res) =>
+    serverRes(res, 200, null, null)
+  );
 
   // Reset Password
   app.patch("/api/resetPasswordEmail", async (req, res) => {});

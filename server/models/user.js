@@ -3,9 +3,6 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { Schema } = mongoose;
 
-// models
-const AuthToken = require("./authToken");
-
 const { milliFromNow, daysFromNow } = require("../utils/timeUtils");
 const tokenExpirationTime = 30 * 1000; // 30 seconds TESTING
 const tokenExpirationDays = 7; // 7 days; USE this for real token
@@ -60,46 +57,27 @@ UserSchema.pre("save", function(next) {
 
 UserSchema.methods.generateAuthToken = async function() {
   const user = this;
-  const { _id, username, role } = user;
-
-  // Testing 30 seconds from now
-  // const expires = milliFromNow(tokenExpirationTime);
-  // const expires = daysFromNow(new Date(), tokenExpirationDays);
-
-  const expiry = new Date();
-  expiry.setDate(expiry.getDate() + 7);
-
-  // Token
-  const token = jwt
-    .sign(
-      {
-        _id: _id.toString(),
-        username,
-        role,
-        exp: parseInt(expiry.getTime() / 1000)
-      },
-      process.env.TOKEN_SECRET
-    )
-    .toString();
-
   try {
-    // Check if the user already has a token array
-    const authToken = await AuthToken.findOne({ user: _id });
+    const { _id, username, role } = user;
 
-    // Use existing auth token document
-    if (authToken) {
-      authToken.tokens.push(token);
+    // const expires = milliFromNow(tokenExpirationTime);
+    // const expires = daysFromNow(new Date(), tokenExpirationDays);
+    const expiry = new Date();
+    expiry.setDate(expiry.getDate() + 1);
+    const exp = parseInt(expiry.getTime() / 1000);
 
-      if (authToken.tokens.length > 5) authToken.tokens.shift();
-
-      await authToken.save();
-    }
-    // Create a new auth token document
-    else {
-      const newAuthToken = new AuthToken({ tokens: [token], user: _id });
-
-      await newAuthToken.save();
-    }
+    // Token
+    const token = jwt
+      .sign(
+        {
+          _id: _id.toString(),
+          username,
+          role,
+          exp
+        },
+        process.env.TOKEN_SECRET
+      )
+      .toString();
 
     return { token };
   } catch (err) {
