@@ -14,8 +14,10 @@ import { environment } from "../environments/environment";
 // Services
 import { HttpService } from "./services/http.service";
 import { AuthService } from "./services/auth.service";
-// Interceptor
+// Interceptors
 import { AuthInterceptor } from "./services/interceptors/auth.interceptor";
+// Guards
+import { AuthGuard } from "./services/guards/auth.guard";
 
 @NgModule({
   declarations: [AppComponent],
@@ -30,7 +32,8 @@ import { AuthInterceptor } from "./services/interceptors/auth.interceptor";
   providers: [
     HttpService,
     AuthService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

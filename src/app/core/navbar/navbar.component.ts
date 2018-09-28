@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { tap } from "rxjs/operators";
 import { Observable } from "rxjs";
 // Ngrx
 import { AuthState } from "../../auth/auth.reducer";
