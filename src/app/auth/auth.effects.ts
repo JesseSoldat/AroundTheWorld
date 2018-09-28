@@ -4,7 +4,7 @@ import { Router } from "@angular/router";
 import { tap } from "rxjs/operators";
 // Ngrx
 import { Actions, Effect, ofType } from "@ngrx/effects";
-import { Register, AuthActionTypes } from "./auth.actions";
+import { Register, Login, AuthActionTypes } from "./auth.actions";
 
 const localSaveErr = "Could not save the user to local storage.";
 const localDeleteErr = "Could not remove the user from local storage.";
@@ -20,6 +20,20 @@ export class AuthEffects {
   @Effect({ dispatch: false })
   register$ = this.action$.pipe(
     ofType<Register>(AuthActionTypes.RegisterAction),
+    tap(action => {
+      try {
+        localStorage.setItem("user", JSON.stringify(action.payload.user));
+        this.nav("dashboard");
+      } catch (err) {
+        console.log(localSaveErr);
+        this.nav("dashboard");
+      }
+    })
+  );
+
+  @Effect({ dispatch: false })
+  login$ = this.action$.pipe(
+    ofType<Login>(AuthActionTypes.LoginAction),
     tap(action => {
       try {
         localStorage.setItem("user", JSON.stringify(action.payload.user));

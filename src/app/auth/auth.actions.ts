@@ -13,4 +13,10 @@ export class Register implements Action {
   constructor(public payload: { user: User }) {}
 }
 
-export type AuthActions = Register;
+export class Login implements Action {
+  readonly type = AuthActionTypes.LoginAction;
+
+  constructor(public payload: { user: User }) {}
+}
+
+export type AuthActions = Register | Login;

@@ -116,10 +116,10 @@ export class RegisterComponent implements OnInit {
 
     this.authService.registerByEmail(auth).subscribe(
       (res: HttpRes) => {
-        console.log("Res", res);
+        // console.log("Res", res);
       },
       err => {
-        console.log("Err", err);
+        console.log("Register Err:", err);
       }
     );
   }

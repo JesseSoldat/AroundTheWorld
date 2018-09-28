@@ -11,6 +11,7 @@ import { AppComponent } from "./app.component";
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "../environments/environment";
 // Services
+import { HttpService } from "./services/http.service";
 import { AuthService } from "./services/auth.service";
 
 @NgModule({
@@ -23,7 +24,7 @@ import { AuthService } from "./services/auth.service";
       enabled: environment.production
     })
   ],
-  providers: [AuthService],
+  providers: [HttpService, AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
