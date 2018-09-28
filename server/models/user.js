@@ -66,7 +66,7 @@ UserSchema.methods.generateAuthToken = async function() {
   // const expires = milliFromNow(tokenExpirationTime);
   // const expires = daysFromNow(new Date(), tokenExpirationDays);
 
-  var expiry = new Date();
+  const expiry = new Date();
   expiry.setDate(expiry.getDate() + 7);
 
   // Token
@@ -75,8 +75,8 @@ UserSchema.methods.generateAuthToken = async function() {
       {
         _id: _id.toString(),
         username,
-        role
-        // exp: parseInt(expiry.getTime() / 1000)
+        role,
+        exp: parseInt(expiry.getTime() / 1000)
       },
       process.env.TOKEN_SECRET
     )

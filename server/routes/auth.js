@@ -86,9 +86,7 @@ module.exports = app => {
         { $pull: { tokens: token } }
       );
 
-      const msg = getMsg(`${user.email} is now logged out.`, "blue");
-
-      serverRes(res, 200, msg, null);
+      serverRes(res, 200, null, null);
     } catch (err) {
       console.log("Err: Logout", err);
       const msg = getErrMsg("err", "logout", "user");

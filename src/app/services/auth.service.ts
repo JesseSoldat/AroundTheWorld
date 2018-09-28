@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 // Rxjs
-import { tap } from "rxjs/operators";
-import { Observable } from "rxjs";
+import { tap, catchError } from "rxjs/operators";
+import { Observable, of } from "rxjs";
 // Ngrx
 import { Store } from "@ngrx/store";
 import { AppState } from "../reducers";
@@ -25,6 +25,12 @@ export class AuthService {
     private store: Store<AppState>
   ) {}
 
+  // Helpers
+  handleError(err) {
+    this.store.dispatch(new ShowMsg({ msg: err.msg }));
+    return of({ msg: err.msg, payload: null });
+  }
+
   fromTokenToUser(token: string): User {
     const decodedToken = decodeToken(token);
 
@@ -44,7 +50,8 @@ export class AuthService {
 
         this.store.dispatch(new ShowMsg({ msg }));
         this.store.dispatch(new Register({ user, token }));
-      })
+      }),
+      catchError(err => this.handleError(err.error))
     );
   }
 
@@ -57,18 +64,15 @@ export class AuthService {
 
         this.store.dispatch(new ShowMsg({ msg }));
         this.store.dispatch(new Login({ user, token }));
-      })
+      }),
+      catchError(err => this.handleError(err.error))
     );
   }
 
   logout() {
     return this.httpService.httpDeleteRequest("logout").pipe(
-      tap((res: HttpRes) => {
-        const { msg } = res;
-
-        this.store.dispatch(new ShowMsg({ msg }));
-        this.store.dispatch(new Logout({ user: null }));
-      })
+      tap((res: HttpRes) => this.store.dispatch(new Logout({ user: null }))),
+      catchError(err => this.handleError(err.error))
     );
   }
 }
