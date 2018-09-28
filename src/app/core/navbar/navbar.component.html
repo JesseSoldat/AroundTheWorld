@@ -3,8 +3,8 @@
   <!-- Brand -->
   <a routerLink="/" class="navbar-brand" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
     <img class="logo" src="/assets/jLogo.png">
-    Around
-    The World</a>
+    <span class='brand-text'>Around The World</span>
+  </a>
 
   <!-- Responsive Btn -->
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mobile" aria-controls="navbarCollapse"
@@ -18,12 +18,19 @@
     <ul class="navbar-nav mr-auto"></ul>
 
     <!-- Right Links -->
-    <ul class="navbar-nav ml-auto">
+    <ul *ngIf="($isAuth | async); else isNotAuth" class="navbar-nav ml-auto">
       <app-link text="Dashboard"></app-link>
-      <app-link text="Register"></app-link>
-      <app-link text="Login"></app-link>
-
+      <li class="nav-item" routerLinkActive="active" (click)="logout()">
+        <a class="nav-link">Logout</a>
+      </li>
     </ul>
+
+    <ng-template #isNotAuth>
+      <ul class="navbar-nav ml-auto">
+        <app-link text="Register"></app-link>
+        <app-link text="Login"></app-link>
+      </ul>
+    </ng-template>
   </div>
 
 

@@ -63,8 +63,11 @@ UserSchema.methods.generateAuthToken = async function() {
   const { _id, username, role } = user;
 
   // Testing 30 seconds from now
-  const expires = milliFromNow(tokenExpirationTime);
+  // const expires = milliFromNow(tokenExpirationTime);
   // const expires = daysFromNow(new Date(), tokenExpirationDays);
+
+  var expiry = new Date();
+  expiry.setDate(expiry.getDate() + 7);
 
   // Token
   const token = jwt
@@ -72,8 +75,8 @@ UserSchema.methods.generateAuthToken = async function() {
       {
         _id: _id.toString(),
         username,
-        expires,
         role
+        // exp: parseInt(expiry.getTime() / 1000)
       },
       process.env.TOKEN_SECRET
     )
@@ -131,13 +134,19 @@ UserSchema.statics.findByToken = async function(token) {
   const User = this;
 
   try {
-    const authToken = await AuthToken.findOne({ tokens: token });
+    const decodedToken = await new Promise(resolve => {
+      jwt.verify(token, process.env.TOKEN_SECRET, (err, decodedToken) => {
+        if (err || !decodedToken) return resolve(null);
 
-    if (authToken && authToken.tokens.indexOf(token) !== -1) {
-      const user = await User.findOne({ _id: authToken.user });
-      return user;
-    }
-    return null;
+        resolve(decodedToken);
+      });
+    });
+
+    if (!decodedToken) return null;
+
+    const user = await User.findOne({ _id: decodedToken._id });
+
+    return user ? user : null;
   } catch (err) {
     console.log("Err: findByToken", err);
     return null;

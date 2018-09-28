@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpResponse } from "@angular/common/http";
 // Rxjs
-import { tap, map } from "rxjs/operators";
+import { catchError, tap, map } from "rxjs/operators";
 import { Observable } from "rxjs";
 // Models
 import { HttpRes } from "../models/http-res.model";
@@ -12,6 +12,8 @@ import { HttpRes } from "../models/http-res.model";
 export class HttpService {
   constructor(private http: HttpClient) {}
 
+  logErr(err, path) {}
+
   httpPostRequest(path, data): Observable<HttpRes> {
     return this.http
       .post<HttpRes>(`api/${path}`, data, {
@@ -19,7 +21,20 @@ export class HttpService {
       })
       .pipe(
         tap((res: HttpResponse<HttpRes>) => {
-          console.log("Http Res:", res);
+          console.log("httpPostRequest Res:", res);
+        }),
+        map((res: HttpResponse<HttpRes>) => res.body)
+      );
+  }
+
+  httpDeleteRequest(path): Observable<HttpRes> {
+    return this.http
+      .delete<HttpRes>(`api/${path}`, {
+        observe: "response"
+      })
+      .pipe(
+        tap((res: HttpResponse<HttpRes>) => {
+          console.log("httpDelete Res:", res);
         }),
         map((res: HttpResponse<HttpRes>) => res.body)
       );

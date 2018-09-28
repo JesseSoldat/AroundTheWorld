@@ -1,11 +1,12 @@
 .logo {
   width: 30px;
   height: 23px;
-  padding-right: 5px;
+  padding-right: 10px;
 }
-a {
-  font-size: 1.2em;
-  padding: 0;
+
+.nav-link {
+  color: white !important;
+  cursor: pointer;
 }
 
 .navbar-brand {

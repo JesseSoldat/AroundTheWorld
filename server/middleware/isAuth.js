@@ -15,7 +15,7 @@ const handleErrMsg = (res, type) => {
 };
 
 const isAuth = async (req, res, next) => {
-  const token = req.header("x-auth");
+  const token = req.header("Authorization");
 
   try {
     if (!token) return handleErrMsg(res, "noToken");

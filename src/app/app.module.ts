@@ -1,5 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
 
 // Modules
 import { CoreModule } from "./core/core.module";
@@ -13,6 +14,8 @@ import { environment } from "../environments/environment";
 // Services
 import { HttpService } from "./services/http.service";
 import { AuthService } from "./services/auth.service";
+// Interceptor
+import { AuthInterceptor } from "./services/interceptors/auth.interceptor";
 
 @NgModule({
   declarations: [AppComponent],
@@ -24,7 +27,11 @@ import { AuthService } from "./services/auth.service";
       enabled: environment.production
     })
   ],
-  providers: [HttpService, AuthService],
+  providers: [
+    HttpService,
+    AuthService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}
