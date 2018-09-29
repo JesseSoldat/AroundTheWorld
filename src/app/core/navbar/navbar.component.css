@@ -1,22 +1,35 @@
+.navbar {
+  background: #d7b79c !important;
+}
+
 .logo {
   width: 30px;
   height: 23px;
   padding-right: 10px;
 }
 
-.nav-link {
-  color: white !important;
-  cursor: pointer;
+/* links */
+a,
+li,
+i {
+  color: black !important;
 }
 
+.nav-link {
+  font-size: 1.2em;
+  cursor: pointer;
+  color: black !important;
+}
+
+/* brand */
 .navbar-brand {
-  color: white;
+  color: black;
 }
 .navbar-brand:hover {
-  color: white;
+  color: black;
 }
 .navbar-brand.active {
-  color: white;
+  color: black;
 }
 
 @media (max-width: 768px) {

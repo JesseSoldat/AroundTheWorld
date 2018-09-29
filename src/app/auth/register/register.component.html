@@ -1,33 +1,44 @@
-<app-heading heading="Register"></app-heading>
+<div class="registerWrapper">
+  <app-heading></app-heading>
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12 col-md-10 mx-auto">
-      <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()" novalidate>
-        <!-- username -->
-        <app-form-group [data$]="formGroupData$" formControlName="username" ngDefaultControl (appBlurEvent)="blurEvent($event)"
-          [errMsg]="controlNameErrs.username"></app-form-group>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-10 mx-auto">
+        <div class="card">
+          <div class="card-block">
+            <h1 class="card-title text-center">Register</h1>
 
-        <!-- email -->
-        <app-form-group [data$]="formGroupData$" formControlName="email" ngDefaultControl (appBlurEvent)="blurEvent($event)"
-          [errMsg]="controlNameErrs.email"></app-form-group>
+            <form [formGroup]="registerForm" (ngSubmit)="handleSubmit()" novalidate>
+              <!-- username -->
+              <app-form-group [data$]="formGroupData$" formControlName="username" ngDefaultControl (appBlurEvent)="blurEvent($event)"
+                [errMsg]="controlNameErrs.username"></app-form-group>
+
+              <!-- email -->
+              <app-form-group [data$]="formGroupData$" formControlName="email" ngDefaultControl (appBlurEvent)="blurEvent($event)"
+                [errMsg]="controlNameErrs.email"></app-form-group>
 
 
-        <!-- password group  -->
-        <div formGroupName="passwordGroup">
+              <!-- password group  -->
+              <div formGroupName="passwordGroup">
 
-          <!-- password -->
-          <app-form-group [data$]="formGroupData$" formControlName="password" ngDefaultControl (appBlurEvent)="blurEvent($event)"
-            [errMsg]="controlNameErrs.password"></app-form-group>
+                <!-- password -->
+                <app-form-group [data$]="formGroupData$" formControlName="password" ngDefaultControl (appBlurEvent)="blurEvent($event)"
+                  [errMsg]="controlNameErrs.password"></app-form-group>
 
-          <!-- confirm password -->
-          <app-form-group [data$]="formGroupData$" formControlName="confirmPassword" ngDefaultControl (appBlurEvent)="blurEvent($event)"
-            [errMsg]="controlNameErrs.confirmPassword"></app-form-group>
+                <!-- confirm password -->
+                <app-form-group [data$]="formGroupData$" formControlName="confirmPassword" ngDefaultControl
+                  (appBlurEvent)="blurEvent($event)" [errMsg]="controlNameErrs.confirmPassword"></app-form-group>
 
+              </div>
+
+              <button type="submit" [disabled]="!registerForm.valid" class="btn btn-outline-dark btn-block">Submit</button>
+            </form>
+
+          </div>
         </div>
-
-        <button type="submit" [disabled]="!registerForm.valid" class="btn btn-primary btn-block">Submit</button>
-      </form>
+      </div>
     </div>
   </div>
+
+
 </div>

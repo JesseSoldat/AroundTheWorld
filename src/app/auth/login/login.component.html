@@ -1,22 +1,33 @@
-<app-heading heading="Login"></app-heading>
+<div class="loginWrapper">
 
-<div class="container">
-  <div class="row">
-    <div class="col-sm-12 col-md-10 mx-auto">
-      <form [formGroup]="loginForm" (ngSubmit)="handleSubmit()" novalidate>
+  <app-heading></app-heading>
 
-        <!-- email -->
-        <app-form-group [data$]="formGroupData$" formControlName="email" ngDefaultControl (appBlurEvent)="blurEvent($event)"
-          [errMsg]="controlNameErrs.email"></app-form-group>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12 col-md-10 mx-auto">
+        <div class="card">
+          <div class="card-block">
+            <h1 class="card-title text-center">Login</h1>
+            <form class="loginForm" [formGroup]="loginForm" (ngSubmit)="handleSubmit()" novalidate>
 
+              <!-- email -->
+              <app-form-group [data$]="formGroupData$" formControlName="email" ngDefaultControl (appBlurEvent)="blurEvent($event)"
+                [errMsg]="controlNameErrs.email"></app-form-group>
 
-        <!-- password -->
-        <app-form-group [data$]="formGroupData$" formControlName="password" ngDefaultControl (appBlurEvent)="blurEvent($event)"
-          [errMsg]="controlNameErrs.password"></app-form-group>
+              <div class="spacer10"></div>
+              <!-- password -->
+              <app-form-group [data$]="formGroupData$" formControlName="password" ngDefaultControl (appBlurEvent)="blurEvent($event)"
+                [errMsg]="controlNameErrs.password"></app-form-group>
 
+              <div class="spacer20"></div>
+              <button type="submit" [disabled]="!loginForm.valid" class="btn btn-outline-dark btn-block">Submit</button>
 
-        <button type="submit" [disabled]="!loginForm.valid" class="btn btn-primary btn-block">Submit</button>
-      </form>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+
+
 </div>

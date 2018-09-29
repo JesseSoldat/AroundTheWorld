@@ -3,6 +3,7 @@ body {
   padding: 0;
   font-family: "Roboto", sans-serif;
   color: black;
+  background: url(./assets/img/pattern.png) repeat;
 }
 
 .appWrapper {
@@ -11,17 +12,42 @@ body {
 
 .spacer100 {
   height: 100px;
+  width: 100%;
 }
 
 .spacer80 {
   height: 80px;
+  width: 100%;
 }
 .spacer70 {
   height: 70px;
+  width: 100%;
 }
 .spacer60 {
   height: 60px;
+  width: 100%;
 }
 .spacer50 {
   height: 50px;
+  width: 100%;
+}
+
+.spacer40 {
+  height: 40px;
+  width: 100%;
+}
+
+.spacer30 {
+  height: 30px;
+  width: 100%;
+}
+
+.spacer20 {
+  height: 20px;
+  width: 100%;
+}
+
+.spacer10 {
+  height: 10px;
+  width: 100%;
 }

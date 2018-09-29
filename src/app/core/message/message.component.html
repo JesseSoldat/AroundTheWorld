@@ -1,4 +1,4 @@
-<div class="row" *ngIf="(msg$ | async) as msg; else hideMsg">
+<!-- <div class="row" *ngIf="(msg$ | async) as msg">
   <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
     <div [ngClass]="msg?.color" class="alert alert-dismissible fade show" role="alert">
       <strong>{{ msg?.title | titlecase }}</strong>
@@ -8,12 +8,16 @@
       </button>
     </div>
   </div>
-</div>
+</div> -->
 
-
-<ng-template #hideMsg>
-  <div class="row">
-    <div class="col-12 spacer70">
+<div class="row alertWrapper">
+  <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto">
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+      <strong>test</strong>
+      test
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="closeAlert()">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
   </div>
-</ng-template>
+</div>
