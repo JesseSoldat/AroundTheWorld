@@ -14,6 +14,19 @@ export class HttpService {
 
   logErr(err, path) {}
 
+  httpGetRequest(path): Observable<HttpRes> {
+    return this.http
+      .get<HttpRes>(`api/${path}`, {
+        observe: "response"
+      })
+      .pipe(
+        tap((res: HttpResponse<HttpRes>) => {
+          console.log("httpPostRequest Res:", res);
+        }),
+        map((res: HttpResponse<HttpRes>) => res.body)
+      );
+  }
+
   httpPostRequest(path, data): Observable<HttpRes> {
     return this.http
       .post<HttpRes>(`api/${path}`, data, {

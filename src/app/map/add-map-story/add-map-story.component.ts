@@ -7,7 +7,7 @@ import { Location } from "../../models/location.model";
 // Services
 import { StoryService } from "../../services/story.service";
 
-interface ServerLocation {
+interface Geometry {
   type: string;
   coordinates: number[];
 }
@@ -15,7 +15,7 @@ interface ServerLocation {
 interface Story {
   title: string;
   description: string;
-  location: ServerLocation;
+  geometry: Geometry;
 }
 
 @Component({
@@ -59,7 +59,7 @@ export class AddMapStoryComponent implements OnInit {
     const story: Story = {
       title: form.title,
       description: form.description,
-      location: {
+      geometry: {
         type: "Point",
         coordinates: [lng, lat]
       }

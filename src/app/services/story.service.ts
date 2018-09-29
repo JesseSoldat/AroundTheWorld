@@ -54,4 +54,21 @@ export class StoryService {
         catchError(err => this.handleError(err.error))
       );
   }
+
+  matchOtherUsers(coordinates): Observable<HttpRes> {
+    // tokyo
+    const lat = 35.689487;
+    const lng = 139.691711;
+    return this.httpService
+      .httpGetRequest(`story/match/${this.userId}?lat=${lat}&lng=${lng}`)
+      .pipe(
+        tap((res: HttpRes) => {
+          const { msg, payload } = res;
+          console.log(payload);
+
+          this.store.dispatch(new ShowMsg({ msg }));
+        }),
+        catchError(err => this.handleError(err.error))
+      );
+  }
 }

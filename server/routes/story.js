@@ -22,15 +22,15 @@ module.exports = app => {
 
   app.post("/api/story/add/:userId", isAuth, async (req, res) => {
     const { userId } = req.params;
-    const { title, description, location } = req.body;
+    const { title, description, geometry } = req.body;
 
-    if (!title || !location) {
+    if (!title || !geometry) {
       const msg = getErrMsg("requiredFields");
       return serverRes(res, 400, msg, null);
     }
 
     try {
-      const story = new Story({ user: userId, title, description, location });
+      const story = new Story({ user: userId, title, description, geometry });
 
       story.save();
 
@@ -40,6 +40,35 @@ module.exports = app => {
     } catch (err) {
       console.log("Err: Create Story", err);
       const msg = getErrMsg("err", "create", "story");
+      serverRes(res, 400, msg, null);
+    }
+  });
+
+  app.get("/api/story/match/:userId", isAuth, async (req, res) => {
+    const lng = parseFloat(req.query.lng);
+    const lat = parseFloat(req.query.lat);
+    console.log(lng, lat);
+
+    // Tokyo to Seoul 716 miles
+
+    const miles = 706 / 3959;
+    const km = 1000 / 6371;
+    // radians = distance / earth radius
+    // km radians = distance in km / 6371
+    // mi radians = distance in mi / 3959
+
+    try {
+      const match = await Story.aggregate().near({
+        near: [lng, lat],
+        maxDistance: miles,
+        spherical: true,
+        distanceField: "dist.calculated"
+      });
+
+      serverRes(res, 200, null, { match });
+    } catch (err) {
+      console.log("Err: Match Location", err);
+      const msg = getErrMsg("err", "match", "other users");
       serverRes(res, 400, msg, null);
     }
   });
