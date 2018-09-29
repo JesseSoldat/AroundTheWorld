@@ -1,0 +1,21 @@
+<div class="mapWrapper">
+  <div class="row">
+    <div class="col-12 ">
+
+      <div class="btnGroup">
+        <button class="btn btn-primary" (click)="onSetLocation()" [disabled]="!marker">Select</button>
+        <div class="widthSpacer10"></div>
+        <button class="btn btn-danger " (click)="onCancel()">Cancel</button>
+      </div>
+
+
+      <agm-map [latitude]="location.lat" [longitude]="location.lng" [zoom]="4" (mapClick)="onSetMarker($event)">
+
+        <agm-marker *ngIf="marker" [latitude]="marker.lat" [longitude]="marker.lng">
+        </agm-marker>
+
+      </agm-map>
+
+    </div>
+  </div>
+</div>

@@ -10,6 +10,13 @@ body {
   position: relative;
 }
 
+/* width */
+.widthSpacer10 {
+  width: 10px;
+  display: inline-block;
+}
+
+/* height */
 .spacer100 {
   height: 100px;
   width: 100%;

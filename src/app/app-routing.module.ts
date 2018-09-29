@@ -8,6 +8,11 @@ const routes: Routes = [
     path: "dashboard",
     loadChildren: "./dashboard/dashboard.module#DashboardModule",
     canActivate: [AuthGuard]
+  },
+  {
+    path: "map",
+    loadChildren: "./map/map.module#MapModule",
+    canActivate: [AuthGuard]
   }
 ];
 

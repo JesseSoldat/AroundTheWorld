@@ -20,6 +20,7 @@
     <!-- Right Links -->
     <ul *ngIf="($isAuth | async); else isNotAuth" class="navbar-nav ml-auto">
       <app-link text="Dashboard"></app-link>
+      <app-link text="Map"></app-link>
       <li class="nav-item" routerLinkActive="active" (click)="logout()">
         <a class="nav-link">Logout</a>
       </li>

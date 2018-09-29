@@ -1,0 +1,9 @@
+<div class="form-group" *ngIf="(data$ | async) as data">
+  <label>{{data[key]['label']}}</label>
+  <textarea [class.is-invalid]="errMsg" class="form-control" name="{{data[key]['name']}}" cols="30" rows="10"
+    placeholder="{{data[key]['label']}}"></textarea>
+  <small class="form-text text-muted">{{data[key]['info']}}</small>
+  <div class="invalid-feedback">
+    {{errMsg}}
+  </div>
+</div>

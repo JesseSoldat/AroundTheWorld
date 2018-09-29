@@ -14,6 +14,7 @@ import { HeadingComponent } from "./components/heading/heading.component";
 import { FormGroupComponent } from "./components/form-group/form-group.component";
 import { LinkComponent } from "./components/link/link.component";
 import { MsgComponent } from "./components/msg/msg.component";
+import { TextBoxComponent } from "./components/text-box/text-box.component";
 
 const routes: Routes = [];
 
@@ -30,7 +31,8 @@ const routes: Routes = [];
     HeadingComponent,
     FormGroupComponent,
     LinkComponent,
-    MsgComponent
+    MsgComponent,
+    TextBoxComponent
   ],
   exports: [
     CommonModule,
@@ -41,7 +43,8 @@ const routes: Routes = [];
     HeadingComponent,
     FormGroupComponent,
     LinkComponent,
-    MsgComponent
+    MsgComponent,
+    TextBoxComponent
   ]
 })
 export class SharedModule {}

@@ -4,6 +4,7 @@ interface LinkMap {
 
 const linkMap: LinkMap = {
   dashboard: "/dashboard",
+  map: "/map",
   register: "/register",
   login: "/login"
 };

@@ -20,8 +20,21 @@ export class AuthEffects {
   constructor(private action$: Actions, private router: Router) {}
 
   // Helpers
-  nav(path): void {
-    this.router.navigateByUrl(`/${path}`);
+  onNotAuthNav(): void {
+    this.router.navigateByUrl("/login");
+  }
+
+  onIsAuthNav(): void {
+    switch (window.location.pathname) {
+      case "/login":
+      case "/register":
+      case "/welcome":
+      case "/":
+        this.router.navigateByUrl("/dashboard");
+        break;
+      default:
+        break;
+    }
   }
 
   // Token and Local Storage
@@ -29,10 +42,10 @@ export class AuthEffects {
     try {
       localStorage.setItem("user", JSON.stringify(payload.user));
       localStorage.setItem("token", payload.token);
-      this.nav("dashboard");
+      this.onIsAuthNav();
     } catch (err) {
       console.log(localSaveErr);
-      this.nav("dashboard");
+      this.onIsAuthNav();
     }
   }
 
@@ -68,9 +81,9 @@ export class AuthEffects {
       try {
         localStorage.removeItem("user");
         localStorage.removeItem("token");
-        this.nav("login");
+        this.onNotAuthNav();
       } catch (err) {
-        this.nav("login");
+        this.onNotAuthNav();
         console.log(localDeleteErr);
       }
     })
