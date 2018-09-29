@@ -4,6 +4,19 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { of, Observable } from "rxjs";
 // Models
 import { Location } from "../../models/location.model";
+// Services
+import { StoryService } from "../../services/story.service";
+
+interface ServerLocation {
+  type: string;
+  coordinates: number[];
+}
+
+interface Story {
+  title: string;
+  description: string;
+  location: ServerLocation;
+}
 
 @Component({
   selector: "app-add-map-story",
@@ -14,7 +27,11 @@ export class AddMapStoryComponent implements OnInit {
   location: Location;
   marker: Location;
 
-  constructor(private route: ActivatedRoute, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private storyService: StoryService
+  ) {}
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -36,7 +53,18 @@ export class AddMapStoryComponent implements OnInit {
     this.router.navigateByUrl("/dashboard");
   }
 
-  handleSubmit(e) {
-    console.log("test", e);
+  handleSubmit(form) {
+    const { lat, lng } = this.location;
+
+    const story: Story = {
+      title: form.title,
+      description: form.description,
+      location: {
+        type: "Point",
+        coordinates: [lng, lat]
+      }
+    };
+
+    this.storyService.createNewStory(story).subscribe(res => {}, err => {});
   }
 }

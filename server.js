@@ -13,6 +13,7 @@ app.listen(process.env.PORT);
 app.use(bodyParser.json());
 
 require("./server/routes/auth")(app);
+require("./server/routes/story")(app);
 
 if (process.env.NODE_ENV === "production") {
   const path = require("path");

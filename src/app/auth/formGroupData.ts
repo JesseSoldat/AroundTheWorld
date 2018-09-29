@@ -5,7 +5,8 @@ export const formGroupData = {
     label: "Username",
     placeholder: "Enter a username",
     info: "Pick a good one. You can NOT change this later!",
-    err: "usernameErr"
+    err: "usernameErr",
+    required: false
   },
   email: {
     name: "email",
@@ -13,7 +14,8 @@ export const formGroupData = {
     label: "Email address",
     placeholder: "Enter an email",
     info: "We'll never share your email with anyone else.",
-    err: "emailErr"
+    err: "emailErr",
+    required: false
   },
   password: {
     name: "password",
@@ -21,7 +23,8 @@ export const formGroupData = {
     label: "Password",
     placeholder: "Enter a password",
     info: "Make sure it is a least 6 characters long.",
-    err: "passwordErr"
+    err: "passwordErr",
+    required: false
   },
   confirmPassword: {
     name: "confirmPassword",
@@ -29,6 +32,7 @@ export const formGroupData = {
     label: "Confirm Password",
     placeholder: "Enter a password",
     info: "Make sure your password is the same as above!",
-    err: "confirmPasswordErr"
+    err: "confirmPasswordErr",
+    required: false
   }
 };

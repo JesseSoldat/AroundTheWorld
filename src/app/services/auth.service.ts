@@ -41,6 +41,7 @@ export class AuthService {
     };
   }
 
+  // Api Calls
   registerByEmail(auth: Auth): Observable<HttpRes> {
     return this.httpService.httpPostRequest("register", auth).pipe(
       tap((res: HttpRes) => {

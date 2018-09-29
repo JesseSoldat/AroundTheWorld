@@ -5,7 +5,8 @@ export const formGroupData = {
     label: "Title",
     placeholder: "Enter a title",
     info: "",
-    err: "titleErr"
+    err: "titleErr",
+    required: true
   },
   description: {
     name: "description",
@@ -13,6 +14,7 @@ export const formGroupData = {
     label: "Description",
     placeholder: "Enter a Description",
     info: "",
-    err: "descriptionErr"
+    err: "descriptionErr",
+    required: false
   }
 };
