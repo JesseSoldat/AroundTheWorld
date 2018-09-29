@@ -13,6 +13,7 @@ import { BlurEventDirective } from "./directives/blur-event.directive";
 import { HeadingComponent } from "./components/heading/heading.component";
 import { FormGroupComponent } from "./components/form-group/form-group.component";
 import { LinkComponent } from "./components/link/link.component";
+import { MsgComponent } from "./components/msg/msg.component";
 
 const routes: Routes = [];
 
@@ -28,7 +29,8 @@ const routes: Routes = [];
     BlurEventDirective,
     HeadingComponent,
     FormGroupComponent,
-    LinkComponent
+    LinkComponent,
+    MsgComponent
   ],
   exports: [
     CommonModule,
@@ -38,7 +40,8 @@ const routes: Routes = [];
     BlurEventDirective,
     HeadingComponent,
     FormGroupComponent,
-    LinkComponent
+    LinkComponent,
+    MsgComponent
   ]
 })
 export class SharedModule {}

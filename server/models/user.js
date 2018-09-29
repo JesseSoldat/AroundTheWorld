@@ -5,7 +5,7 @@ const { Schema } = mongoose;
 
 const { milliFromNow, daysFromNow } = require("../utils/timeUtils");
 const tokenExpirationTime = 30 * 1000; // 30 seconds TESTING
-const tokenExpirationDays = 7; // 7 days; USE this for real token
+const tokenExpirationDays = 1; // 1 days; USE this for real token
 
 const UserSchema = new Schema(
   {
@@ -61,10 +61,7 @@ UserSchema.methods.generateAuthToken = async function() {
     const { _id, username, role } = user;
 
     // const expires = milliFromNow(tokenExpirationTime);
-    // const expires = daysFromNow(new Date(), tokenExpirationDays);
-    const expiry = new Date();
-    expiry.setDate(expiry.getDate() + 1);
-    const exp = parseInt(expiry.getTime() / 1000);
+    const expires = daysFromNow(new Date(), tokenExpirationDays);
 
     // Token
     const token = jwt
@@ -73,7 +70,7 @@ UserSchema.methods.generateAuthToken = async function() {
           _id: _id.toString(),
           username,
           role,
-          exp
+          exp: expires
         },
         process.env.TOKEN_SECRET
       )

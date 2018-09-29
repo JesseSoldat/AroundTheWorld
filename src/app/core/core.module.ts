@@ -18,7 +18,6 @@ import { environment } from "../../environments/environment";
 import { SharedModule } from "../shared/shared.module";
 // Components
 import { NavbarComponent } from "./navbar/navbar.component";
-import { MessageComponent } from "./message/message.component";
 
 @NgModule({
   imports: [
@@ -31,8 +30,8 @@ import { MessageComponent } from "./message/message.component";
     StoreRouterConnectingModule.forRoot({ stateKey: "router" }),
     EffectsModule.forRoot([])
   ],
-  exports: [NavbarComponent, AppRoutingModule, MessageComponent],
-  declarations: [NavbarComponent, MessageComponent],
+  exports: [NavbarComponent, AppRoutingModule],
+  declarations: [NavbarComponent],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }]
 })
 export class CoreModule {}

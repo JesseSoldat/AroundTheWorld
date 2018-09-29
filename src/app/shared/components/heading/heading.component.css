@@ -1,6 +1,7 @@
 .headingWrapper {
-  margin-top: 200px;
+  position: relative;
 }
+
 .heading {
   font-size: 3em;
 }

@@ -3,19 +3,19 @@ import { Component, OnInit } from "@angular/core";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 // Ngrx
-import { AppState } from "../../reducers";
+import { AppState } from "../../../reducers";
 import { Store, select } from "@ngrx/store";
-import { selectMsg } from "../../shared/shared.selectors";
-import { ShowMsg } from "../../shared/shared.actions";
+import { selectMsg } from "../../shared.selectors";
+import { ShowMsg } from "../../shared.actions";
 // Models
-import { UiMsg } from "../../models/ui-msg.model";
+import { UiMsg } from "../../../models/ui-msg.model";
 
 @Component({
-  selector: "app-message",
-  templateUrl: "./message.component.html",
-  styleUrls: ["./message.component.css"]
+  selector: "app-msg",
+  templateUrl: "./msg.component.html",
+  styleUrls: ["./msg.component.css"]
 })
-export class MessageComponent implements OnInit {
+export class MsgComponent implements OnInit {
   msg$: Observable<UiMsg>;
 
   constructor(private store: Store<AppState>) {}
