@@ -17,6 +17,11 @@ body {
 }
 
 /* height */
+.spacer200 {
+  height: 200px;
+  width: 100%;
+}
+
 .spacer100 {
   height: 100px;
   width: 100%;

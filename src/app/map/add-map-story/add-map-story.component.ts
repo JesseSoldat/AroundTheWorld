@@ -2,16 +2,8 @@ import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 // Rxjs
 import { of, Observable } from "rxjs";
-import {
-  FormBuilder,
-  FormGroup,
-  FormControl,
-  Validators
-} from "@angular/forms";
-// Data
-import { formGroupData } from "./formGroupData";
 // Models
-import { InputGroup } from "../../models/input-group.model";
+import { Location } from "../../models/location.model";
 
 @Component({
   selector: "app-add-map-story",
@@ -19,35 +11,32 @@ import { InputGroup } from "../../models/input-group.model";
   styleUrls: ["./add-map-story.component.css"]
 })
 export class AddMapStoryComponent implements OnInit {
-  formGroupData$: Observable<InputGroup> = null;
-  storyForm: FormGroup;
-  // Form Errors
-  controlNameErrs = {
-    title: null,
-    description: null
-  };
+  location: Location;
+  marker: Location;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    private formBuilder: FormBuilder
-  ) {
-    this.storyForm = this.formBuilder.group({
-      title: new FormControl("Nice Place!", [Validators.required]),
-      description: new FormControl("This was the first place I traveled to.")
-    });
-  }
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
-    this.formGroupData$ = of(formGroupData);
-
-    this.route.params.subscribe(param => {
-      console.log("params", param);
+    this.route.params.subscribe(params => {
+      console.log("params", params);
+      this.location = {
+        lat: parseFloat(params.lat),
+        lng: parseFloat(params.lng)
+      };
+      this.marker = this.location;
     });
   }
 
-  // Events & Cbs ---------------------------
-  blurEvent(controlName: string) {}
+  // Events & Cbs
+  onSetMarker(event) {
+    this.marker = event.coords;
+  }
 
-  handleSubmit() {}
+  onCancel() {
+    this.router.navigateByUrl("/dashboard");
+  }
+
+  handleSubmit(e) {
+    console.log("test", e);
+  }
 }

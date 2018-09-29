@@ -4,30 +4,33 @@
 
   <div class="container">
     <div class="spacer20"></div>
-    <div class="row">
-      <div class="col-sm-12 col-md-10 mx-auto">
-        <div class="card">
-          <div class="card-block">
-            <h3 class="card-title">Story Details</h3>
-            <form class="storyForm" [formGroup]="storyForm" (ngSubmit)="handleSubmit()" novalidate>
 
-              <!-- title -->
-              <app-form-group [data$]="formGroupData$" formControlName="title" ngDefaultControl (appBlurEvent)="blurEvent($event)"
-                [errMsg]="controlNameErrs.title"></app-form-group>
+    <!-- progress bar -->
 
-              <div class="spacer10"></div>
-              <!-- description -->
-              <app-text-box [data$]="formGroupData$" formControlName="description" ngDefaultControl (appBlurEvent)="blurEvent($event)"
-                [errMsg]="controlNameErrs.description"></app-text-box>
+    <!-- google maps -->
+    <div class="mapContainer">
+      <div class="row">
+        <div class="col-xs-12 col-sm-10 mx-auto">
+          <agm-map [latitude]="location.lat" [longitude]="location.lng" [zoom]="8" (mapClick)="onSetMarker($event)">
 
-              <div class="spacer20"></div>
-              <button type="submit" [disabled]="!storyForm.valid" class="btn btn-dark btn-block">Submit</button>
+            <agm-marker *ngIf="marker" [latitude]="marker.lat" [longitude]="marker.lng">
+            </agm-marker>
 
-            </form>
-          </div>
+          </agm-map>
+
         </div>
       </div>
+
     </div>
+
+    <!-- important to stop shaking screen -->
+    <div class="spacer10"></div>
+
+    <!-- form -->
+    <app-add-map-story-form (onHandleSubmit)="handleSubmit($event)" (onCancel)="onCancel()"></app-add-map-story-form>
+
+    <div class="spacer200"></div>
+
   </div>
 
 

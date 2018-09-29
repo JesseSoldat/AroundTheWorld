@@ -14,6 +14,7 @@ import { environment } from "../environments/environment";
 // Services
 import { HttpService } from "./services/http.service";
 import { AuthService } from "./services/auth.service";
+import { StoryService } from "./services/story.service";
 // Interceptors
 import { AuthInterceptor } from "./services/interceptors/auth.interceptor";
 // Guards
@@ -32,6 +33,7 @@ import { AuthGuard } from "./services/guards/auth.guard";
   providers: [
     HttpService,
     AuthService,
+    StoryService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthGuard
   ],

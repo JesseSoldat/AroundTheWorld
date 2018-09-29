@@ -15,7 +15,7 @@ import { HttpRes } from "../../models/http-res.model";
 // Data
 import { formGroupData } from "../formGroupData";
 // Helpers
-import { fieldValidation } from "../helpers/fieldValidation";
+import { fieldValidation } from "../../utils/validation/fieldValidation";
 // Validators
 import { confirmPasswordValidator } from "../helpers/confirmPassword.validator";
 // Services

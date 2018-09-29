@@ -6,8 +6,9 @@ import { MapRoutingModule } from "./map-routing.module";
 import { SharedModule } from "../shared/shared.module";
 // Components
 import { MapComponent } from "./map/map.component";
-import { MyMapListComponent } from './my-map-list/my-map-list.component';
-import { AddMapStoryComponent } from './add-map-story/add-map-story.component';
+import { MyMapListComponent } from "./my-map-list/my-map-list.component";
+import { AddMapStoryComponent } from "./add-map-story/add-map-story.component";
+import { AddMapStoryFormComponent } from "./add-map-story/add-map-story-form/add-map-story-form.component";
 
 @NgModule({
   imports: [
@@ -17,6 +18,11 @@ import { AddMapStoryComponent } from './add-map-story/add-map-story.component';
       apiKey: "AIzaSyBqBYYfTpbE6RW2DDTUsws1zVV35OK2m3Y"
     })
   ],
-  declarations: [MapComponent, MyMapListComponent, AddMapStoryComponent]
+  declarations: [
+    MapComponent,
+    MyMapListComponent,
+    AddMapStoryComponent,
+    AddMapStoryFormComponent
+  ]
 })
 export class MapModule {}
