@@ -1,13 +1,77 @@
+/* 
+// Extra small devices (portrait phones, less than 576px)
+@media (max-width: 575.98px) { ... }
+
+// Small devices (landscape phones, less than 768px)
+@media (max-width: 767.98px) { ... }
+
+// Medium devices (tablets, less than 992px)
+@media (max-width: 991.98px) { ... }
+
+// Large devices (desktops, less than 1200px)
+@media (max-width: 1199.98px) { ... }
+
+// Extra large devices (large desktops)
+*/
+
 body {
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
-  color: black;
   background: url(./assets/img/pattern.png) repeat;
 }
 
 .appWrapper {
   position: relative;
+}
+
+/* margins */
+@media (max-width: 575.98px) {
+  .mTopXsSmall {
+    margin-top: 10px;
+  }
+}
+@media (max-width: 767.98px) {
+  .mTopSmall {
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 991.98px) {
+  .mTopMedium {
+    margin-top: 10px;
+  }
+}
+
+/* fonts */
+h1 {
+  font-size: 3em;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5em;
+  }
+}
+
+h2 {
+  font-size: 2.5em;
+}
+
+@media (max-width: 768px) {
+  h2 {
+    font-size: 2em;
+  }
+}
+
+h3 {
+  font-size: 2em;
+}
+
+@media (max-width: 768px) {
+  h3 {
+    font-size: 1.5em;
+  }
 }
 
 /* width */
