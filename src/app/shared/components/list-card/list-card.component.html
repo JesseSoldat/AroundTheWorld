@@ -7,24 +7,26 @@
       <p class="card-text">{{data.description}}</p>
 
       <!-- match form -->
-      <form class="form">
+      <form class="form" [formGroup]="matchUsersForm" (ngSubmit)="handleSubmit()" novalidate>
         <!-- select -->
         <div class="form-group mr-3">
           <label>Select Distance:</label>
-          <select name="distance" class="form-control">
+          <select name="distance" class="form-control" formControlName="distances">
             <option *ngFor="let distance of distances" [value]="distance">{{distance}}</option>
           </select>
         </div>
         <!-- radio -->
         <div class="radioGroup form-group">
-          <input class="mr-2" checked type="radio" name="distanceType" value="miles"> <span class="mr-3">Miles</span>
-          <input class="mr-2" type="radio" name="distanceType" value="km"> Km
+          <input formControlName="distanceType" class="mr-2" checked type="radio" name="distanceType" value="miles">
+          <span class="mr-3">Miles</span>
+          <input formControlName="distanceType" class="mr-2" type="radio" name="distanceType" value="km">
+          <span>Km</span>
         </div>
 
 
         <!-- submit -->
-        <button class="showSmBtn btn btn-primary">Match Others</button>
-        <button class="showLgBtn btn btn-primary btn-block">Match Others</button>
+        <button type="submit" class="showSmBtn btn btn-primary">Match Others</button>
+        <button type="submit" class="showLgBtn btn btn-primary btn-block">Match Others</button>
 
       </form>
     </div>
