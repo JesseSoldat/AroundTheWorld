@@ -16,6 +16,7 @@ import { LinkComponent } from "./components/link/link.component";
 import { MsgComponent } from "./components/msg/msg.component";
 import { TextBoxComponent } from "./components/text-box/text-box.component";
 import { TileCardComponent } from "./components/tile-card/tile-card.component";
+import { SpinnerComponent } from "./components/spinner/spinner.component";
 
 const routes: Routes = [];
 
@@ -34,7 +35,8 @@ const routes: Routes = [];
     LinkComponent,
     MsgComponent,
     TextBoxComponent,
-    TileCardComponent
+    TileCardComponent,
+    SpinnerComponent
   ],
   exports: [
     CommonModule,
@@ -47,7 +49,8 @@ const routes: Routes = [];
     LinkComponent,
     MsgComponent,
     TextBoxComponent,
-    TileCardComponent
+    TileCardComponent,
+    SpinnerComponent
   ]
 })
 export class SharedModule {}

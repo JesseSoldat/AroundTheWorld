@@ -12,7 +12,7 @@ module.exports = app => {
     try {
       const stories = await Story.find({ user: userId });
 
-      serverRes(res, 200, msg, { stories });
+      serverRes(res, 200, null, { stories });
     } catch (err) {
       console.log("Err: Fetch Stories", err);
       const msg = getErrMsg("err", "fetch", "stories");

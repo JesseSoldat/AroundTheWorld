@@ -18,10 +18,5 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit() {
     this.cardData$ = of(cardData);
-
-    //coordinates: [-104.9903, 39.7392];
-    // this.storyService
-    //   .matchOtherUsers(this.coordinates)
-    //   .subscribe(res => {}, err => {});
   }
 }

@@ -1,3 +1,12 @@
-<p>
-  story-list works!
-</p>
+<div class="storyListWrapper">
+
+  <app-heading heading="My Stories"></app-heading>
+
+  <div *ngIf="(stories$ | async) as stories; else showSpinner" class="row"></div>
+
+
+  <ng-template #showSpinner>
+    <app-spinner></app-spinner>
+  </ng-template>
+
+</div>

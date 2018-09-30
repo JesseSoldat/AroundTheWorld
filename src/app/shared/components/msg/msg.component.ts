@@ -28,6 +28,9 @@ export class MsgComponent implements OnInit {
   }
 
   handleCloseMsg(msg: UiMsg) {
+    if (msg && msg.color) {
+      window.scroll(0, 0);
+    }
     if (msg && msg.color !== "alert-danger") {
       setTimeout(() => this.closeAlert(), 3000);
     }

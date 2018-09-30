@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 // Rxjs
 import { tap, catchError } from "rxjs/operators";
 import { Observable, of } from "rxjs";
@@ -14,6 +15,7 @@ import { HttpRes } from "../models/http-res.model";
 import { Story } from "../models/story.model";
 // Services
 import { HttpService } from "./http.service";
+import { MyStoriesRequested, MyStoriesLoaded } from "../map/story.actions";
 
 @Injectable({
   providedIn: "root"
@@ -23,7 +25,8 @@ export class StoryService {
 
   constructor(
     private httpService: HttpService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private router: Router
   ) {
     this.store
       .pipe(
@@ -35,22 +38,35 @@ export class StoryService {
 
   // Helpers
   handleError(err) {
-    this.store.dispatch(new ShowMsg({ msg: err.msg }));
-    return of({ msg: err.msg, payload: null });
+    console.error("handleError:", err);
+    this.store.dispatch(new ShowMsg({ msg: err.error.msg }));
+    return of({ msg: err.error.msg, payload: null });
   }
 
   // Api Calls
+  getMyStories(): Observable<HttpRes> {
+    return this.httpService.httpGetRequest(`story/${this.userId}`).pipe(
+      tap((res: HttpRes) => {
+        const { msg, payload } = res;
+        const { stories } = payload;
+        console.log("getMyStories", payload);
+        this.store.dispatch(new MyStoriesLoaded({ stories }));
+      }),
+      catchError(err => this.handleError(err))
+    );
+  }
   createNewStory(story: Story): Observable<HttpRes> {
     return this.httpService
       .httpPostRequest(`story/add/${this.userId}`, story)
       .pipe(
         tap((res: HttpRes) => {
           const { msg, payload } = res;
-          console.log(payload);
+          // console.log('createNewStory', payload);
 
           this.store.dispatch(new ShowMsg({ msg }));
+          this.router.navigateByUrl("/map/storyList");
         }),
-        catchError(err => this.handleError(err.error))
+        catchError(err => this.handleError(err))
       );
   }
 
