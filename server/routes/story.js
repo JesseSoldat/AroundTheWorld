@@ -44,28 +44,42 @@ module.exports = app => {
     }
   });
 
+  // Match Other Users Stories
+  const calculateMaxDistance = ({ unit, maxDistance }) => {
+    const distance = Number(maxDistance);
+    // radians = distance / earth radius
+    if (unit === "miles") {
+      // mi radians = distance in mi / 3959
+      return distance / 3959;
+    }
+    // km radians = distance in km / 6371
+    return distance / 6371;
+  };
+
   app.get("/api/story/match/:userId", isAuth, async (req, res) => {
+    const { userId } = req.params;
+    // Tokyo to Seoul 716 miles
+    // Tokyo to Seoul 1,155 kilometers.
+    // const miles = 706 / 3959;
+    // const km = 1000 / 6371;
     const lng = parseFloat(req.query.lng);
     const lat = parseFloat(req.query.lat);
-    console.log(lng, lat);
 
-    // Tokyo to Seoul 716 miles
-
-    const miles = 706 / 3959;
-    const km = 1000 / 6371;
-    // radians = distance / earth radius
-    // km radians = distance in km / 6371
-    // mi radians = distance in mi / 3959
+    const maxDistance = calculateMaxDistance(req.query);
+    console.log(lng, lat, maxDistance);
 
     try {
       const match = await Story.aggregate().near({
-        near: [lng, lat],
-        maxDistance: miles,
+        near: [lat, lng],
+        maxDistance: maxDistance,
         spherical: true,
         distanceField: "dist.calculated"
       });
 
-      serverRes(res, 200, null, { match });
+      // != NOT !== since typeof obj.user is an Object because it points to a ref for the user of this story
+      const filteredMatch = match.filter(obj => obj.user != userId);
+
+      serverRes(res, 200, null, { filteredMatch });
     } catch (err) {
       console.log("Err: Match Location", err);
       const msg = getErrMsg("err", "match", "other users");

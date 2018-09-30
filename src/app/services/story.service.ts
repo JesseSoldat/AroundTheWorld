@@ -70,12 +70,21 @@ export class StoryService {
       );
   }
 
-  matchOtherUsers(coordinates): Observable<HttpRes> {
+  matchOtherUsers(matchQuery): Observable<HttpRes> {
     // tokyo
-    const lat = 35.689487;
-    const lng = 139.691711;
+    // const lat = 35.689487;
+    // const lng = 139.691711;
+    const { unit, maxDistance, coordinates } = matchQuery;
+
+    const lat = coordinates[0];
+    const lng = coordinates[1];
+
     return this.httpService
-      .httpGetRequest(`story/match/${this.userId}?lat=${lat}&lng=${lng}`)
+      .httpGetRequest(
+        `story/match/${
+          this.userId
+        }?lat=${lat}&lng=${lng}&unit=${unit}&maxDistance=${maxDistance}`
+      )
       .pipe(
         tap((res: HttpRes) => {
           const { msg, payload } = res;

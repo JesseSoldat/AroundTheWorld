@@ -36,7 +36,15 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService
-  ) {
+  ) {}
+
+  ngOnInit() {
+    this.initializeForm();
+    this.formGroupData$ = of(formGroupData);
+  }
+
+  // Form Setup
+  initializeForm() {
     this.loginForm = this.formBuilder.group({
       email: new FormControl("jlab@jlab.com", [
         Validators.required,
@@ -44,10 +52,6 @@ export class LoginComponent implements OnInit {
       ]),
       password: new FormControl("123456", [Validators.required])
     });
-  }
-
-  ngOnInit() {
-    this.formGroupData$ = of(formGroupData);
   }
 
   // Helpers -----------------------------------

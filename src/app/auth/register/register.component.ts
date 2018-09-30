@@ -41,7 +41,15 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService
-  ) {
+  ) {}
+
+  ngOnInit() {
+    this.initializeForm();
+    this.formGroupData$ = of(formGroupData);
+  }
+
+  // Form Setup
+  initializeForm() {
     this.registerForm = this.formBuilder.group({
       username: new FormControl("jesse", [
         Validators.required,
@@ -69,10 +77,6 @@ export class RegisterComponent implements OnInit {
         }
       )
     });
-  }
-
-  ngOnInit() {
-    this.formGroupData$ = of(formGroupData);
   }
 
   // Helpers -----------------------------------

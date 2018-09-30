@@ -6,7 +6,7 @@
     <div class="storiesContainer col-xs-12 col-sm-11 col-md-10 col-lg-9 col-xl-8 mx-auto">
       <div *ngFor="let story of stories" class="card col-10 mx-auto my-3">
 
-        <app-list-card [data]="story"></app-list-card>
+        <app-list-card (onHandleSubmit)="onHandleSubmit($event)" [data]="story"></app-list-card>
 
       </div>
     </div>

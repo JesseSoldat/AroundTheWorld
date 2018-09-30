@@ -11,6 +11,17 @@ import { StoryService } from "../../services/story.service";
 // Models
 import { Story } from "../../models/story.model";
 
+interface SearchDistance {
+  storyId;
+  string;
+  distances: string;
+  distanceType: string;
+}
+
+interface CoordinatesById {
+  [key: string]: number[];
+}
+
 @Component({
   selector: "app-story-list",
   templateUrl: "./story-list.component.html",
@@ -18,6 +29,7 @@ import { Story } from "../../models/story.model";
 })
 export class StoryListComponent implements OnInit {
   stories$: Observable<Story[]>;
+  coordinatesById: CoordinatesById;
 
   constructor(
     private store: Store<AppState>,
@@ -29,13 +41,30 @@ export class StoryListComponent implements OnInit {
       select(selectStoryList),
       filter(storyList => storyList !== null),
       tap((storyList: Story[]) => {
-        console.log("storyList", storyList);
+        // console.log("storyList", storyList);
+        const coordinatesById: CoordinatesById = {};
+        storyList.forEach(story => {
+          coordinatesById[story._id] = story.geometry.coordinates;
+        });
+
+        this.coordinatesById = coordinatesById;
+        // console.log(this.coordinatesById);
       })
     );
     this.storyService.getMyStories().subscribe(res => {}, err => {});
-    //coordinates: [-104.9903, 39.7392];
-    // this.storyService
-    //   .matchOtherUsers(this.coordinates)
-    //   .subscribe(res => {}, err => {});
+  }
+
+  onHandleSubmit(form: SearchDistance) {
+    const coordinates = this.coordinatesById[form.storyId];
+
+    const matchQuery = {
+      coordinates,
+      maxDistance: form.distances,
+      unit: form.distanceType
+    };
+
+    this.storyService
+      .matchOtherUsers(matchQuery)
+      .subscribe(res => {}, err => {});
   }
 }
