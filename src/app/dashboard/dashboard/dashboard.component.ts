@@ -1,6 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-// Services
-import { StoryService } from "../../services/story.service";
+// Rxjs
+import { Observable, of } from "rxjs";
+// Data
+import { cardData } from "./cardData";
+// Models
+import { DashboardCards } from "../../models/dashboardCards";
 
 @Component({
   selector: "app-dashboard",
@@ -8,13 +12,16 @@ import { StoryService } from "../../services/story.service";
   styleUrls: ["./dashboard.component.css"]
 })
 export class DashboardComponent implements OnInit {
-  coordinates: [-104.9903, 39.7392];
+  cardData$: Observable<DashboardCards>;
 
-  constructor(private storyService: StoryService) {}
+  constructor() {}
 
   ngOnInit() {
-    this.storyService
-      .matchOtherUsers(this.coordinates)
-      .subscribe(res => {}, err => {});
+    this.cardData$ = of(cardData);
+
+    //coordinates: [-104.9903, 39.7392];
+    // this.storyService
+    //   .matchOtherUsers(this.coordinates)
+    //   .subscribe(res => {}, err => {});
   }
 }

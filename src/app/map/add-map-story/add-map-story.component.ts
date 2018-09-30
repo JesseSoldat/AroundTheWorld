@@ -4,19 +4,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { of, Observable } from "rxjs";
 // Models
 import { Location } from "../../models/location.model";
+import { Story } from "../../models/story.model";
 // Services
 import { StoryService } from "../../services/story.service";
-
-interface Geometry {
-  type: string;
-  coordinates: number[];
-}
-
-interface Story {
-  title: string;
-  description: string;
-  geometry: Geometry;
-}
 
 @Component({
   selector: "app-add-map-story",

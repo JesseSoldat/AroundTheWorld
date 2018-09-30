@@ -15,6 +15,7 @@ import { FormGroupComponent } from "./components/form-group/form-group.component
 import { LinkComponent } from "./components/link/link.component";
 import { MsgComponent } from "./components/msg/msg.component";
 import { TextBoxComponent } from "./components/text-box/text-box.component";
+import { TileCardComponent } from "./components/tile-card/tile-card.component";
 
 const routes: Routes = [];
 
@@ -32,7 +33,8 @@ const routes: Routes = [];
     FormGroupComponent,
     LinkComponent,
     MsgComponent,
-    TextBoxComponent
+    TextBoxComponent,
+    TileCardComponent
   ],
   exports: [
     CommonModule,
@@ -44,7 +46,8 @@ const routes: Routes = [];
     FormGroupComponent,
     LinkComponent,
     MsgComponent,
-    TextBoxComponent
+    TextBoxComponent,
+    TileCardComponent
   ]
 })
 export class SharedModule {}

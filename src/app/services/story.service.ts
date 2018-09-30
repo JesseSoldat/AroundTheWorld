@@ -11,8 +11,7 @@ import { ShowMsg } from "../shared/shared.actions";
 import { Auth } from "../models/auth.model";
 import { User } from "../models/user.model";
 import { HttpRes } from "../models/http-res.model";
-// Utils
-import { decodeToken } from "../utils/auth/decodeToken";
+import { Story } from "../models/story.model";
 // Services
 import { HttpService } from "./http.service";
 
@@ -29,7 +28,7 @@ export class StoryService {
     this.store
       .pipe(
         select(selectUserId),
-        tap(userId => (this.userId = userId))
+        tap((userId: string) => (this.userId = userId))
       )
       .subscribe();
   }
@@ -41,7 +40,7 @@ export class StoryService {
   }
 
   // Api Calls
-  createNewStory(story): Observable<HttpRes> {
+  createNewStory(story: Story): Observable<HttpRes> {
     return this.httpService
       .httpPostRequest(`story/add/${this.userId}`, story)
       .pipe(
