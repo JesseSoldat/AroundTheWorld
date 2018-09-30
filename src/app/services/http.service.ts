@@ -12,8 +12,6 @@ import { HttpRes } from "../models/http-res.model";
 export class HttpService {
   constructor(private http: HttpClient) {}
 
-  logErr(err, path) {}
-
   httpGetRequest(path): Observable<HttpRes> {
     return this.http
       .get<HttpRes>(`api/${path}`, {
@@ -21,7 +19,7 @@ export class HttpService {
       })
       .pipe(
         tap((res: HttpResponse<HttpRes>) => {
-          console.log("httpPostRequest Res:", res);
+          // console.log("httpPostRequest Res:", res);
         }),
         map((res: HttpResponse<HttpRes>) => res.body)
       );
@@ -34,7 +32,7 @@ export class HttpService {
       })
       .pipe(
         tap((res: HttpResponse<HttpRes>) => {
-          console.log("httpPostRequest Res:", res);
+          // console.log("httpPostRequest Res:", res);
         }),
         map((res: HttpResponse<HttpRes>) => res.body)
       );
@@ -47,7 +45,7 @@ export class HttpService {
       })
       .pipe(
         tap((res: HttpResponse<HttpRes>) => {
-          console.log("httpDelete Res:", res);
+          // console.log("httpDelete Res:", res);
         }),
         map((res: HttpResponse<HttpRes>) => res.body)
       );

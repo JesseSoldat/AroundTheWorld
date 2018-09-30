@@ -49,7 +49,7 @@ export class StoryService {
       tap((res: HttpRes) => {
         const { msg, payload } = res;
         const { stories } = payload;
-        console.log("getMyStories", payload);
+        // console.log("getMyStories", payload);
         this.store.dispatch(new MyStoriesLoaded({ stories }));
       }),
       catchError(err => this.handleError(err))
