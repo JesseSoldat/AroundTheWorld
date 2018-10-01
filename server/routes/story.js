@@ -1,3 +1,5 @@
+const mongoose = require("mongoose");
+const ObjectId = mongoose.Types.ObjectId;
 // Models
 const Story = require("../models/story");
 // Middleware
@@ -10,7 +12,7 @@ module.exports = app => {
     const { userId } = req.params;
 
     try {
-      const stories = await Story.find({ user: userId });
+      const stories = await Story.find({ user: userId }).sort({ _id: -1 });
 
       serverRes(res, 200, null, { stories });
     } catch (err) {
@@ -44,8 +46,9 @@ module.exports = app => {
     }
   });
 
-  // Match Other Users Stories
-  const calculateMaxDistance = ({ unit, maxDistance }) => {
+  const convertToRadiansFromMilesOrKm = ({ unit, maxDistance }) => {
+    // meters for GeoJSON
+    // radians for coordinate pairs.
     const distance = Number(maxDistance);
     // radians = distance / earth radius
     if (unit === "miles") {
@@ -58,6 +61,7 @@ module.exports = app => {
 
   app.get("/api/story/match/:userId", isAuth, async (req, res) => {
     const { userId } = req.params;
+    const user = new ObjectId(userId);
     // Tokyo to Seoul 716 miles
     // Tokyo to Seoul 1,155 kilometers.
     // const miles = 706 / 3959;
@@ -65,21 +69,47 @@ module.exports = app => {
     const lng = parseFloat(req.query.lng);
     const lat = parseFloat(req.query.lat);
 
-    const maxDistance = calculateMaxDistance(req.query);
-    console.log(lng, lat, maxDistance);
+    const maxDistance = convertToRadiansFromMilesOrKm(req.query);
 
     try {
-      const match = await Story.aggregate().near({
-        near: [lat, lng],
-        maxDistance: maxDistance,
-        spherical: true,
-        distanceField: "dist.calculated"
-      });
+      // ---------------------- Required Fields ---------------------
+      // near - 2dsphere index - either a GeoJSON point or legacy coordinate pair.
+      // distanceField - The output field that contains the calculated distance.
+      // To specify a field within an embedded document, use dot notation.
+      // spherical - Determines how MongoDB calculates the distance between two points:
+
+      // const match = await Story.aggregate([
+      //   {
+      //     $geoNear: {
+      //       near: [lat, lng],
+      //       distanceField: "dist.calculated",
+      //       maxDistance,
+      //       spherical: true
+      //     }
+      //   },
+      //   {
+      //     $match: { user: { $ne: user } }
+      //   }
+      // ]);
+
+      const test = await Story.aggregate([
+        {
+          $match: { user: { $ne: user } }
+        },
+        {
+          $group: {
+            _id: null,
+            count: {
+              $sum: 1
+            }
+          }
+        }
+      ]);
 
       // != NOT !== since typeof obj.user is an Object because it points to a ref for the user of this story
-      const filteredMatch = match.filter(obj => obj.user != userId);
+      // const filteredMatch = match.filter(obj => obj.user != userId);
 
-      serverRes(res, 200, null, { filteredMatch });
+      serverRes(res, 200, null, { test });
     } catch (err) {
       console.log("Err: Match Location", err);
       const msg = getErrMsg("err", "match", "other users");
