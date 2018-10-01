@@ -59,17 +59,53 @@ module.exports = app => {
     return distance / 6371;
   };
 
+  const geoMatchWithGroupAndSort = (lat, lng, maxDistance, user) =>
+    Story.aggregate([
+      {
+        $geoNear: {
+          near: [lat, lng],
+          distanceField: "dist.calculated",
+          maxDistance,
+          spherical: true
+        }
+      },
+      {
+        $match: { user: { $ne: user } }
+      },
+      { $group: { _id: "$user", stories: { $push: "$$ROOT" } } },
+      {
+        $project: {
+          user: 1,
+          stories: 1,
+          length: { $size: "$stories" }
+        }
+      },
+      { $sort: { length: -1 } },
+
+      {
+        $lookup: {
+          from: "users",
+          localField: "_id",
+          foreignField: "_id",
+          as: "userInfo"
+        }
+      },
+      {
+        $project: {
+          "userInfo.username": 1,
+          "userInfo.email": 1,
+          "userInfo._id": 1,
+          "stories.title": 1,
+          "stories.description": 1,
+          "stories.geometry": 1
+        }
+      }
+    ]);
+
   app.get("/api/story/match/:userId", isAuth, async (req, res) => {
     const { userId } = req.params;
-    const user = new ObjectId(userId);
-    // Tokyo to Seoul 716 miles
-    // Tokyo to Seoul 1,155 kilometers.
-    // const miles = 706 / 3959;
-    // const km = 1000 / 6371;
-    const lng = parseFloat(req.query.lng);
-    const lat = parseFloat(req.query.lat);
-
-    const maxDistance = convertToRadiansFromMilesOrKm(req.query);
+    // Tokyo to Seoul 716 miles || 1,155 km
+    // miles = 706 / 3959 || km = 1000 / 6371
 
     try {
       // ---------------------- Required Fields ---------------------
@@ -77,40 +113,13 @@ module.exports = app => {
       // distanceField - The output field that contains the calculated distance.
       // To specify a field within an embedded document, use dot notation.
       // spherical - Determines how MongoDB calculates the distance between two points:
+      const user = new ObjectId(userId);
+      const maxDistance = convertToRadiansFromMilesOrKm(req.query);
 
-      const match = await Story.aggregate([
-        {
-          $geoNear: {
-            near: [lat, lng],
-            distanceField: "dist.calculated",
-            maxDistance,
-            spherical: true
-          }
-        },
-        {
-          $match: { user: { $ne: user } }
-        },
-        { $group: { _id: "$user", data: { $push: "$$ROOT" } } },
-        {
-          $project: {
-            data: 1,
-            length: { $size: "$data" }
-          }
-        },
-        { $sort: { length: -1 } }
-      ]);
+      const lng = parseFloat(req.query.lng);
+      const lat = parseFloat(req.query.lat);
 
-      // const test = await Story.aggregate([
-      //   {
-      //     $match: { user: { $ne: user } }
-      //   },
-      //   { $group: { _id: "$user", data: { $push: "$$ROOT" } } }
-      // ]);
-
-      // { $group: { _id: <expression>, <field1>: { <accumulator1> : <expression1> }, ... } }
-
-      // != NOT !== since typeof obj.user is an Object because it points to a ref for the user of this story
-      // const filteredMatch = match.filter(obj => obj.user != userId);
+      const match = await geoMatchWithGroupAndSort(lat, lng, maxDistance, user);
 
       serverRes(res, 200, null, { match });
     } catch (err) {

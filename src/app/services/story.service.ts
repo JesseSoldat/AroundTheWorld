@@ -8,6 +8,7 @@ import { Store, select } from "@ngrx/store";
 import { AppState } from "../reducers";
 import { selectUserId } from "../auth/auth.selectors";
 import { ShowMsg } from "../shared/shared.actions";
+import { OpenModal } from "../core/modals/modal.actions";
 // Models
 import { Auth } from "../models/auth.model";
 import { User } from "../models/user.model";
@@ -45,6 +46,7 @@ export class StoryService {
 
   // Api Calls
   getMyStories(): Observable<HttpRes> {
+    this.store.dispatch(new MyStoriesRequested());
     return this.httpService.httpGetRequest(`story/${this.userId}`).pipe(
       tap((res: HttpRes) => {
         const { msg, payload } = res;
@@ -71,9 +73,6 @@ export class StoryService {
   }
 
   matchOtherUsers(matchQuery): Observable<HttpRes> {
-    // tokyo
-    // const lat = 35.689487;
-    // const lng = 139.691711;
     const { unit, maxDistance, coordinates } = matchQuery;
 
     const lat = coordinates[0];
@@ -88,9 +87,12 @@ export class StoryService {
       .pipe(
         tap((res: HttpRes) => {
           const { msg, payload } = res;
-          console.log(payload);
 
-          this.store.dispatch(new ShowMsg({ msg }));
+          console.log(payload.match);
+
+          this.store.dispatch(
+            new OpenModal({ modalType: "matchUser", data: payload })
+          );
         }),
         catchError(err => this.handleError(err.error))
       );

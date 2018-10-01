@@ -3,6 +3,8 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
+// Ng Bootstrap
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 // Ngrx
 import { StoreModule } from "@ngrx/store";
 import { sharedReducer } from "./shared.reducer";
@@ -26,6 +28,7 @@ const routes: Routes = [];
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbModule,
     RouterModule.forChild(routes),
     StoreModule.forFeature("shared", sharedReducer)
   ],
@@ -44,6 +47,7 @@ const routes: Routes = [];
     CommonModule,
     FormsModule,
     RouterModule,
+    NgbModule,
     ReactiveFormsModule,
     BlurEventDirective,
     HeadingComponent,

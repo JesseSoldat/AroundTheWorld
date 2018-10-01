@@ -6,7 +6,7 @@ export interface StoryState {
   stories: Story[];
 }
 
-export const initialStoryState = {
+export const initialStoryState: StoryState = {
   stories: null
 };
 
