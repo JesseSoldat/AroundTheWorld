@@ -78,38 +78,41 @@ module.exports = app => {
       // To specify a field within an embedded document, use dot notation.
       // spherical - Determines how MongoDB calculates the distance between two points:
 
-      // const match = await Story.aggregate([
-      //   {
-      //     $geoNear: {
-      //       near: [lat, lng],
-      //       distanceField: "dist.calculated",
-      //       maxDistance,
-      //       spherical: true
-      //     }
-      //   },
-      //   {
-      //     $match: { user: { $ne: user } }
-      //   }
-      // ]);
-
-      const test = await Story.aggregate([
+      const match = await Story.aggregate([
+        {
+          $geoNear: {
+            near: [lat, lng],
+            distanceField: "dist.calculated",
+            maxDistance,
+            spherical: true
+          }
+        },
         {
           $match: { user: { $ne: user } }
         },
+        { $group: { _id: "$user", data: { $push: "$$ROOT" } } },
         {
-          $group: {
-            _id: null,
-            count: {
-              $sum: 1
-            }
+          $project: {
+            data: 1,
+            length: { $size: "$data" }
           }
-        }
+        },
+        { $sort: { length: -1 } }
       ]);
+
+      // const test = await Story.aggregate([
+      //   {
+      //     $match: { user: { $ne: user } }
+      //   },
+      //   { $group: { _id: "$user", data: { $push: "$$ROOT" } } }
+      // ]);
+
+      // { $group: { _id: <expression>, <field1>: { <accumulator1> : <expression1> }, ... } }
 
       // != NOT !== since typeof obj.user is an Object because it points to a ref for the user of this story
       // const filteredMatch = match.filter(obj => obj.user != userId);
 
-      serverRes(res, 200, null, { test });
+      serverRes(res, 200, null, { match });
     } catch (err) {
       console.log("Err: Match Location", err);
       const msg = getErrMsg("err", "match", "other users");
