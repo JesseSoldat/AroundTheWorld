@@ -1,29 +1,32 @@
 <ng-template #matchUser let-modal>
   <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Matched Users</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+    <h4 class="modal-title" id="modal-basic-title">You Matched {{matched?.length}} Users</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
 
   <div class="modal-body">
-    <form>
-      <div class="form-group">
-        <label>You matched the following users</label>
-
-      </div>
-    </form>
+    <ul class="list-group list-group-flush" *ngFor="let match of matched">
+      <li class="list-group-item">
+        <span>{{match.userInfo[0].username | titlecase}} has {{match.length}} {{match.length === 1
+          ? 'story' :
+          'stories'}} found near your location.</span><br>
+        <a href="" (click)="closeModalAndRoute(match, $event)">Check out
+          their stories.</a>
+      </li>
+    </ul>
   </div>
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Close</button>
+    <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button>
   </div>
 </ng-template>
 
 <ng-template #login let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Login</h4>
-    <button type="button" class="close" aria-label="Close" (click)="modal.dismiss()">
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -36,6 +39,6 @@
     </form>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="modal.close()">Close</button>
+    <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button>
   </div>
 </ng-template>

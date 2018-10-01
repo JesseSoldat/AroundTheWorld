@@ -72,16 +72,15 @@ module.exports = app => {
       {
         $match: { user: { $ne: user } }
       },
+      // $$ROOT References the top-level document, being processed in the aggregation pipeline
       { $group: { _id: "$user", stories: { $push: "$$ROOT" } } },
       {
         $project: {
-          user: 1,
           stories: 1,
           length: { $size: "$stories" }
         }
       },
       { $sort: { length: -1 } },
-
       {
         $lookup: {
           from: "users",
@@ -92,6 +91,8 @@ module.exports = app => {
       },
       {
         $project: {
+          length: 1,
+          // username: { $userInfo: 1 },
           "userInfo.username": 1,
           "userInfo.email": 1,
           "userInfo._id": 1,

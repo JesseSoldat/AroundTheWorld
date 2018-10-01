@@ -88,8 +88,6 @@ export class StoryService {
         tap((res: HttpRes) => {
           const { msg, payload } = res;
 
-          console.log(payload.match);
-
           this.store.dispatch(
             new OpenModal({ modalType: "matchUser", data: payload })
           );

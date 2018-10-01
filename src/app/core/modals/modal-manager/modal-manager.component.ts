@@ -1,10 +1,12 @@
 import { Component, ViewChild, OnInit, AfterViewInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { tap, filter } from "rxjs/operators";
 // Ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../../reducers";
 import { selectModalState } from "../modal.selector";
+import { CloseModal } from "../modal.actions";
 
 @Component({
   selector: "app-modal-manager",
@@ -12,13 +14,17 @@ import { selectModalState } from "../modal.selector";
   styleUrls: ["./modal-manager.component.css"]
 })
 export class ModalManagerComponent implements OnInit, AfterViewInit {
-  match: [any];
+  matched: [any];
   @ViewChild("matchUser")
   matchUser;
   @ViewChild("login")
   login;
 
-  constructor(private modalService: NgbModal, private store: Store<AppState>) {}
+  constructor(
+    private modalService: NgbModal,
+    private store: Store<AppState>,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.store
@@ -29,6 +35,9 @@ export class ModalManagerComponent implements OnInit, AfterViewInit {
           // console.log(modalState);
           switch (modalState.modalType) {
             case "matchUser":
+              this.matched = modalState.data.match;
+              console.log(this.matched);
+
               this.open(this.matchUser);
               break;
 
@@ -48,5 +57,17 @@ export class ModalManagerComponent implements OnInit, AfterViewInit {
 
   open(content) {
     this.modalService.open(content, { ariaLabelledBy: "modal-basic-title" });
+  }
+
+  closeModal() {
+    this.modalService.dismissAll();
+    this.store.dispatch(new CloseModal());
+  }
+
+  closeModalAndRoute(match, e) {
+    e.preventDefault();
+    this.closeModal();
+    const url = `map/matches/storyList/${match._id}`;
+    this.router.navigateByUrl(url);
   }
 }
