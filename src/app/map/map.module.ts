@@ -16,6 +16,7 @@ import { AddMapStoryFormComponent } from "./add-map-story/add-map-story-form/add
 import { MatchesStoryListComponent } from "./matches-story-list/matches-story-list.component";
 import { MatchesStoryDetailsComponent } from "./matches-story-details/matches-story-details.component";
 import { DetailCardComponent } from "./matches-story-details/detail-card/detail-card.component";
+import { StoryDetailsComponent } from './story-details/story-details.component';
 
 @NgModule({
   imports: [
@@ -33,7 +34,8 @@ import { DetailCardComponent } from "./matches-story-details/detail-card/detail-
     StoryListComponent,
     MatchesStoryListComponent,
     MatchesStoryDetailsComponent,
-    DetailCardComponent
+    DetailCardComponent,
+    StoryDetailsComponent
   ]
 })
 export class MapModule {}

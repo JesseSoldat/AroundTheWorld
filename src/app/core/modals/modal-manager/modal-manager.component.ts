@@ -17,8 +17,8 @@ export class ModalManagerComponent implements OnInit, AfterViewInit {
   matched: [any];
   @ViewChild("matchUser")
   matchUser;
-  @ViewChild("login")
-  login;
+  @ViewChild("uploadImage")
+  uploadImage;
 
   constructor(
     private modalService: NgbModal,
@@ -39,8 +39,8 @@ export class ModalManagerComponent implements OnInit, AfterViewInit {
               this.open(this.matchUser);
               break;
 
-            case "login":
-              this.open(this.login);
+            case "uploadPhotos":
+              this.open(this.uploadImage);
               break;
 
             default:
@@ -57,15 +57,38 @@ export class ModalManagerComponent implements OnInit, AfterViewInit {
     this.modalService.open(content, { ariaLabelledBy: "modal-basic-title" });
   }
 
-  closeModal() {
+  // Use for all modals
+  closeModal(modalType = null) {
     this.modalService.dismissAll();
     this.store.dispatch(new CloseModal());
   }
 
+  // matchUser Modal
   closeModalAndRoute(match, e) {
     e.preventDefault();
     this.closeModal();
     const url = `map/matches/storyList/${match._id}`;
+    this.router.navigateByUrl(url);
+  }
+
+  // uploadImage Modal
+  closeModalAndNav(e) {
+    e.preventDefault();
+    this.closeModal();
+    const userId = "";
+    const storyId = "";
+
+    const url = `story/details/${userId}/${storyId}`;
+    this.router.navigateByUrl(url);
+  }
+  closeModalAndUploadPhoto(e) {
+    e.preventDefault();
+    this.closeModal();
+
+    const userId = "";
+    const storyId = "";
+    const url = `photos/${userId}/${storyId}`;
+
     this.router.navigateByUrl(url);
   }
 }

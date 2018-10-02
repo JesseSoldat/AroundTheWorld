@@ -5,6 +5,7 @@ import { Routes, RouterModule } from "@angular/router";
 import { MapComponent } from "./map/map.component";
 import { AddMapStoryComponent } from "./add-map-story/add-map-story.component";
 import { StoryListComponent } from "./story-list/story-list.component";
+import { StoryDetailsComponent } from "./story-details/story-details.component";
 import { MatchesStoryListComponent } from "./matches-story-list/matches-story-list.component";
 import { MatchesStoryDetailsComponent } from "./matches-story-details/matches-story-details.component";
 
@@ -20,6 +21,11 @@ const routes: Routes = [
   {
     path: "storyList",
     component: StoryListComponent
+  },
+  ,
+  {
+    path: "storyDetails/:userId/:storyId",
+    component: StoryDetailsComponent
   },
   {
     path: "matches/storyList/:userId",

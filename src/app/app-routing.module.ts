@@ -13,6 +13,11 @@ const routes: Routes = [
     path: "map",
     loadChildren: "./map/map.module#MapModule",
     canActivate: [AuthGuard]
+  },
+  {
+    path: "photos",
+    loadChildren: "./photos/photos.module#PhotosModule",
+    canActivate: [AuthGuard]
   }
 ];
 

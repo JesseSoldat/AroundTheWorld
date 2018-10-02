@@ -10,6 +10,7 @@ import { StoreModule } from "@ngrx/store";
 import { sharedReducer } from "./shared.reducer";
 // Directives
 import { BlurEventDirective } from "./directives/blur-event.directive";
+import { DropZoneDirective } from "./directives/drop-zone.directive";
 // Pipes
 import { TruncatePipe } from "./pipes/truncate.pipe";
 // Components
@@ -36,6 +37,7 @@ const routes: Routes = [];
   ],
   declarations: [
     BlurEventDirective,
+    DropZoneDirective,
     TruncatePipe,
     HeadingComponent,
     FormGroupComponent,
@@ -54,6 +56,7 @@ const routes: Routes = [];
     NgbModule,
     ReactiveFormsModule,
     BlurEventDirective,
+    DropZoneDirective,
     TruncatePipe,
     HeadingComponent,
     FormGroupComponent,
