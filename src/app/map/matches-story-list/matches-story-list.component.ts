@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 // Rxjs
 import { Observable } from "rxjs";
-import { tap, filter } from "rxjs/operators";
+import { tap, first, switchMap } from "rxjs/operators";
 // Ngrx
-import { Store, select } from "@ngrx/store";
+import { Store } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { selectOtherPersonsStoryList } from "../story.selector";
 // Services
@@ -17,6 +17,7 @@ import { StoryService } from "../../services/story.service";
 })
 export class MatchesStoryListComponent implements OnInit {
   stories$: Observable<any>;
+  userId: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -26,21 +27,23 @@ export class MatchesStoryListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.params.subscribe(params => {
-      const userId = params.userId;
+    this.stories$ = this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        this.userId = params.get("userId");
+        return this.store.select(selectOtherPersonsStoryList);
+      }),
+      tap(stories => {
+        if (stories !== null) return stories;
 
-      this.stories$ = this.store.pipe(
-        select(selectOtherPersonsStoryList),
-        filter(stories => stories !== null),
-        tap(stories => {
-          console.log(stories);
-        })
-      );
-
-      this.storyService
-        .getOtherPersonsStories(userId)
-        .subscribe(res => {}, err => {});
-    });
+        this.storyService
+          .getOtherPersonsStories(this.userId)
+          .pipe(
+            first(),
+            tap(() => console.log("Fetching Stories from Server"))
+          )
+          .subscribe(res => {}, err => {});
+      })
+    );
   }
 
   navigate(ids) {

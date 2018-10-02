@@ -11,8 +11,8 @@ import { Location } from "../../models/location.model";
 })
 export class MapComponent implements OnInit {
   location: Location = {
-    lat: 33.774828,
-    lng: -84.296312
+    lng: -84.296312,
+    lat: 33.774828
   };
 
   marker: Location;
@@ -23,6 +23,8 @@ export class MapComponent implements OnInit {
   ngOnInit() {}
 
   onSetMarker(event) {
+    console.log(event);
+
     this.marker = event.coords;
   }
 

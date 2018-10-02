@@ -60,7 +60,7 @@ export class StoryService {
       tap((res: HttpRes) => {
         const { msg, payload } = res;
         const { stories } = payload;
-        console.log("getMyStories", payload);
+        // console.log("getMyStories", payload);
         this.store.dispatch(new MyStoriesLoaded({ stories }));
       }),
       catchError(err => this.handleError(err))
@@ -115,8 +115,8 @@ export class StoryService {
   matchOtherUsers(matchQuery): Observable<HttpRes> {
     const { unit, maxDistance, coordinates } = matchQuery;
 
-    const lat = coordinates[0];
-    const lng = coordinates[1];
+    const lng = coordinates[0];
+    const lat = coordinates[1];
 
     return this.httpService
       .httpGetRequest(

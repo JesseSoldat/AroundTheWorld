@@ -14,7 +14,7 @@ export class DetailCardComponent implements OnInit {
 
   ngOnInit() {
     const { coordinates } = this.data.geometry;
-    this.location["lat"] = coordinates[1];
     this.location["lng"] = coordinates[0];
+    this.location["lat"] = coordinates[1];
   }
 }

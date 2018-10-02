@@ -85,11 +85,11 @@ module.exports = app => {
     return distance / 6371;
   };
 
-  const geoMatchWithGroupAndSort = (lat, lng, maxDistance, user) =>
+  const geoMatchWithGroupAndSort = (lng, lat, maxDistance, user) =>
     Story.aggregate([
       {
         $geoNear: {
-          near: [lat, lng],
+          near: [lng, lat],
           distanceField: "dist.calculated",
           maxDistance,
           spherical: true
@@ -146,7 +146,7 @@ module.exports = app => {
       const lng = parseFloat(req.query.lng);
       const lat = parseFloat(req.query.lat);
 
-      const match = await geoMatchWithGroupAndSort(lat, lng, maxDistance, user);
+      const match = await geoMatchWithGroupAndSort(lng, lat, maxDistance, user);
 
       serverRes(res, 200, null, { match });
     } catch (err) {

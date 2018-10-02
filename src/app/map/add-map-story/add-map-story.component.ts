@@ -27,8 +27,8 @@ export class AddMapStoryComponent implements OnInit {
     this.route.params.subscribe(params => {
       console.log("params", params);
       this.location = {
-        lat: parseFloat(params.lat),
-        lng: parseFloat(params.lng)
+        lng: parseFloat(params.lng),
+        lat: parseFloat(params.lat)
       };
       this.marker = this.location;
     });
@@ -44,7 +44,7 @@ export class AddMapStoryComponent implements OnInit {
   }
 
   handleSubmit(form) {
-    const { lat, lng } = this.location;
+    const { lng, lat } = this.location;
 
     const story: Story = {
       title: form.title,

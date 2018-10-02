@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, Params } from "@angular/router";
+import { ActivatedRoute, ParamMap } from "@angular/router";
 // Rxjs
-import { switchMap, mergeMap, tap, first } from "rxjs/operators";
+import { switchMap, tap, first } from "rxjs/operators";
 import { Observable } from "rxjs";
 // Ngrx
-import { Store, select } from "@ngrx/store";
+import { Store } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { selectOtherPersonsStory } from "../story.selector";
 // Services
@@ -26,27 +26,29 @@ export class MatchesStoryDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.story$ = this.route.params.pipe(
-      switchMap((params: Params) => {
-        this.userId = params.userId;
-        return this.store.select(selectOtherPersonsStory(params.storyId));
+    this.story$ = this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        this.userId = params.get("userId");
+        return this.store.select(
+          selectOtherPersonsStory(params.get("storyId"))
+        );
       }),
       tap(story => {
-        if (story) console.log("Have Story", story);
+        // if (story) console.log("Have Story", story);
+        if (story) return story;
 
-        if (story === null) {
-          console.log("Fetching Stories from Server");
-          this.storyService
-            .getOtherPersonsStories(this.userId)
-            .pipe(first())
-            .subscribe(
-              res => {
-                console.log("Subscribed @matches-story-details");
-              },
-              err => {}
-            );
-        }
-        return story;
+        this.storyService
+          .getOtherPersonsStories(this.userId)
+          .pipe(
+            first(),
+            tap(() => console.log("Fetching Stories from Server"))
+          )
+          .subscribe(
+            res => {
+              // console.log("Subscribed @matches-story-details");
+            },
+            err => {}
+          );
       })
     );
   }

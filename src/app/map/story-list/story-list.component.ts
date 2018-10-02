@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 // Rxjs
 import { Observable } from "rxjs";
-import { tap, filter } from "rxjs/operators";
+import { tap, first } from "rxjs/operators";
 // Ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
@@ -39,21 +39,45 @@ export class StoryListComponent implements OnInit {
   ngOnInit() {
     this.stories$ = this.store.pipe(
       select(selectStoryList),
-      filter(storyList => storyList !== null),
       tap((storyList: Story[]) => {
-        // console.log("storyList", storyList);
-        const coordinatesById: CoordinatesById = {};
-        storyList.forEach(story => {
-          coordinatesById[story._id] = story.geometry.coordinates;
-        });
-
-        this.coordinatesById = coordinatesById;
-        // console.log(this.coordinatesById);
+        // Fetch From Store tap returns storyList by default
+        if (storyList !== null) {
+          return this.createCoordinatesById(storyList);
+        }
+        // Fetch From Server
+        this.fetchStoriesFromTheApi();
       })
     );
-    this.storyService.getMyStories().subscribe(res => {}, err => {});
   }
 
+  // Api Calls
+  fetchStoriesFromTheApi() {
+    this.storyService
+      .getMyStories()
+      .pipe(tap(() => console.log("Fetching Stories from Server")))
+      .subscribe(
+        res => {
+          // console.log("subscribe @story-list");
+        },
+        err => {},
+        () => {
+          // console.log("complete @story-list");
+        }
+      );
+  }
+
+  //  longitude then latitude
+  // _id:  [-102.49943998023224, 41.025723223004135]
+  createCoordinatesById(storyList) {
+    const coordinatesById: CoordinatesById = {};
+    storyList.forEach(story => {
+      coordinatesById[story._id] = story.geometry.coordinates;
+    });
+
+    this.coordinatesById = coordinatesById;
+  }
+
+  // Events & Cbs
   onHandleSubmit(form: SearchDistance) {
     const coordinates = this.coordinatesById[form.storyId];
 

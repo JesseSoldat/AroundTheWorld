@@ -36,8 +36,6 @@ export class ModalManagerComponent implements OnInit, AfterViewInit {
           switch (modalState.modalType) {
             case "matchUser":
               this.matched = modalState.data.match;
-              console.log(this.matched);
-
               this.open(this.matchUser);
               break;
 
