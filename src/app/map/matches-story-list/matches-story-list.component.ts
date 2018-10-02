@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 // Rxjs
 import { Observable } from "rxjs";
 import { tap, filter } from "rxjs/operators";
@@ -20,6 +20,7 @@ export class MatchesStoryListComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private store: Store<AppState>,
     private storyService: StoryService
   ) {}
@@ -40,5 +41,10 @@ export class MatchesStoryListComponent implements OnInit {
         .getOtherPersonsStories(userId)
         .subscribe(res => {}, err => {});
     });
+  }
+
+  navigate(ids) {
+    const { userId, storyId } = ids;
+    this.router.navigateByUrl(`map/matches/storyDetails/${userId}/${storyId}`);
   }
 }

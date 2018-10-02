@@ -13,3 +13,10 @@ export const selectOtherPersonsStoryList = createSelector(
   selectStoryState,
   storyState => storyState.otherPersonsStories
 );
+
+export const selectOtherPersonsStory = (storyId: string) => {
+  return createSelector(selectOtherPersonsStoryList, stories => {
+    if (stories === null) return null;
+    return stories.find(story => story._id === storyId);
+  });
+};

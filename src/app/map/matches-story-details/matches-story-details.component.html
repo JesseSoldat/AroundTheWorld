@@ -1,0 +1,13 @@
+<div *ngIf="story$ | async as story; else showSpinner" class="storyDetailsWrapper">
+
+  <app-heading heading="{{story.user.username | titlecase}}'s Story"></app-heading>
+
+
+  <app-detail-card [data]="story"></app-detail-card>
+
+</div>
+
+<ng-template #showSpinner>
+  <app-heading></app-heading>
+  <app-spinner></app-spinner>
+</ng-template>

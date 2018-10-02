@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-xs-12 col-md-11 mx-auto">
+    <div class="card my-4">
+
+      <agm-map [latitude]="location.lat" [longitude]="location.lng" [zoom]="8">
+        <agm-marker [latitude]="location.lat" [longitude]="location.lng">
+        </agm-marker>
+      </agm-map>
+
+      <div class="card-body">
+
+        <h5 class="card-title">{{data.title}}</h5>
+        <p class="card-text">{{data.description}}</p>
+      </div>
+    </div>
+  </div>
+</div>

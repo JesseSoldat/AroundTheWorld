@@ -20,7 +20,9 @@ import {
   MyStoriesRequested,
   MyStoriesLoaded,
   OtherPersonsStoriesRequested,
-  OtherPersonsStoriesLoaded
+  OtherPersonsStoriesLoaded,
+  OtherPersonsStoryRequested,
+  OtherPersonsStoryLoaded
 } from "../map/story.actions";
 
 @Injectable({
@@ -49,7 +51,9 @@ export class StoryService {
     return of({ msg: err.error.msg, payload: null });
   }
 
-  // Api Calls
+  //----------------------  Api Calls ------------------------------
+
+  // Get All Stories
   getMyStories(): Observable<HttpRes> {
     this.store.dispatch(new MyStoriesRequested());
     return this.httpService.httpGetRequest(`story/${this.userId}`).pipe(
@@ -63,6 +67,7 @@ export class StoryService {
     );
   }
 
+  // Post New Story
   createNewStory(story: Story): Observable<HttpRes> {
     return this.httpService
       .httpPostRequest(`story/add/${this.userId}`, story)
@@ -78,19 +83,35 @@ export class StoryService {
       );
   }
 
+  // Get Other Persons Stories
   getOtherPersonsStories(userId: string): Observable<HttpRes> {
     this.store.dispatch(new OtherPersonsStoriesRequested());
     return this.httpService.httpGetRequest(`story/${userId}`).pipe(
       tap((res: HttpRes) => {
         const { msg, payload } = res;
         const { stories } = payload;
-        console.log("otherPersonsStories", payload);
+        // console.log("otherPersonsStories", payload);
         this.store.dispatch(new OtherPersonsStoriesLoaded({ stories }));
       }),
       catchError(err => this.handleError(err))
     );
   }
 
+  // Get Other Persons Story
+  getOtherPersonsStory(storyId: string): Observable<HttpRes> {
+    this.store.dispatch(new OtherPersonsStoryRequested());
+    return this.httpService.httpGetRequest(`story/details/${storyId}`).pipe(
+      tap((res: HttpRes) => {
+        const { msg, payload } = res;
+        const { story } = payload;
+        // console.log("otherPersonsStory", payload);
+        this.store.dispatch(new OtherPersonsStoryLoaded({ story }));
+      }),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  // Match with Other Peoples Stories
   matchOtherUsers(matchQuery): Observable<HttpRes> {
     const { unit, maxDistance, coordinates } = matchQuery;
 

@@ -1,5 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { Observable } from "rxjs";
+import { Component, OnInit, Output, EventEmitter, Input } from "@angular/core";
 
 @Component({
   selector: "app-img-card",
@@ -7,10 +6,21 @@ import { Observable } from "rxjs";
   styleUrls: ["./img-card.component.css"]
 })
 export class ImgCardComponent implements OnInit {
+  @Output()
+  onBtnClick = new EventEmitter();
   @Input()
   data;
+  fText: number = 30;
 
   constructor() {}
 
   ngOnInit() {}
+
+  handleBtnClick() {
+    const ids = {
+      userId: this.data.user._id,
+      storyId: this.data._id
+    };
+    this.onBtnClick.emit(ids);
+  }
 }

@@ -11,6 +11,7 @@ import { sharedReducer } from "./shared.reducer";
 // Directives
 import { BlurEventDirective } from "./directives/blur-event.directive";
 // Pipes
+import { TruncatePipe } from "./pipes/truncate.pipe";
 // Components
 import { HeadingComponent } from "./components/heading/heading.component";
 import { FormGroupComponent } from "./components/form-group/form-group.component";
@@ -35,6 +36,7 @@ const routes: Routes = [];
   ],
   declarations: [
     BlurEventDirective,
+    TruncatePipe,
     HeadingComponent,
     FormGroupComponent,
     LinkComponent,
@@ -52,6 +54,7 @@ const routes: Routes = [];
     NgbModule,
     ReactiveFormsModule,
     BlurEventDirective,
+    TruncatePipe,
     HeadingComponent,
     FormGroupComponent,
     LinkComponent,

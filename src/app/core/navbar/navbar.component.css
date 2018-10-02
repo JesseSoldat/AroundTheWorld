@@ -16,20 +16,7 @@ i {
 }
 
 .nav-link {
-  font-size: 1.2em;
   cursor: pointer;
-  color: black !important;
-}
-
-/* brand */
-.navbar-brand {
-  color: black;
-}
-.navbar-brand:hover {
-  color: black;
-}
-.navbar-brand.active {
-  color: black;
 }
 
 @media (max-width: 768px) {

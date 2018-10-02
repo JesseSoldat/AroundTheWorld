@@ -28,6 +28,24 @@ module.exports = app => {
     }
   });
 
+  // Get a single story
+  app.get("/api/story/details/:storyId", isAuth, async (req, res) => {
+    const { storyId } = req.params;
+
+    try {
+      const story = await Story.findById(storyId).populate({
+        path: "user",
+        select: ["email", "username"]
+      });
+
+      serverRes(res, 200, null, { story });
+    } catch (err) {
+      console.log("Err: Fetch Story", err);
+      const msg = getErrMsg("err", "fetch", "story");
+      serverRes(res, 400, msg, null);
+    }
+  });
+
   // Add a story
   app.post("/api/story/add/:userId", isAuth, async (req, res) => {
     const { userId } = req.params;

@@ -21,6 +21,9 @@ export function storyReducer(state = initialStoryState, action) {
     case StoryActionTypes.OtherPersonsStoriesLoaded:
       return { ...state, otherPersonsStories: [...payload.stories] };
 
+    case StoryActionTypes.OtherPersonsStoryLoaded:
+      return { ...state };
+
     default:
       return { ...state };
   }
