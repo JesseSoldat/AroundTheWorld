@@ -16,7 +16,12 @@ import { HttpRes } from "../models/http-res.model";
 import { Story } from "../models/story.model";
 // Services
 import { HttpService } from "./http.service";
-import { MyStoriesRequested, MyStoriesLoaded } from "../map/story.actions";
+import {
+  MyStoriesRequested,
+  MyStoriesLoaded,
+  OtherPersonsStoriesRequested,
+  OtherPersonsStoriesLoaded
+} from "../map/story.actions";
 
 @Injectable({
   providedIn: "root"
@@ -51,12 +56,13 @@ export class StoryService {
       tap((res: HttpRes) => {
         const { msg, payload } = res;
         const { stories } = payload;
-        // console.log("getMyStories", payload);
+        console.log("getMyStories", payload);
         this.store.dispatch(new MyStoriesLoaded({ stories }));
       }),
       catchError(err => this.handleError(err))
     );
   }
+
   createNewStory(story: Story): Observable<HttpRes> {
     return this.httpService
       .httpPostRequest(`story/add/${this.userId}`, story)
@@ -70,6 +76,19 @@ export class StoryService {
         }),
         catchError(err => this.handleError(err))
       );
+  }
+
+  getOtherPersonsStories(userId: string): Observable<HttpRes> {
+    this.store.dispatch(new OtherPersonsStoriesRequested());
+    return this.httpService.httpGetRequest(`story/${userId}`).pipe(
+      tap((res: HttpRes) => {
+        const { msg, payload } = res;
+        const { stories } = payload;
+        console.log("otherPersonsStories", payload);
+        this.store.dispatch(new OtherPersonsStoriesLoaded({ stories }));
+      }),
+      catchError(err => this.handleError(err))
+    );
   }
 
   matchOtherUsers(matchQuery): Observable<HttpRes> {

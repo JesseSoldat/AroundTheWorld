@@ -8,11 +8,17 @@ const isAuth = require("../middleware/isAuth");
 const { serverRes, getMsg, getErrMsg } = require("../utils/serverRes");
 
 module.exports = app => {
+  // Get a list of your stories or another users stories
   app.get("/api/story/:userId", isAuth, async (req, res) => {
     const { userId } = req.params;
 
     try {
-      const stories = await Story.find({ user: userId }).sort({ _id: -1 });
+      const stories = await Story.find({ user: userId })
+        .sort({ _id: -1 })
+        .populate({
+          path: "user",
+          select: ["email", "username"]
+        });
 
       serverRes(res, 200, null, { stories });
     } catch (err) {
@@ -22,6 +28,7 @@ module.exports = app => {
     }
   });
 
+  // Add a story
   app.post("/api/story/add/:userId", isAuth, async (req, res) => {
     const { userId } = req.params;
     const { title, description, geometry } = req.body;
@@ -46,6 +53,7 @@ module.exports = app => {
     }
   });
 
+  // Match other users based on distance between your story and theirs
   const convertToRadiansFromMilesOrKm = ({ unit, maxDistance }) => {
     // meters for GeoJSON
     // radians for coordinate pairs.

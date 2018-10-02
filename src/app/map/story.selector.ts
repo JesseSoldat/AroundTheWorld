@@ -8,3 +8,8 @@ export const selectStoryList = createSelector(
   selectStoryState,
   storyState => storyState.stories
 );
+
+export const selectOtherPersonsStoryList = createSelector(
+  selectStoryState,
+  storyState => storyState.otherPersonsStories
+);

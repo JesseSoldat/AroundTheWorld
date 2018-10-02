@@ -3,12 +3,14 @@ import { Action } from "@ngrx/store";
 import { Story } from "../models/story.model";
 
 export enum StoryActionTypes {
-  MyStoriesRequest = "MyStoriesRequest",
-  MyStoriesLoaded = "MyStoriesLoaded"
+  MyStoriesRequested = "MyStoriesRequested",
+  MyStoriesLoaded = "MyStoriesLoaded",
+  OtherPersonsStoriesRequested = "OtherPersonsStoriesRequested",
+  OtherPersonsStoriesLoaded = "OtherPersonsStoriesLoaded"
 }
 
 export class MyStoriesRequested implements Action {
-  readonly type = StoryActionTypes.MyStoriesRequest;
+  readonly type = StoryActionTypes.MyStoriesRequested;
 }
 
 export class MyStoriesLoaded implements Action {
@@ -17,4 +19,18 @@ export class MyStoriesLoaded implements Action {
   constructor(public payload: { stories: Story[] }) {}
 }
 
-export type StoryActions = MyStoriesRequested | MyStoriesLoaded;
+export class OtherPersonsStoriesRequested implements Action {
+  readonly type = StoryActionTypes.OtherPersonsStoriesRequested;
+}
+
+export class OtherPersonsStoriesLoaded implements Action {
+  readonly type = StoryActionTypes.OtherPersonsStoriesLoaded;
+
+  constructor(public payload: { stories: Story[] }) {}
+}
+
+export type StoryActions =
+  | MyStoriesRequested
+  | MyStoriesLoaded
+  | OtherPersonsStoriesRequested
+  | OtherPersonsStoriesLoaded;
