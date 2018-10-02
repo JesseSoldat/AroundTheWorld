@@ -5,7 +5,7 @@ export const environment = {
     authDomain: "aroundtheworld-8bb9d.firebaseapp.com",
     databaseURL: "https://aroundtheworld-8bb9d.firebaseio.com",
     projectId: "aroundtheworld-8bb9d",
-    storageBucket: "",
+    storageBucket: "aroundtheworld-8bb9d.appspot.com",
     messagingSenderId: "820792374183"
   }
 };

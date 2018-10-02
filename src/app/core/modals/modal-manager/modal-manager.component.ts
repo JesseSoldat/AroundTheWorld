@@ -14,7 +14,7 @@ import { CloseModal } from "../modal.actions";
   styleUrls: ["./modal-manager.component.css"]
 })
 export class ModalManagerComponent implements OnInit, AfterViewInit {
-  matched: [any];
+  data;
   @ViewChild("matchUser")
   matchUser;
   @ViewChild("uploadImage")
@@ -35,11 +35,14 @@ export class ModalManagerComponent implements OnInit, AfterViewInit {
           // console.log(modalState);
           switch (modalState.modalType) {
             case "matchUser":
-              this.matched = modalState.data.match;
+              this.data = modalState.data.match;
               this.open(this.matchUser);
               break;
 
             case "uploadPhotos":
+              this.data = modalState.data;
+              console.log("upload", this.data);
+
               this.open(this.uploadImage);
               break;
 
@@ -67,27 +70,25 @@ export class ModalManagerComponent implements OnInit, AfterViewInit {
   closeModalAndRoute(match, e) {
     e.preventDefault();
     this.closeModal();
-    const url = `map/matches/storyList/${match._id}`;
+    const url = `/map/matches/storyList/${match._id}`;
     this.router.navigateByUrl(url);
   }
 
   // uploadImage Modal
-  closeModalAndNav(e) {
-    e.preventDefault();
+  closeModalAndNav() {
     this.closeModal();
-    const userId = "";
-    const storyId = "";
+    const userId = this.data.story.user;
+    const storyId = this.data.story._id;
 
-    const url = `story/details/${userId}/${storyId}`;
+    const url = `/map/storyDetails/${userId}/${storyId}`;
     this.router.navigateByUrl(url);
   }
-  closeModalAndUploadPhoto(e) {
-    e.preventDefault();
+  closeModalAndUploadPhoto() {
     this.closeModal();
 
-    const userId = "";
-    const storyId = "";
-    const url = `photos/${userId}/${storyId}`;
+    const userId = this.data.story.user;
+    const storyId = this.data.story._id;
+    const url = `/uploadImage/${userId}/${storyId}`;
 
     this.router.navigateByUrl(url);
   }

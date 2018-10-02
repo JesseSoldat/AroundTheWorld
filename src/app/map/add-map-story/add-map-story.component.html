@@ -10,7 +10,7 @@
     <!-- google maps -->
     <div class="mapContainer">
       <div class="row">
-        <div class="col-xs-12 col-sm-10 mx-auto">
+        <div class="col-xs-12 col-sm-11 mx-auto">
           <agm-map [latitude]="location.lat" [longitude]="location.lng" [zoom]="8" (mapClick)="onSetMarker($event)">
 
             <agm-marker *ngIf="marker" [latitude]="marker.lat" [longitude]="marker.lng">

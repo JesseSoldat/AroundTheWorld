@@ -13,6 +13,7 @@ import { BlurEventDirective } from "./directives/blur-event.directive";
 import { DropZoneDirective } from "./directives/drop-zone.directive";
 // Pipes
 import { TruncatePipe } from "./pipes/truncate.pipe";
+import { FileSizePipe } from "./pipes/file-size.pipe";
 // Components
 import { HeadingComponent } from "./components/heading/heading.component";
 import { FormGroupComponent } from "./components/form-group/form-group.component";
@@ -39,6 +40,7 @@ const routes: Routes = [];
     BlurEventDirective,
     DropZoneDirective,
     TruncatePipe,
+    FileSizePipe,
     HeadingComponent,
     FormGroupComponent,
     LinkComponent,
@@ -58,6 +60,7 @@ const routes: Routes = [];
     BlurEventDirective,
     DropZoneDirective,
     TruncatePipe,
+    FileSizePipe,
     HeadingComponent,
     FormGroupComponent,
     LinkComponent,

@@ -1,5 +1,5 @@
 export interface Msg {
-  code: string;
+  code?: string;
   color: string;
   info: string;
   from?: string;

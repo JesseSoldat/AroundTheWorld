@@ -11,7 +11,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --prod"
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
@@ -43,7 +43,6 @@
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.2.17",
     "ngrx-store-freeze": "^0.2.4",
-    "ngx-dropzone-wrapper": "^6.2.0",
     "rxjs": "~6.2.0",
     "zone.js": "~0.8.26"
   },

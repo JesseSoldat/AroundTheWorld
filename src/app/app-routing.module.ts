@@ -15,9 +15,8 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: "photos",
-    loadChildren: "./photos/photos.module#PhotosModule",
-    canActivate: [AuthGuard]
+    path: "uploadImage",
+    loadChildren: "./image-upload/image-upload.module#ImageUploadModule"
   }
 ];
 

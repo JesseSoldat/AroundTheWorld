@@ -10,8 +10,6 @@ import { selectUserId } from "../auth/auth.selectors";
 import { ShowMsg } from "../shared/shared.actions";
 import { OpenModal } from "../core/modals/modal.actions";
 // Models
-import { Auth } from "../models/auth.model";
-import { User } from "../models/user.model";
 import { HttpRes } from "../models/http-res.model";
 import { Story } from "../models/story.model";
 // Services
@@ -74,10 +72,12 @@ export class StoryService {
       .pipe(
         tap((res: HttpRes) => {
           const { msg, payload } = res;
-          // console.log('createNewStory', payload);
+          // console.log("createNewStory", payload);
 
           this.store.dispatch(new ShowMsg({ msg }));
-          this.router.navigateByUrl("/map/storyList");
+          this.store.dispatch(
+            new OpenModal({ modalType: "uploadPhotos", data: payload })
+          );
         }),
         catchError(err => this.handleError(err))
       );

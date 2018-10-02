@@ -22,7 +22,6 @@ const routes: Routes = [
     path: "storyList",
     component: StoryListComponent
   },
-  ,
   {
     path: "storyDetails/:userId/:storyId",
     component: StoryDetailsComponent

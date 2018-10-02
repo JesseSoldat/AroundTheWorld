@@ -1,0 +1,58 @@
+<div class="imageUploadWrapper">
+
+  <app-heading heading="Upload an Image"></app-heading>
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-11 mx-auto">
+
+      <div class="dropzone mt-5" dropZone (hovered)="toggleHover($event)" (dropped)="startUpload($event)"
+        [class.hovering]="isHovering">
+
+        <div class="file">
+          <label class="file-label">
+            <input type="file" hidden (change)="startUpload($event.target.files)">
+            <span>
+              <span class="file-icon mr-2">
+                <i class="fa fa-upload fa-2x"></i>
+              </span>
+              <span class="file-label">
+                or choose a file…
+              </span>
+            </span>
+          </label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col-xs-12 col-sm-11 mx-auto" *ngIf="percentage | async as pct">
+
+      <div>
+        <progress class="progress is-info" [value]="pct" max="100">
+        </progress>
+
+        {{ pct | number }}%
+
+      </div>
+
+
+      <div class="mt-4" *ngIf="snapshot | async as snap">
+        {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }}
+
+        <div *ngIf="(downloadURL$ | async) as downloadURL">
+          <h3>Results!</h3>
+          <img class="imgPreview" [src]="downloadURL"><br>
+        </div>
+
+      </div>
+
+
+    </div>
+
+
+
+
+  </div>
+</div>

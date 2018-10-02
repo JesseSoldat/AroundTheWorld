@@ -25,7 +25,6 @@ export class AddMapStoryComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      console.log("params", params);
       this.location = {
         lng: parseFloat(params.lng),
         lat: parseFloat(params.lat)
