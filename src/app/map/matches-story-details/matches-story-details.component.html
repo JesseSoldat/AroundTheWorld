@@ -1,9 +1,46 @@
-<div *ngIf="story$ | async as story; else showSpinner" class="storyDetailsWrapper">
+<div class="storyDetailsWrapper" *ngIf="(story$ | async) as story; else showSpinner">
+  <!-- <app-heading heading="{{story.user.username | titlecase}}'s Story"></app-heading> -->
+  <app-heading [heading]="story.title"></app-heading>
 
-  <app-heading heading="{{story.user.username | titlecase}}'s Story"></app-heading>
+  <div class="row mt-4">
+    <div class="col-xs-12 col-sm-10 mx-auto">
+      <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+        <ngb-panel title="Story">
+          <ng-template ngbPanelContent>
+            <p>{{story.description}}</p>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel title="Map">
+          <ng-template ngbPanelContent>
+
+            <agm-map [longitude]="story.geometry.coordinates[0]" [latitude]="story.geometry.coordinates[1]" [zoom]="8"
+              (mapClick)="onSetMarker($event)">
+
+              <agm-marker [longitude]="story.geometry.coordinates[0]" [latitude]="story.geometry.coordinates[1]">
+              </agm-marker>
+
+            </agm-map>
 
 
-  <app-detail-card [data]="story"></app-detail-card>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel title="Photos">
+          <ng-template ngbPanelContent>
+            <div *ngIf="story.images.length; else showPlaceholderImage">
+
+              <img *ngFor="let image of story.images" (click)="viewImage(image)" [src]="image" class="smallImg">
+
+            </div>
+
+            <ng-template #showPlaceholderImage>
+              <p>There are no images added to this story yet!</p>
+            </ng-template>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+
+    </div>
+  </div>
 
 </div>
 

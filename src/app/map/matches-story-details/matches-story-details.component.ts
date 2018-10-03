@@ -34,7 +34,7 @@ export class MatchesStoryDetailsComponent implements OnInit {
         );
       }),
       tap(story => {
-        // if (story) console.log("Have Story", story);
+        if (story) console.log("Have Story", story);
         if (story) return story;
 
         this.storyService

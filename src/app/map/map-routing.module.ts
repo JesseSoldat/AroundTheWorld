@@ -31,7 +31,7 @@ const routes: Routes = [
     component: MatchesStoryListComponent
   },
   {
-    path: "matches/storyDetails/:storyId",
+    path: "matches/storyDetails/:userId/:storyId",
     component: MatchesStoryDetailsComponent
   }
 ];

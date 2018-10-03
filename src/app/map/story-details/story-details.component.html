@@ -11,29 +11,28 @@
         </ngb-panel>
         <ngb-panel title="Map">
           <ng-template ngbPanelContent>
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
-            officia
-            aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
-            tempor,
-            sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh
-            helvetica,
-            craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
-            Leggings
-            occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
-            accusamus
-            labore sustainable VHS.
+
+            <agm-map [longitude]="story.geometry.coordinates[0]" [latitude]="story.geometry.coordinates[1]" [zoom]="8"
+              (mapClick)="onSetMarker($event)">
+
+              <agm-marker [longitude]="story.geometry.coordinates[0]" [latitude]="story.geometry.coordinates[1]">
+              </agm-marker>
+
+            </agm-map>
+
+
           </ng-template>
         </ngb-panel>
         <ngb-panel title="Photos">
           <ng-template ngbPanelContent>
-            <div *ngIf="story.images; else showPlaceholderImage">
+            <div *ngIf="story.images.length; else showPlaceholderImage">
 
               <img *ngFor="let image of story.images" (click)="viewImage(image)" [src]="image" class="smallImg">
 
             </div>
 
             <ng-template #showPlaceholderImage>
-              <h1>There are no images added to this story yet!</h1>
+              <p>There are no images added to this story yet!</p>
             </ng-template>
           </ng-template>
         </ngb-panel>
