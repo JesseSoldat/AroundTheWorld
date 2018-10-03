@@ -14,6 +14,7 @@ app.use(bodyParser.json());
 
 require("./server/routes/auth")(app);
 require("./server/routes/story")(app);
+require("./server/routes/friend")(app);
 
 if (process.env.NODE_ENV === "production") {
   const path = require("path");

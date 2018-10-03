@@ -27,7 +27,8 @@ const UserSchema = new Schema(
       required: true,
       minlength: 6
     },
-    role: { type: String, default: "user" }
+    role: { type: String, default: "user" },
+    friends: { type: [String] }
   },
   { timestamps: true }
 );

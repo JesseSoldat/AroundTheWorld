@@ -9,6 +9,7 @@ import { AppState } from "../../reducers";
 import { selectOtherPersonsStory } from "../story.selector";
 // Services
 import { StoryService } from "../../services/story.service";
+import { FriendService } from "../../services/friend.service";
 
 @Component({
   selector: "app-matches-story-details",
@@ -17,12 +18,14 @@ import { StoryService } from "../../services/story.service";
 })
 export class MatchesStoryDetailsComponent implements OnInit {
   story$: Observable<any>;
+  matchedUserId: string;
   userId: string;
 
   constructor(
     private route: ActivatedRoute,
     private store: Store<AppState>,
-    private storyService: StoryService
+    private storyService: StoryService,
+    private friendsService: FriendService
   ) {}
 
   ngOnInit() {
@@ -35,7 +38,9 @@ export class MatchesStoryDetailsComponent implements OnInit {
       }),
       tap(story => {
         if (story) console.log("Have Story", story);
-        if (story) return story;
+        if (story) {
+          return (this.matchedUserId = story.user._id);
+        }
 
         this.storyService
           .getOtherPersonsStories(this.userId)
@@ -51,5 +56,14 @@ export class MatchesStoryDetailsComponent implements OnInit {
           );
       })
     );
+
+    this.friendsService.allFriendRequests().subscribe();
+  }
+
+  // Events & Cbs
+  sendFriendRequest() {
+    this.friendsService
+      .sendFriendRequest(this.matchedUserId)
+      .subscribe(res => {}, err => {});
   }
 }

@@ -15,6 +15,7 @@ import { environment } from "../environments/environment";
 import { HttpService } from "./services/http.service";
 import { AuthService } from "./services/auth.service";
 import { StoryService } from "./services/story.service";
+import { FriendService } from "./services/friend.service";
 // Interceptors
 import { AuthInterceptor } from "./services/interceptors/auth.interceptor";
 // Guards
@@ -34,6 +35,7 @@ import { AuthGuard } from "./services/guards/auth.guard";
     HttpService,
     AuthService,
     StoryService,
+    FriendService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthGuard
   ],
