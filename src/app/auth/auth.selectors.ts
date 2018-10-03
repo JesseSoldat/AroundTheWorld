@@ -15,6 +15,5 @@ export const selectUser = createSelector(
 
 export const selectUserId = createSelector(selectUser, user => {
   if (!user) return null;
-
   return user._id;
 });

@@ -1,5 +1,6 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { FriendState } from "./friend.reducer";
+import { selectUserId } from "../auth/auth.selectors";
 
 export const selectFriendState = createFeatureSelector<FriendState>("friend");
 
@@ -20,5 +21,15 @@ export const selectSentFriendRequest = (personId: string) => {
     const request = friendRequests.find(obj => obj.recipient === personId);
     // status notRequested if the request has not been made yet
     return request ? request : { status: "notRequested" };
+  });
+};
+
+// Check if I have any friends request
+export const selectReceivedFriendRequest = userId => {
+  return createSelector(selectFriendRequests, friendRequests => {
+    console.log("userId", userId);
+    console.log("request", friendRequests);
+
+    if (userId === null) return null;
   });
 };

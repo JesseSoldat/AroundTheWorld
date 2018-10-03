@@ -5,6 +5,7 @@ import { HTTP_INTERCEPTORS } from "@angular/common/http";
 // Modules
 import { CoreModule } from "./core/core.module";
 import { AuthModule } from "./auth/auth.module";
+import { FriendModule } from "./friend/friend.module";
 
 // Components
 import { AppComponent } from "./app.component";
@@ -27,6 +28,7 @@ import { AuthGuard } from "./services/guards/auth.guard";
     BrowserModule,
     CoreModule,
     AuthModule,
+    FriendModule,
     ServiceWorkerModule.register("ngsw-worker.js", {
       enabled: environment.production
     })

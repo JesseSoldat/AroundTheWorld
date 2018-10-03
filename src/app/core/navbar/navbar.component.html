@@ -18,15 +18,29 @@
     <ul class="navbar-nav mr-auto"></ul>
 
     <!-- Right Links -->
-    <ul *ngIf="($isAuth | async); else isNotAuth" class="navbar-nav ml-auto">
+    <ul *ngIf="(isAuth$ | async); else isNotAuth" class="navbar-nav ml-auto">
       <app-link text="Dashboard"></app-link>
       <app-link text="Map"></app-link>
       <app-link text="Stories"></app-link>
 
 
-      <li class="nav-item" routerLinkActive="active" (click)="logout()">
-        <a class="nav-link">Logout</a>
-      </li>
+      <div class="btn-group mx-3">
+        <button type="button" class="btn btn-light btn-sm dropdown-toggle d-flex align-items-center" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fas fa-user-friends"></i>
+          <span class="badge badge-pill badge-danger ml-2">4</span>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+          <button class="dropdown-item d-flex" type="button" (click)="friendRequest()">
+            <span>Friend Request</span>
+            <span class="badge badge-pill badge-danger ml-2">4</span>
+          </button>
+          <button class="dropdown-item" type="button" (click)="viewFriends()">View Friends </button>
+          <div class="dropdown-divider"></div>
+          <button class="dropdown-item" type="button" (click)="logout()">Logout </button>
+        </div>
+      </div>
+
     </ul>
 
     <ng-template #isNotAuth>

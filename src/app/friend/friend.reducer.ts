@@ -14,6 +14,7 @@ export const initialFriendState: FriendState = {
 
 export function friendReducer(state = initialFriendState, action) {
   const { type, payload } = action;
+
   switch (type) {
     case FriendActionTypes.FriendRequestLoaded:
       return { ...state, friendRequests: [...payload.friendRequests] };

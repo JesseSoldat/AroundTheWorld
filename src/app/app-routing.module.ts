@@ -18,11 +18,6 @@ const routes: Routes = [
     path: "uploadImage",
     loadChildren: "./image-upload/image-upload.module#ImageUploadModule",
     canActivate: [AuthGuard]
-  },
-  {
-    path: "friends",
-    loadChildren: "./friend/friend.module#FriendModule",
-    canActivate: [AuthGuard]
   }
 ];
 

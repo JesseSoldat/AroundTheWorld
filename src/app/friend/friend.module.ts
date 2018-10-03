@@ -14,6 +14,7 @@ import { FriendsComponent } from "./friends/friends.component";
     FriendRoutingModule,
     StoreModule.forFeature("friend", friendReducer)
   ],
+  exports: [FriendRoutingModule],
   declarations: [FriendsComponent]
 })
 export class FriendModule {}
