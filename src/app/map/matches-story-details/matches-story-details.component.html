@@ -1,5 +1,8 @@
 <div class="storyDetailsWrapper" *ngIf="(story$ | async) as story; else showSpinner">
-  <!-- <app-heading heading="{{story.user.username | titlecase}}'s Story"></app-heading> -->
+
+  <button (click)="goBack()" class="btn btn-primary topRightBtn">Back to Stories
+  </button>
+
   <app-heading [heading]="story.title"></app-heading>
 
   <div class="row mt-4">
@@ -26,7 +29,22 @@
         </ngb-panel>
         <ngb-panel title="Photos">
           <ng-template ngbPanelContent>
-            <app-friends-photos [story]="story"></app-friends-photos>
+            <div *ngIf="(permission$ | async) as permission; else showSmallSpinner">
+              <app-friends-photos [story]="story" [permission]="permission">
+              </app-friends-photos>
+            </div>
+
+            <ng-template #showSmallSpinner>
+              <div class="row">
+                <div class="col-12 d-flex justify-content-center">
+                  <div class="spinnerSmallWrapper">
+                    <i class="fas fa-spinner fa-2x fa-spin my-2"></i>
+                  </div>
+                </div>
+              </div>
+
+            </ng-template>
+
           </ng-template>
         </ngb-panel>
       </ngb-accordion>

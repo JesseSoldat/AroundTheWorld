@@ -17,6 +17,8 @@ export const selectFriendRequests = createSelector(
 export const selectSentFriendRequest = (personId: string) => {
   return createSelector(selectFriendRequests, friendRequests => {
     if (friendRequests === null) return null;
-    return friendRequests.find(obj => obj.recipient === personId);
+    const request = friendRequests.find(obj => obj.recipient === personId);
+    // status notRequested if the request has not been made yet
+    return request ? request : { status: "notRequested" };
   });
 };

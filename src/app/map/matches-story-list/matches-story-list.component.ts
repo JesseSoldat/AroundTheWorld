@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 // Rxjs
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { tap, first, switchMap } from "rxjs/operators";
 // Ngrx
 import { Store } from "@ngrx/store";
@@ -30,10 +30,11 @@ export class MatchesStoryListComponent implements OnInit {
     this.stories$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
         this.userId = params.get("userId");
+        //return of([]);
         return this.store.select(selectOtherPersonsStoryList);
       }),
       tap(stories => {
-        if (stories !== null) return stories;
+        if (stories !== null) return;
 
         this.storyService
           .getOtherPersonsStories(this.userId)

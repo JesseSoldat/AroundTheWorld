@@ -1,8 +1,8 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 // Rxjs
 import { switchMap, tap, first } from "rxjs/operators";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 // Ngrx
 import { Store } from "@ngrx/store";
 import { AppState } from "../../reducers";
@@ -25,6 +25,7 @@ export class MatchesStoryDetailsComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private store: Store<AppState>,
     private storyService: StoryService,
     private friendsService: FriendService
@@ -57,30 +58,22 @@ export class MatchesStoryDetailsComponent implements OnInit {
       })
     );
 
-    // permission$ =
+    this.permission$ = this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => {
+        // return of(null);
+        return this.store.select(selectSentFriendRequest(params.get("userId")));
+      }),
+      tap(friendRequest => {
+        if (friendRequest) console.log("Have Friend Request", friendRequest);
+        if (friendRequest) return;
 
-    this.route.paramMap
-      .pipe(
-        switchMap((params: ParamMap) => {
-          return this.store.select(
-            selectSentFriendRequest(params.get("userId"))
-          );
-        }),
-        tap(friendRequest => {
-          if (friendRequest) console.log("Have Friend Request", friendRequest);
-          if (friendRequest) return;
-
-          this.friendsService.allFriendRequests().subscribe();
-        })
-      )
-      .subscribe();
+        this.friendsService.allFriendRequests().subscribe();
+      })
+    );
   }
 
   // Events & Cbs
-  sendFriendRequest() {
-    // requested | accepted | rejected
-    this.friendsService
-      .sendFriendRequest(this.matchedUserId)
-      .subscribe(res => {}, err => {});
+  goBack() {
+    this.router.navigateByUrl(`/map/matches/storyList/${this.matchedUserId}`);
   }
 }
