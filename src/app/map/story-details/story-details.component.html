@@ -1,3 +1,51 @@
-<p>
-  story-details works!
-</p>
+<div class="storyDetailsWrapper" *ngIf="(story$ | async) as story; else showSpinner">
+  <app-heading [heading]="story.title"></app-heading>
+
+  <div class="row mt-4">
+    <div class="col-xs-12 col-sm-10 mx-auto">
+      <ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">
+        <ngb-panel title="Story">
+          <ng-template ngbPanelContent>
+            <p>{{story.description}}</p>
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel title="Map">
+          <ng-template ngbPanelContent>
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon
+            officia
+            aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon
+            tempor,
+            sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh
+            helvetica,
+            craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo.
+            Leggings
+            occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them
+            accusamus
+            labore sustainable VHS.
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel title="Photos">
+          <ng-template ngbPanelContent>
+            <div *ngIf="story.images; else showPlaceholderImage">
+
+              <img *ngFor="let image of story.images" (click)="viewImage(image)" [src]="image" class="smallImg">
+
+            </div>
+
+            <ng-template #showPlaceholderImage>
+              <h1>There are no images added to this story yet!</h1>
+            </ng-template>
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+
+
+    </div>
+  </div>
+
+</div>
+
+<ng-template #showSpinner>
+  <app-heading></app-heading>
+  <app-spinner></app-spinner>
+</ng-template>

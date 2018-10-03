@@ -15,7 +15,11 @@ const GeoSchema = new Schema({
 const StorySchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "user" },
   title: { type: String, trim: true, required: true, minlength: 1 },
-  description: { type: String, trim: true, required: true, minlength: 1 },
+  description: {
+    type: String,
+    trim: true,
+    default: "The user has not written a story for this place yet."
+  },
   geometry: GeoSchema,
   images: { type: [String] }
 });

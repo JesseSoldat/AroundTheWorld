@@ -1,3 +1,14 @@
+.imageUploadWrapper {
+  position: relative;
+}
+
+.topRightBtn {
+  position: absolute;
+  z-index: 1;
+  top: 70px;
+  right: 15px;
+}
+
 .dropzone {
   display: flex;
   align-items: center;
@@ -28,5 +39,5 @@ progress::-webkit-progress-value {
 }
 
 .imgPreview {
-  width: 100%;
+  max-width: 100%;
 }

@@ -61,7 +61,7 @@ export class ModalManagerComponent implements OnInit, AfterViewInit {
   }
 
   // Use for all modals
-  closeModal(modalType = null) {
+  closeModal() {
     this.modalService.dismissAll();
     this.store.dispatch(new CloseModal());
   }
@@ -79,13 +79,11 @@ export class ModalManagerComponent implements OnInit, AfterViewInit {
     this.closeModal();
     const userId = this.data.story.user;
     const storyId = this.data.story._id;
-
     const url = `/map/storyDetails/${userId}/${storyId}`;
     this.router.navigateByUrl(url);
   }
   closeModalAndUploadPhoto() {
     this.closeModal();
-
     const userId = this.data.story.user;
     const storyId = this.data.story._id;
     const url = `/uploadImage/${userId}/${storyId}`;

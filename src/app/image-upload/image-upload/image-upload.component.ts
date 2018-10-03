@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute, ParamMap } from "@angular/router";
+import { ActivatedRoute, Router, ParamMap } from "@angular/router";
 // Firebase
 import {
   AngularFireStorage,
@@ -35,6 +35,7 @@ export class ImageUploadComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private storage: AngularFireStorage,
     private store: Store<AppState>,
     private storyService: StoryService
@@ -47,6 +48,7 @@ export class ImageUploadComponent implements OnInit {
     });
   }
 
+  // Events & Cbs
   toggleHover(event: boolean) {
     this.isHovering = event;
   }
@@ -87,10 +89,16 @@ export class ImageUploadComponent implements OnInit {
     const ref = this.storage.ref(path);
   }
 
-  // Save the
+  goToStory() {
+    this.router.navigateByUrl(
+      `/map/storyDetails/${this.userId}/${this.storyId}`
+    );
+  }
+
+  // Save to DB
   saveUrlRefToTheStory(url: string) {
     this.storyService
-      .addImageToStory(url, this.storyId, this.userId)
+      .addImageToStory(url, this.storyId)
       .subscribe(res => {}, err => {});
   }
 }

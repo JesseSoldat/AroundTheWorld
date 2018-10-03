@@ -84,11 +84,7 @@ export class StoryService {
   }
 
   // Add Image Urls to Story
-  addImageToStory(
-    url: string,
-    storyId: string,
-    userId: string
-  ): Observable<HttpRes> {
+  addImageToStory(url: string, storyId: string): Observable<HttpRes> {
     return this.httpService
       .httpPatchRequest(`story/addImage/${storyId}`, { url })
       .pipe(
