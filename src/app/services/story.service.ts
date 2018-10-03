@@ -83,6 +83,25 @@ export class StoryService {
       );
   }
 
+  // Add Image Urls to Story
+  addImageToStory(
+    url: string,
+    storyId: string,
+    userId: string
+  ): Observable<HttpRes> {
+    return this.httpService
+      .httpPatchRequest(`story/addImage/${storyId}`, { url })
+      .pipe(
+        tap((res: HttpRes) => {
+          const { msg, payload } = res;
+          console.log("addImageToStory", payload);
+
+          this.store.dispatch(new ShowMsg({ msg }));
+        }),
+        catchError(err => this.handleError(err))
+      );
+  }
+
   // Get Other Persons Stories
   getOtherPersonsStories(userId: string): Observable<HttpRes> {
     this.store.dispatch(new OtherPersonsStoriesRequested());

@@ -16,7 +16,8 @@ const StorySchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "user" },
   title: { type: String, trim: true, required: true, minlength: 1 },
   description: { type: String, trim: true, required: true, minlength: 1 },
-  geometry: GeoSchema
+  geometry: GeoSchema,
+  images: { type: [String] }
 });
 
 const Story = mongoose.model("story", StorySchema);

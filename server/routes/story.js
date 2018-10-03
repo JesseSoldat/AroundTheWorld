@@ -71,6 +71,27 @@ module.exports = app => {
     }
   });
 
+  // Add Image to Story
+  app.patch("/api/story/addImage/:storyId", isAuth, async (req, res) => {
+    const { storyId } = req.params;
+    const { url } = req.body;
+    try {
+      const story = await Story.findOneAndUpdate(
+        { _id: storyId },
+        {
+          $addToSet: { images: url }
+        },
+        { new: true }
+      );
+
+      serverRes(res, 200, null, { story });
+    } catch (err) {
+      console.log("Err: Edit Story", err);
+      const msg = getErrMsg("err", "edit", "story");
+      serverRes(res, 400, msg, null);
+    }
+  });
+
   // Match other users based on distance between your story and theirs
   const convertToRadiansFromMilesOrKm = ({ unit, maxDistance }) => {
     // meters for GeoJSON

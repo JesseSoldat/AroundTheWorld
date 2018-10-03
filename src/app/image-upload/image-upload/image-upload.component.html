@@ -3,9 +3,9 @@
   <app-heading heading="Upload an Image"></app-heading>
 
   <div class="row">
-    <div class="col-xs-12 col-sm-11 mx-auto">
+    <div class="col-xs-12 col-sm-10 mx-auto">
 
-      <div class="dropzone mt-5" dropZone (hovered)="toggleHover($event)" (dropped)="startUpload($event)"
+      <div class="dropzone mt-3" dropZone (hovered)="toggleHover($event)" (dropped)="startUpload($event)"
         [class.hovering]="isHovering">
 
         <div class="file">
@@ -27,7 +27,7 @@
 
 
   <div class="row">
-    <div class="col-xs-12 col-sm-11 mx-auto" *ngIf="percentage | async as pct">
+    <div class="col-xs-12 col-sm-10 mx-auto" *ngIf="percentage | async as pct">
 
       <div>
         <progress class="progress is-info" [value]="pct" max="100">
@@ -37,22 +37,18 @@
 
       </div>
 
-
-      <div class="mt-4" *ngIf="snapshot | async as snap">
-        {{ snap.bytesTransferred | fileSize }} of {{ snap.totalBytes | fileSize }}
+      <div>
+        <div class="mt-4" *ngIf="snapshot">
+          {{ snapshot.bytesTransferred | fileSize }} of {{ snapshot.totalBytes | fileSize }}
+        </div>
 
         <div *ngIf="(downloadURL$ | async) as downloadURL">
           <h3>Results!</h3>
           <img class="imgPreview" [src]="downloadURL"><br>
         </div>
-
       </div>
 
-
     </div>
-
-
-
 
   </div>
 </div>

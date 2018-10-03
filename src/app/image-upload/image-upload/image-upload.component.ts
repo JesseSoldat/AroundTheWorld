@@ -12,6 +12,8 @@ import { finalize, tap } from "rxjs/operators";
 import { Store } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { ShowMsg } from "../../shared/shared.actions";
+// Services
+import { StoryService } from "../../services/story.service";
 
 @Component({
   selector: "app-image-upload",
@@ -25,7 +27,7 @@ export class ImageUploadComponent implements OnInit {
   task: AngularFireUploadTask;
   // Progress monitoring
   percentage: Observable<number>;
-  snapshot: Observable<any>;
+  snapshot;
   // Download URL
   downloadURL$: Observable<any>;
   // State for dropzone CSS toggling
@@ -34,7 +36,8 @@ export class ImageUploadComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private storage: AngularFireStorage,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private storyService: StoryService
   ) {}
 
   ngOnInit() {
@@ -64,8 +67,8 @@ export class ImageUploadComponent implements OnInit {
     this.task
       .snapshotChanges()
       .pipe(
-        tap(snap => {
-          console.log(snap);
+        tap(snapshot => {
+          this.snapshot = snapshot;
         }),
         finalize(() => {
           this.downloadURL$ = ref.getDownloadURL().pipe(
@@ -79,21 +82,15 @@ export class ImageUploadComponent implements OnInit {
 
     // Progress monitoring
     this.percentage = this.task.percentageChanges();
-    this.snapshot = this.task.snapshotChanges();
 
     // The file's download URL
     const ref = this.storage.ref(path);
   }
 
-  // Determines if the upload task is active
-  isActive(snapshot) {
-    return (
-      snapshot.state === "running" &&
-      snapshot.bytesTransferred < snapshot.totalBytes
-    );
-  }
-
+  // Save the
   saveUrlRefToTheStory(url: string) {
-    console.log("url:", url);
+    this.storyService
+      .addImageToStory(url, this.storyId, this.userId)
+      .subscribe(res => {}, err => {});
   }
 }
