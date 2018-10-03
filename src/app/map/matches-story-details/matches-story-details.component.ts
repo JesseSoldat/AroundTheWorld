@@ -7,6 +7,8 @@ import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { selectOtherPersonsStory } from "../story.selector";
+import { selectSentFriendRequest } from "../../friend/friend.selector";
+
 // Services
 import { StoryService } from "../../services/story.service";
 import { FriendService } from "../../services/friend.service";
@@ -18,8 +20,8 @@ import { FriendService } from "../../services/friend.service";
 })
 export class MatchesStoryDetailsComponent implements OnInit {
   story$: Observable<any>;
+  permission$: Observable<any>;
   matchedUserId: string;
-  userId: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,19 +33,17 @@ export class MatchesStoryDetailsComponent implements OnInit {
   ngOnInit() {
     this.story$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
-        this.userId = params.get("userId");
+        this.matchedUserId = params.get("userId");
         return this.store.select(
           selectOtherPersonsStory(params.get("storyId"))
         );
       }),
       tap(story => {
         if (story) console.log("Have Story", story);
-        if (story) {
-          return (this.matchedUserId = story.user._id);
-        }
+        if (story) return;
 
         this.storyService
-          .getOtherPersonsStories(this.userId)
+          .getOtherPersonsStories(this.matchedUserId)
           .pipe(
             first(),
             tap(() => console.log("Fetching Stories from Server"))
@@ -57,11 +57,28 @@ export class MatchesStoryDetailsComponent implements OnInit {
       })
     );
 
-    this.friendsService.allFriendRequests().subscribe();
+    // permission$ =
+
+    this.route.paramMap
+      .pipe(
+        switchMap((params: ParamMap) => {
+          return this.store.select(
+            selectSentFriendRequest(params.get("userId"))
+          );
+        }),
+        tap(friendRequest => {
+          if (friendRequest) console.log("Have Friend Request", friendRequest);
+          if (friendRequest) return;
+
+          this.friendsService.allFriendRequests().subscribe();
+        })
+      )
+      .subscribe();
   }
 
   // Events & Cbs
   sendFriendRequest() {
+    // requested | accepted | rejected
     this.friendsService
       .sendFriendRequest(this.matchedUserId)
       .subscribe(res => {}, err => {});

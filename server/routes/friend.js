@@ -13,11 +13,11 @@ module.exports = app => {
     const { userId } = req.params;
 
     try {
-      const friendsRequests = await FriendRequest.find({
+      const friendsRequest = await FriendRequest.find({
         $or: [{ requester: userId }, { recipient: userId }]
       });
 
-      serverRes(res, 200, null, { friendsRequests });
+      serverRes(res, 200, null, { friendsRequest });
     } catch (err) {
       console.log("Err: Get Friend Requests", err);
       const msg = getErrMsg("err", "fetch", "friend request");

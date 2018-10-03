@@ -14,6 +14,12 @@ import { HttpRes } from "../models/http-res.model";
 // Services
 import { HttpService } from "./http.service";
 // Actions
+import {
+  FriendsRequested,
+  FriendsLoaded,
+  FriendRequestRequested,
+  FriendRequestLoaded
+} from "../friend/friend.actions";
 
 @Injectable({
   providedIn: "root"
@@ -59,12 +65,16 @@ export class FriendService {
 
   // Get all Friends Request Sent or Received
   allFriendRequests(): Observable<HttpRes> {
+    this.store.dispatch(new FriendRequestRequested());
     return this.httpService
       .httpGetRequest(`friend/requests/${this.userId}`)
       .pipe(
         tap((res: HttpRes) => {
           const { payload } = res;
           console.log("getFriendRequests", payload);
+          this.store.dispatch(
+            new FriendRequestLoaded({ friendRequests: payload.friendsRequest })
+          );
         }),
         catchError(err => this.handleError(err))
       );

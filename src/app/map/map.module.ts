@@ -15,8 +15,8 @@ import { AddMapStoryComponent } from "./add-map-story/add-map-story.component";
 import { AddMapStoryFormComponent } from "./add-map-story/add-map-story-form/add-map-story-form.component";
 import { MatchesStoryListComponent } from "./matches-story-list/matches-story-list.component";
 import { MatchesStoryDetailsComponent } from "./matches-story-details/matches-story-details.component";
-import { DetailCardComponent } from "./matches-story-details/detail-card/detail-card.component";
-import { StoryDetailsComponent } from './story-details/story-details.component';
+import { StoryDetailsComponent } from "./story-details/story-details.component";
+import { FriendsPhotosComponent } from './matches-story-details/friends-photos/friends-photos.component';
 
 @NgModule({
   imports: [
@@ -34,8 +34,8 @@ import { StoryDetailsComponent } from './story-details/story-details.component';
     StoryListComponent,
     MatchesStoryListComponent,
     MatchesStoryDetailsComponent,
-    DetailCardComponent,
-    StoryDetailsComponent
+    StoryDetailsComponent,
+    FriendsPhotosComponent
   ]
 })
 export class MapModule {}
