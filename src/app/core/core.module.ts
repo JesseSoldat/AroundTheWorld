@@ -25,6 +25,8 @@ import { SharedModule } from "../shared/shared.module";
 import { NavbarComponent } from "./navbar/navbar.component";
 import { ModalManagerComponent } from "./modals/modal-manager/modal-manager.component";
 import { MatchUsersModalComponent } from "./modals/match-users-modal/match-users-modal.component";
+import { UploadImageModalComponent } from './modals/upload-image-modal/upload-image-modal.component';
+import { FriendRequestModalComponent } from './modals/friend-request-modal/friend-request-modal.component';
 
 @NgModule({
   imports: [
@@ -50,7 +52,9 @@ import { MatchUsersModalComponent } from "./modals/match-users-modal/match-users
   declarations: [
     NavbarComponent,
     ModalManagerComponent,
-    MatchUsersModalComponent
+    MatchUsersModalComponent,
+    UploadImageModalComponent,
+    FriendRequestModalComponent
   ],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }]
 })

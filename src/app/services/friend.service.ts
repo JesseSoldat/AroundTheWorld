@@ -71,7 +71,7 @@ export class FriendService {
       .pipe(
         tap((res: HttpRes) => {
           const { payload } = res;
-          console.log("getFriendRequests", payload);
+          // console.log("getFriendRequests", payload);
           this.store.dispatch(
             new FriendRequestLoaded({ friendRequests: payload.friendsRequest })
           );

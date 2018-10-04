@@ -1,13 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 // Rxjs
 import { Observable } from "rxjs";
-import { tap, switchMap } from "rxjs/operators";
+import { tap, switchMap, filter } from "rxjs/operators";
 // Ngrx
 import { AuthState } from "../../auth/auth.reducer";
 import { Store, select } from "@ngrx/store";
 import { selectIsAuth } from "../../auth/auth.selectors";
 import { selectUserId } from "../../auth/auth.selectors";
 import { selectReceivedFriendRequest } from "../../friend/friend.selector";
+import { OpenModal } from "../modals/modal.actions";
 // Services
 import { AuthService } from "../../services/auth.service";
 import { FriendService } from "../../services/friend.service";
@@ -21,6 +22,7 @@ export class NavbarComponent implements OnInit {
   isAuth$: Observable<boolean>;
   userId$: Observable<string>;
   requestLength: number;
+  friendRequests;
 
   constructor(
     private authService: AuthService,
@@ -40,12 +42,16 @@ export class NavbarComponent implements OnInit {
 
     this.userId$
       .pipe(
+        filter(userId => userId !== null),
         switchMap(userId => {
           return this.store.select(selectReceivedFriendRequest(userId));
         }),
         tap(friendRequest => {
-          // if (friendRequest) console.log(friendRequest);
-          if (friendRequest) return (this.requestLength = friendRequest.length);
+          if (friendRequest) console.log(friendRequest);
+          if (friendRequest) {
+            this.friendRequests = friendRequest;
+            return (this.requestLength = friendRequest.length);
+          }
 
           this.friendService.allFriendRequests().subscribe();
         })
@@ -55,6 +61,9 @@ export class NavbarComponent implements OnInit {
 
   friendRequest() {
     console.log("friends");
+    this.store.dispatch(
+      new OpenModal({ modalType: "friendsRequest", data: this.friendRequests })
+    );
   }
 
   viewFriends() {

@@ -1,0 +1,32 @@
+<ng-template #friendsRequest let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Friend Requests</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+  <div *ngIf="data?.length; else noFriendsRequest" class="modal-body">
+    <ul class="list-group list-group-flush" *ngFor="let friend of data">
+      <li class="list-group-item d-flex justify-content-between">
+        <a href="" (click)="viewProfile(friend.requester, $event)">{{friend.requester.username | titlecase}}</a>
+        <span>
+          <button class="btn btn-secondary mr-2" (click)="acceptRequest(friend.requester)">Deny</button>
+          <button class="btn btn-primary" (click)="denyRequest(friend.requester)">Accept</button>
+        </span>
+      </li>
+    </ul>
+  </div>
+
+  <ng-template #noFriendsRequest>
+    <div class="modal-body">
+      <p>No friends request found.</p>
+    </div>
+  </ng-template>
+
+
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+  </div>
+</ng-template>

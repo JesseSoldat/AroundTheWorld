@@ -15,6 +15,9 @@ module.exports = app => {
     try {
       const friendsRequest = await FriendRequest.find({
         $or: [{ requester: userId }, { recipient: userId }]
+      }).populate({
+        path: "requester",
+        select: ["username"]
       });
 
       serverRes(res, 200, null, { friendsRequest });
