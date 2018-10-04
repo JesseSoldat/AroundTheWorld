@@ -63,6 +63,8 @@ export class MatchUsersModalComponent implements OnInit, OnDestroy {
   }
 
   closeModalAndRoute(match, e) {
+    console.log(match);
+
     e.preventDefault();
     this.closeModal();
     const url = `/map/matches/storyList/${match._id}`;

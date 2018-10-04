@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 // Rxjs
 import { Observable, of } from "rxjs";
@@ -15,7 +15,7 @@ import { StoryService } from "../../services/story.service";
   templateUrl: "./matches-story-list.component.html",
   styleUrls: ["./matches-story-list.component.css"]
 })
-export class MatchesStoryListComponent implements OnInit {
+export class MatchesStoryListComponent implements OnInit, OnDestroy {
   stories$: Observable<any>;
   matchedUserId: string;
 
@@ -34,7 +34,11 @@ export class MatchesStoryListComponent implements OnInit {
         return this.store.select(selectOtherPersonsStoryList);
       }),
       tap(stories => {
-        if (stories !== null) return;
+        if (stories !== null) {
+          console.log("matched user stories", stories);
+          // Check that we have the correct match in the store
+          if (this.matchedUserId === stories[0].user._id) return;
+        }
 
         this.storyService
           .getOtherPersonsStories(this.matchedUserId)
@@ -45,6 +49,10 @@ export class MatchesStoryListComponent implements OnInit {
           .subscribe(res => {}, err => {});
       })
     );
+  }
+
+  ngOnDestroy() {
+    console.log("OnDestroy: matches story list");
   }
 
   navigate(ids) {

@@ -59,6 +59,8 @@ export class MatchesStoryDetailsComponent implements OnInit {
           const matchedUserId = params.get("matchedUserId");
           return this.userId$.pipe(
             tap((userId: string) => {
+              console.log(matchedUserId);
+
               this.store
                 .select(
                   selectReceivedRequestByMatchingUser(matchedUserId, userId)
