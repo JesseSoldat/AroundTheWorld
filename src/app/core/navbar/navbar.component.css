@@ -13,7 +13,7 @@
 a,
 li,
 i {
-  color: black !important;
+  color: black;
 }
 
 i {
@@ -22,10 +22,32 @@ i {
 
 .nav-link {
   cursor: pointer;
+  color: black !important;
 }
 
 .friendBtnGroup {
   margin-top: 6px;
+}
+
+.noFriendsRequest {
+  cursor: not-allowed;
+}
+
+.friendRequestMenuBadge {
+  margin-top: 2px;
+}
+
+.friendRequestWrapperXs {
+  position: relative;
+  cursor: not-allowed;
+}
+.friendRequestMenuBadgedXs {
+  position: absolute;
+  top: 13px;
+}
+.friendRequestMenuBadgeXs {
+  position: absolute;
+  top: 21px;
 }
 
 @media (max-width: 768px) {

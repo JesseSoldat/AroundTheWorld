@@ -25,10 +25,17 @@
 
 
 
-      <li class="nav-item d-none d-sm-block d-md-none" routerLinkActive="active">
-        <a class="nav-link" [routerLink]="link">
+      <li *ngIf="!requestLength" class="friendRequestWrapperXs nav-item d-none d-sm-block d-md-none text-muted" disable>
+        <a>
           <span>Friend Request</span>
-          <span *ngIf="requestLength" class="badge badge-pill badge-danger ml-2">{{requestLength}}</span>
+          <span class="friendRequestMenuBadgedXs badge badge-pill badge-info ml-2">0</span>
+        </a>
+      </li>
+
+      <li *ngIf="requestLength" class="friendRequestWrapperXs nav-item d-none d-sm-block d-md-none" routerLinkActive="active">
+        <a class="nav-link" (click)="friendRequest()">
+          <span>Friend Request</span>
+          <span class="friendRequestMenuBadgeXs badge badge-pill badge-danger ml-2">{{requestLength}}</span>
         </a>
       </li>
 
@@ -47,9 +54,13 @@
             <span *ngIf="requestLength" class="badge badge-pill badge-danger ml-2">{{requestLength}}</span>
           </button>
           <div class="dropdown-menu dropdown-menu-right">
-            <button class="dropdown-item d-flex" type="button" (click)="friendRequest()">
+            <button *ngIf="!requestLength" class="dropdown-item d-flex noFriendsRequest" disabled type="button" (click)="friendRequest()">
               <span>Friend Request</span>
-              <span *ngIf="requestLength" class="badge badge-pill badge-danger ml-2">{{requestLength}}</span>
+              <span class="friendRequestMenuBadge badge badge-pill badge-info ml-2">0</span>
+            </button>
+            <button *ngIf="requestLength" class="dropdown-item d-flex" type="button" (click)="friendRequest()">
+              <span>Friend Request</span>
+              <span *ngIf="requestLength" class="friendRequestMenuBadge badge badge-pill badge-danger ml-2">{{requestLength}}</span>
             </button>
             <button class="dropdown-item" type="button" (click)="viewFriends()">View Friends </button>
             <div class="dropdown-divider"></div>

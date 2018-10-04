@@ -1,29 +1,4 @@
-<ng-template #matchUser let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">You Matched {{data?.length}} Users</h4>
-    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
-
-  <div class="modal-body">
-    <ul class="list-group list-group-flush" *ngFor="let match of data">
-      <li class="list-group-item">
-        <span>{{match.userInfo[0].username | titlecase}} has {{match.length}} {{match.length === 1
-          ? 'story' :
-          'stories'}} found near your location.</span><br>
-        <a href="" (click)="closeModalAndRoute(match, $event)">Check out
-          their stories.</a>
-      </li>
-    </ul>
-  </div>
-
-  <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button>
-  </div>
-</ng-template>
-
-<ng-template #uploadImage let-modal>
+<!-- <ng-template #uploadImage let-modal>
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">Add Some Photos to your Story?</h4>
     <button type="button" class="close" aria-label="Close" (click)="closeModalAndNav()">
@@ -34,4 +9,7 @@
     <button type="button" class="btn btn-danger" (click)="closeModalAndNav()">Close</button>
     <button class="btn btn-primary" (click)="closeModalAndUploadPhoto()">Upload Image</button>
   </div>
-</ng-template>
+</ng-template> -->
+
+
+<app-match-users-modal [modalType$]="modalType$" [modalData$]="modalData$"></app-match-users-modal>

@@ -1,11 +1,12 @@
-import { Component, ViewChild, OnInit, AfterViewInit } from "@angular/core";
+import { Component, ViewChild, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { tap, filter } from "rxjs/operators";
+import { tap, filter, switchMap } from "rxjs/operators";
+import { Observable } from "rxjs";
 // Ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../../reducers";
-import { selectModalState } from "../modal.selector";
+import { selectModalType, selectModalData } from "../modal.selector";
 import { CloseModal } from "../modal.actions";
 
 @Component({
@@ -13,12 +14,14 @@ import { CloseModal } from "../modal.actions";
   templateUrl: "./modal-manager.component.html",
   styleUrls: ["./modal-manager.component.css"]
 })
-export class ModalManagerComponent implements OnInit, AfterViewInit {
-  data;
+export class ModalManagerComponent implements OnInit {
   @ViewChild("matchUser")
   matchUser;
   @ViewChild("uploadImage")
   uploadImage;
+
+  modalData$: Observable<any>;
+  modalType$: Observable<string>;
 
   constructor(
     private modalService: NgbModal,
@@ -27,67 +30,25 @@ export class ModalManagerComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit() {
-    this.store
-      .pipe(
-        select(selectModalState),
-        filter(modalState => modalState.modalType !== null),
-        tap(modalState => {
-          // console.log(modalState);
-          switch (modalState.modalType) {
-            case "matchUser":
-              this.data = modalState.data.match;
-              this.open(this.matchUser);
-              break;
+    this.modalType$ = this.store.pipe(select(selectModalType));
 
-            case "uploadPhotos":
-              this.data = modalState.data;
-              console.log("upload", this.data);
-
-              this.open(this.uploadImage);
-              break;
-
-            default:
-              break;
-          }
-        })
-      )
-      .subscribe();
-  }
-
-  ngAfterViewInit() {}
-
-  open(content) {
-    this.modalService.open(content, { ariaLabelledBy: "modal-basic-title" });
-  }
-
-  // Use for all modals
-  closeModal() {
-    this.modalService.dismissAll();
-    this.store.dispatch(new CloseModal());
-  }
-
-  // matchUser Modal
-  closeModalAndRoute(match, e) {
-    e.preventDefault();
-    this.closeModal();
-    const url = `/map/matches/storyList/${match._id}`;
-    this.router.navigateByUrl(url);
+    this.modalData$ = this.store.pipe(select(selectModalData));
   }
 
   // uploadImage Modal
-  closeModalAndNav() {
-    this.closeModal();
-    const userId = this.data.story.user;
-    const storyId = this.data.story._id;
-    const url = `/map/storyDetails/${userId}/${storyId}`;
-    this.router.navigateByUrl(url);
-  }
-  closeModalAndUploadPhoto() {
-    this.closeModal();
-    const userId = this.data.story.user;
-    const storyId = this.data.story._id;
-    const url = `/uploadImage/${userId}/${storyId}`;
+  // closeModalAndNav() {
+  //   this.closeModal();
+  //   const userId = this.data.story.user;
+  //   const storyId = this.data.story._id;
+  //   const url = `/map/storyDetails/${userId}/${storyId}`;
+  //   this.router.navigateByUrl(url);
+  // }
+  // closeModalAndUploadPhoto() {
+  //   this.closeModal();
+  //   const userId = this.data.story.user;
+  //   const storyId = this.data.story._id;
+  //   const url = `/uploadImage/${userId}/${storyId}`;
 
-    this.router.navigateByUrl(url);
-  }
+  //   this.router.navigateByUrl(url);
+  // }
 }

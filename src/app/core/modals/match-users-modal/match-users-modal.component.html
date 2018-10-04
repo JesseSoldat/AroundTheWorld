@@ -1,6 +1,33 @@
-<form>
-  <div class="form-group">
-    <label>You matched the following users</label>
+<ng-template #matchUser let-modal>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">You Matched {{data?.match.length}} Users</h4>
 
+
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
-</form>
+
+  <div *ngIf="data?.match.length; else noMatches" class="modal-body">
+    <ul class="list-group list-group-flush" *ngFor="let match of data.match">
+      <li class="list-group-item">
+        <span>{{match.userInfo[0].username | titlecase}} has {{match.length}} {{match.length === 1
+          ? 'story' :
+          'stories'}} found near your location.</span><br>
+        <a href="" (click)="closeModalAndRoute(match, $event)">Check out
+          their stories.</a>
+      </li>
+    </ul>
+  </div>
+
+  <ng-template #noMatches>
+    <div class="modal-body">
+      <p>No matches found. Try increasing the distance from your story.</p>
+    </div>
+  </ng-template>
+
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button>
+  </div>
+</ng-template>
