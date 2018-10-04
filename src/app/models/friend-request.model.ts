@@ -1,5 +1,10 @@
+interface User {
+  _id: String;
+  username: String;
+}
+
 export interface FriendRequest {
-  requester: String;
-  recipient: String;
+  requester: User;
+  recipient: User;
   status: String;
 }

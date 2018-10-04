@@ -14,11 +14,28 @@ export const selectFriendRequests = createSelector(
   }
 );
 
-// Check if I sent a request to this persons or not
-export const selectSentFriendRequest = (personId: string) => {
+// Check for Received Request by matching user
+export const selectReceivedRequestByMatchingUser = (
+  matchedUserId: string,
+  userId: string
+) => {
   return createSelector(selectFriendRequests, friendRequests => {
     if (friendRequests === null) return null;
-    const request = friendRequests.find(obj => obj.recipient === personId);
+    const request = friendRequests.find(
+      obj => obj.recipient._id === userId && obj.requester._id === matchedUserId
+    );
+    // status notRequested if the request has not been made yet
+    return request ? request : { status: "notRequested" };
+  });
+};
+
+// Check if I sent a request to this persons or not
+export const selectSentFriendRequest = (matchedUserId: string) => {
+  return createSelector(selectFriendRequests, friendRequests => {
+    if (friendRequests === null) return null;
+    const request = friendRequests.find(
+      obj => obj.recipient._id === matchedUserId
+    );
     // status notRequested if the request has not been made yet
     return request ? request : { status: "notRequested" };
   });
@@ -29,7 +46,7 @@ export const selectReceivedFriendRequest = userId => {
   return createSelector(selectFriendRequests, friendRequests => {
     if (userId === null || friendRequests === null) return null;
     const friendRequest = friendRequests.filter(
-      obj => obj.recipient === userId
+      obj => obj.recipient._id === userId
     );
     return friendRequest.length ? friendRequest : null;
   });

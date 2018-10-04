@@ -23,9 +23,6 @@ export class ModalManagerComponent implements OnInit {
       shareReplay()
     );
 
-    this.modalData$ = this.store.pipe(
-      select(selectModalData),
-      shareReplay()
-    );
+    this.modalData$ = this.store.pipe(select(selectModalData));
   }
 }

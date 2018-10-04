@@ -29,12 +29,21 @@
         </ngb-panel>
         <ngb-panel title="Photos">
           <ng-template ngbPanelContent>
-            <div *ngIf="(permission$ | async) as permission; else showSmallSpinner">
+
+            <div *ngIf="(permission$ | async) as permission">
               <app-friends-photos [story]="story" [permission]="permission">
               </app-friends-photos>
             </div>
 
-            <ng-template #showSmallSpinner>
+            <!-- received a friends request from this user -->
+            <div *ngIf="receivedRequest" class="d-flex justify-content-between align-items-start">
+              <p>To view photos use must be friends. It looks like you have received a friends request from this user
+                already.</p>
+              <button class="btn btn-primary btn-sm" (click)="addUserToFriends(receivedRequest)">Add to Friends</button>
+            </div>
+
+            <!-- loading -->
+            <!-- <ng-template #showSmallSpinner>
               <div class="row">
                 <div class="col-12 d-flex justify-content-center">
                   <div class="spinnerSmallWrapper">
@@ -42,8 +51,7 @@
                   </div>
                 </div>
               </div>
-
-            </ng-template>
+            </ng-template> -->
 
           </ng-template>
         </ngb-panel>

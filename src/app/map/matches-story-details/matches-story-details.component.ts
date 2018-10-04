@@ -1,14 +1,17 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 // Rxjs
-import { switchMap, tap, first } from "rxjs/operators";
+import { switchMap, tap, first, shareReplay } from "rxjs/operators";
 import { Observable, of } from "rxjs";
 // Ngrx
 import { Store } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { selectOtherPersonsStory } from "../story.selector";
-import { selectSentFriendRequest } from "../../friend/friend.selector";
-
+import {
+  selectSentFriendRequest,
+  selectReceivedRequestByMatchingUser
+} from "../../friend/friend.selector";
+import { selectUserId } from "../../auth/auth.selectors";
 // Services
 import { StoryService } from "../../services/story.service";
 import { FriendService } from "../../services/friend.service";
@@ -21,7 +24,11 @@ import { FriendService } from "../../services/friend.service";
 export class MatchesStoryDetailsComponent implements OnInit {
   story$: Observable<any>;
   permission$: Observable<any>;
-  matchedUserId: string;
+  matchedUserId: string; // TEMP using for the go back btn
+
+  matchedUserId$: Observable<ParamMap>;
+  userId$: Observable<string>;
+  receivedRequest;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,15 +39,69 @@ export class MatchesStoryDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.story$ = this.route.paramMap.pipe(
+    this.matchedUserId$ = this.route.paramMap;
+
+    this.getMatchedUsersStories();
+
+    // Check if Friend
+    const isFriend = false;
+    if (isFriend) {
+      // TODO user friends selector pass matchedUser id
+      return;
+    }
+
+    // Check for Friends Request Status Requested || Received
+    this.userId$ = this.store.select(selectUserId);
+    // this.receivedRequest$ =
+    this.matchedUserId$
+      .pipe(
+        switchMap((params: ParamMap) => {
+          const matchedUserId = params.get("matchedUserId");
+          return this.userId$.pipe(
+            tap((userId: string) => {
+              this.store
+                .select(
+                  selectReceivedRequestByMatchingUser(matchedUserId, userId)
+                )
+                .subscribe(receivedRequest => {
+                  this.receivedRequest = receivedRequest;
+                  console.log("receivedRequest", receivedRequest);
+                });
+            })
+          );
+        })
+      )
+      .subscribe();
+
+    // this.permission$ =
+    this.matchedUserId$
+      .pipe(
+        switchMap((params: ParamMap) => {
+          // return of(null);
+          return this.store.select(
+            selectSentFriendRequest(params.get("matchedUserId"))
+          );
+        }),
+        tap(friendRequest => {
+          if (friendRequest) console.log("sentRequest", friendRequest);
+          if (friendRequest) return;
+
+          this.friendsService.allFriendRequests().subscribe();
+        })
+      )
+      .subscribe();
+  }
+
+  getMatchedUsersStories() {
+    this.story$ = this.matchedUserId$.pipe(
       switchMap((params: ParamMap) => {
-        this.matchedUserId = params.get("userId");
+        this.matchedUserId = params.get("matchedUserId");
         return this.store.select(
           selectOtherPersonsStory(params.get("storyId"))
         );
       }),
       tap(story => {
-        if (story) console.log("Have Story", story);
+        // if (story) console.log("Have Story", story);
         if (story) return;
 
         this.storyService
@@ -57,22 +118,12 @@ export class MatchesStoryDetailsComponent implements OnInit {
           );
       })
     );
-
-    this.permission$ = this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => {
-        // return of(null);
-        return this.store.select(selectSentFriendRequest(params.get("userId")));
-      }),
-      tap(friendRequest => {
-        if (friendRequest) console.log("Have Friend Request", friendRequest);
-        if (friendRequest) return;
-
-        this.friendsService.allFriendRequests().subscribe();
-      })
-    );
   }
 
   // Events & Cbs
+  addUserToFriends(receivedRequest) {
+    console.log(receivedRequest);
+  }
   goBack() {
     this.router.navigateByUrl(`/map/matches/storyList/${this.matchedUserId}`);
   }

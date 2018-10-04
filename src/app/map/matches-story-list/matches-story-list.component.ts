@@ -17,7 +17,7 @@ import { StoryService } from "../../services/story.service";
 })
 export class MatchesStoryListComponent implements OnInit {
   stories$: Observable<any>;
-  userId: string;
+  matchedUserId: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,7 +29,7 @@ export class MatchesStoryListComponent implements OnInit {
   ngOnInit() {
     this.stories$ = this.route.paramMap.pipe(
       switchMap((params: ParamMap) => {
-        this.userId = params.get("userId");
+        this.matchedUserId = params.get("matchedUserId");
         //return of([]);
         return this.store.select(selectOtherPersonsStoryList);
       }),
@@ -37,7 +37,7 @@ export class MatchesStoryListComponent implements OnInit {
         if (stories !== null) return;
 
         this.storyService
-          .getOtherPersonsStories(this.userId)
+          .getOtherPersonsStories(this.matchedUserId)
           .pipe(
             first(),
             tap(() => console.log("Fetching Stories from Server"))
