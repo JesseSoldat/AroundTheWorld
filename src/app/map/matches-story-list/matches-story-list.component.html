@@ -1,7 +1,7 @@
 <div class="storyListWrapper">
 
   <div *ngIf="(stories$ | async) as stories; else showSpinner">
-    <app-heading heading="{{stories.length ? (stories[0].user.username | titlecase) : ''}}{{stories.length ? 's Stories' : 'No Stories'}}"></app-heading>
+    <app-heading heading="{{stories.length ? (stories[0].user.username | titlecase) : ''}}{{stories.length ? '\'s Stories' : 'No Stories'}}"></app-heading>
 
     <div class="row">
 

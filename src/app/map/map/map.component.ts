@@ -23,8 +23,6 @@ export class MapComponent implements OnInit {
   ngOnInit() {}
 
   onSetMarker(event) {
-    console.log(event);
-
     this.marker = event.coords;
   }
 

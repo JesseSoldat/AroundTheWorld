@@ -20,6 +20,7 @@ import { FriendService } from "../../services/friend.service";
 export class NavbarComponent implements OnInit {
   isAuth$: Observable<boolean>;
   userId$: Observable<string>;
+  requestLength: number;
 
   constructor(
     private authService: AuthService,
@@ -43,8 +44,8 @@ export class NavbarComponent implements OnInit {
           return this.store.select(selectReceivedFriendRequest(userId));
         }),
         tap(friendRequest => {
-          if (friendRequest) console.log(friendRequest);
-          if (friendRequest) return;
+          // if (friendRequest) console.log(friendRequest);
+          if (friendRequest) return (this.requestLength = friendRequest.length);
 
           this.friendService.allFriendRequests().subscribe();
         })

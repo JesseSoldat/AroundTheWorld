@@ -27,9 +27,10 @@ export const selectSentFriendRequest = (personId: string) => {
 // Check if I have any friends request
 export const selectReceivedFriendRequest = userId => {
   return createSelector(selectFriendRequests, friendRequests => {
-    console.log("userId", userId);
-    console.log("request", friendRequests);
-
-    if (userId === null) return null;
+    if (userId === null || friendRequests === null) return null;
+    const friendRequest = friendRequests.filter(
+      obj => obj.recipient === userId
+    );
+    return friendRequest.length ? friendRequest : null;
   });
 };

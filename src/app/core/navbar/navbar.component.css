@@ -24,6 +24,10 @@ i {
   cursor: pointer;
 }
 
+.friendBtnGroup {
+  margin-top: 6px;
+}
+
 @media (max-width: 768px) {
   .nav-item {
     padding-top: 10px;

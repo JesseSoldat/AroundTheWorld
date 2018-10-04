@@ -6,6 +6,7 @@ const linkMap: LinkMap = {
   dashboard: "/dashboard",
   map: "/map",
   stories: "/map/storyList",
+  friends: "/friends",
   register: "/register",
   login: "/login"
 };
