@@ -7,7 +7,7 @@ const isAuth = require("../middleware/isAuth");
 const { serverRes, getMsg, getErrMsg } = require("../utils/serverRes");
 
 module.exports = app => {
-  // --------------------- Register -----------------------------
+  // ----------------- Register -----------------------
   app.post("/api/register", authCheckForm, async (req, res) => {
     const { username, email, password } = req.body;
     // console.log(req.locals);
@@ -44,7 +44,7 @@ module.exports = app => {
     }
   });
 
-  // --------------------- Login -----------------------------
+  // ----------------- Login ------------------------
   app.post("/api/login", authCheckForm, async (req, res) => {
     const { email, password } = req.body;
 

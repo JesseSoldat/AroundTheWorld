@@ -49,7 +49,7 @@ export class StoryService {
     return of({ msg: err.error.msg, payload: null });
   }
 
-  //----------------------  Api Calls ------------------------------
+  //------------------  Api Calls -----------------------
 
   // Get All Stories
   getMyStories(): Observable<HttpRes> {
