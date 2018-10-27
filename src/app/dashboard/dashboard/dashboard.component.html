@@ -1,12 +1,17 @@
-<div class="dashboardWrapper">
-  <app-heading heading="Dashboard"></app-heading>
+<div class="row mx-1">
 
-  <div class="row">
-    <div *ngIf="(cardData$ | async) as data" class="col-12 d-flex flex-wrap justify-content-around my-4">
-      <app-tile-card [data]="data['mapIt']"></app-tile-card>
-      <app-tile-card [data]="data['storyList']"></app-tile-card>
-      <app-tile-card [data]="data['friends']"></app-tile-card>
+  <div class="col-12">
+
+    <app-heading heading="Dashboard"></app-heading>
+
+    <div class="bulletinBg">
+      <div *ngIf="(cardData$ | async) as data" class=" d-flex flex-wrap justify-content-around my-4">
+        <app-tile-card [data]="data['mapIt']"></app-tile-card>
+        <app-tile-card [data]="data['storyList']"></app-tile-card>
+        <app-tile-card [data]="data['friends']"></app-tile-card>
+      </div>
     </div>
+
   </div>
 
 </div>

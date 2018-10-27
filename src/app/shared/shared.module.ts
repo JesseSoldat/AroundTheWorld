@@ -24,6 +24,8 @@ import { TileCardComponent } from "./components/tile-card/tile-card.component";
 import { SpinnerComponent } from "./components/spinner/spinner.component";
 import { ListCardComponent } from "./components/list-card/list-card.component";
 import { ImgCardComponent } from "./components/img-card/img-card.component";
+import { TopRowBtnsComponent } from "./components/buttons/top-row-btns/top-row-btns.component";
+import { BottomRowBtnsComponent } from "./components/buttons/bottom-row-btns/bottom-row-btns.component";
 
 const routes: Routes = [];
 
@@ -49,7 +51,9 @@ const routes: Routes = [];
     TileCardComponent,
     SpinnerComponent,
     ListCardComponent,
-    ImgCardComponent
+    ImgCardComponent,
+    TopRowBtnsComponent,
+    BottomRowBtnsComponent
   ],
   exports: [
     CommonModule,
@@ -69,7 +73,9 @@ const routes: Routes = [];
     TileCardComponent,
     SpinnerComponent,
     ListCardComponent,
-    ImgCardComponent
+    ImgCardComponent,
+    TopRowBtnsComponent,
+    BottomRowBtnsComponent
   ]
 })
 export class SharedModule {}

@@ -26,6 +26,12 @@ body {
   position: relative;
 }
 
+.bulletinBg {
+  background: url(./assets/img/sand.jpg) repeat;
+  min-height: 500px;
+  padding: 30px 10px;
+}
+
 /* margins */
 @media (max-width: 575.98px) {
   .mTopXsSmall {
