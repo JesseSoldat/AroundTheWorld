@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from "@angular/core";
+import { Component, Output, EventEmitter, OnInit, Input } from "@angular/core";
 
 @Component({
   selector: "app-heading",
@@ -8,8 +8,21 @@ import { Component, OnInit, Input } from "@angular/core";
 export class HeadingComponent implements OnInit {
   @Input()
   heading: string;
+  @Input()
+  backBtn;
+  @Input()
+  editBtn;
+  @Input()
+  deleteBtn;
+
+  @Output()
+  btnClick: EventEmitter<string> = new EventEmitter();
 
   constructor() {}
 
   ngOnInit() {}
+
+  onBtnClick($event) {
+    this.btnClick.emit($event);
+  }
 }

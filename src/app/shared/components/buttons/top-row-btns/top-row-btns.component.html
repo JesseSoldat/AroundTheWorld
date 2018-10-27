@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-12">
 
-    <div class="float-left">
+    <div *ngIf="backBtn" class="float-left">
       <button (click)="goBack()" class="btn-secondary">
         <i class="fas fa-chevron-left"></i>
         Go Back
@@ -10,11 +10,11 @@
 
 
     <div class="float-right">
-      <button (click)="delete()" class="btn-danger mr-1">
+      <button *ngIf="deleteBtn" (click)="delete()" class="btn-danger mr-1">
         <i class="fas fa-trash-alt"></i>
         Delete
       </button>
-      <button (click)="edit()" class="btn-secondary">
+      <button *ngIf="editBtn" (click)="edit()" class="btn-secondary">
         <i class="fas fa-edit"></i>
         Edit
       </button>

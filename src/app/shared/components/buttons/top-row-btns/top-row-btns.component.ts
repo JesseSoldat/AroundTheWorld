@@ -1,18 +1,29 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input, Output, EventEmitter } from "@angular/core";
 
 @Component({
   selector: "app-top-row-btns",
   templateUrl: "./top-row-btns.component.html",
   styleUrls: ["./top-row-btns.component.css"]
 })
-export class TopRowBtnsComponent implements OnInit {
-  constructor() {}
+export class TopRowBtnsComponent {
+  @Output()
+  onBtnClick: EventEmitter<string> = new EventEmitter();
+  @Input()
+  backBtn;
+  @Input()
+  editBtn;
+  @Input()
+  deleteBtn;
 
-  ngOnInit() {}
+  goBack() {
+    this.onBtnClick.emit("back");
+  }
 
-  goBack() {}
+  delete() {
+    this.onBtnClick.emit("delete");
+  }
 
-  delete() {}
-
-  edit() {}
+  edit() {
+    this.onBtnClick.emit("edit");
+  }
 }
