@@ -1,0 +1,11 @@
+.welcomeWrapper {
+  background: url(../../../assets/img/world-large.svg) no-repeat center center;
+  position: absolute;
+  width: 100%;
+  top: 10px;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  height: 1300px;
+}

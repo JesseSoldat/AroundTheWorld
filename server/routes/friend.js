@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-const ObjectId = mongoose.Types.ObjectId;
 // Models
 const FriendRequest = require("../models/friend");
 // Middleware
