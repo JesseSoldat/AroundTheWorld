@@ -32,19 +32,23 @@ export class FriendService {
     private store: Store<AppState>,
     private router: Router
   ) {
+    this.getUserId();
+  }
+
+  // Helpers
+  handleError(err) {
+    console.error("friend service handleError:", err);
+    this.store.dispatch(new ShowMsg({ msg: err.error.msg }));
+    return of({ msg: err.error.msg, payload: null });
+  }
+
+  getUserId() {
     this.store
       .pipe(
         select(selectUserId),
         tap((userId: string) => (this.userId = userId))
       )
       .subscribe();
-  }
-
-  // Helpers
-  handleError(err) {
-    console.error("handleError:", err);
-    this.store.dispatch(new ShowMsg({ msg: err.error.msg }));
-    return of({ msg: err.error.msg, payload: null });
   }
 
   //----------------------  Api Calls ------------------------------

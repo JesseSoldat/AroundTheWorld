@@ -51,26 +51,23 @@ export class RegisterComponent implements OnInit {
   // Form Setup
   initializeForm() {
     this.registerForm = this.formBuilder.group({
-      username: new FormControl("jesse", [
+      username: new FormControl("", [
         Validators.required,
         Validators.minLength(3),
         Validators.maxLength(15)
       ]),
-      email: new FormControl("jlab@jlab.com", [
-        Validators.required,
-        Validators.email
-      ]),
+      email: new FormControl("", [Validators.required, Validators.email]),
       passwordGroup: this.formBuilder.group(
         {
           password: [
-            "123456",
+            "",
             [
               Validators.required,
               Validators.minLength(6),
               Validators.maxLength(15)
             ]
           ],
-          confirmPassword: ["123456", [Validators.required]]
+          confirmPassword: ["", [Validators.required]]
         },
         {
           validator: confirmPasswordValidator

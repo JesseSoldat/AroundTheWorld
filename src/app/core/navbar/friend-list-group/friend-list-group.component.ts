@@ -10,8 +10,7 @@ export class FriendListGroupComponent {
   friendRequest = new EventEmitter();
   @Output()
   logout = new EventEmitter();
-  @Output()
-  viewFriends: EventEmitter<string> = new EventEmitter();
+
   @Input()
   requestLength: number;
 
@@ -21,9 +20,5 @@ export class FriendListGroupComponent {
 
   onLogout() {
     this.logout.emit();
-  }
-
-  onViewFriends() {
-    this.viewFriends.emit("friend");
   }
 }

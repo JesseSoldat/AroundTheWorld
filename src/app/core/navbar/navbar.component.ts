@@ -34,58 +34,59 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.checkForAuthenticatedUser();
+    this.getUserId();
+    this.getFriendRequests();
+  }
+
+  // store & api calls
+  checkForAuthenticatedUser() {
     this.isAuth$ = this.store.pipe(
       select(selectIsAuth),
       tap(isAuth => (this.isAuth = isAuth))
     );
+  }
 
+  getUserId() {
     this.userId$ = this.store.pipe(
       select(selectUserId),
       tap(userId => {
         if (!userId) return;
       })
     );
+  }
 
+  getFriendRequests() {
     this.userId$
       .pipe(
         filter(userId => userId !== null),
         switchMap(userId => {
           return this.store.select(selectReceivedFriendRequest(userId));
         }),
-        tap(friendRequest => {
-          if (friendRequest) console.log(friendRequest);
-          if (friendRequest) {
-            this.friendRequests = friendRequest;
-            return (this.requestLength = friendRequest.length);
+        tap(receivedFriendRequest => {
+          if (receivedFriendRequest)
+            console.log("receivedFriendRequest", receivedFriendRequest);
+          // fetch friendRequest from store
+          if (receivedFriendRequest) {
+            this.friendRequests = receivedFriendRequest;
+            return (this.requestLength = receivedFriendRequest.length);
           }
-
+          // fetch friendRequest from api
           this.friendService.allFriendRequests().subscribe();
         })
       )
       .subscribe();
   }
 
+  // cbs & events
   friendRequest() {
     this.store.dispatch(
       new OpenModal({ modalType: "friendsRequest", data: this.friendRequests })
     );
   }
 
-  navigateTo(route) {
-    let url;
-
-    switch (route) {
-      case "home":
-        url = this.isAuth ? "/dashboard" : "/";
-        break;
-
-      case "friends":
-        url = "/friends";
-
-      default:
-        break;
-    }
-
+  navigateTo() {
+    const url = this.isAuth ? "/dashboard" : "/";
     this.router.navigateByUrl(url);
   }
 

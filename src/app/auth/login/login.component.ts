@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-// Rxjs
+// rxjs
 import { of, Observable } from "rxjs";
 import {
   FormBuilder,
@@ -7,15 +7,15 @@ import {
   FormControl,
   Validators
 } from "@angular/forms";
-// Models
+// models
 import { Auth } from "../../models/auth.model";
 import { InputGroup } from "../../models/input-group.model";
 import { HttpRes } from "../../models/http-res.model";
-// Data
+// data
 import { formGroupData } from "../formGroupData";
-// Helpers
+// helpers
 import { fieldValidation } from "../../utils/validation/fieldValidation";
-// Services
+// services
 import { AuthService } from "../../services/auth.service";
 
 @Component({
@@ -25,9 +25,9 @@ import { AuthService } from "../../services/auth.service";
 })
 export class LoginComponent implements OnInit {
   formGroupData$: Observable<InputGroup> = null;
-  // Form
+  // form
   loginForm: FormGroup;
-  // Form Errors
+  // form errors
   controlNameErrs = {
     email: null,
     password: null
@@ -43,23 +43,20 @@ export class LoginComponent implements OnInit {
     this.formGroupData$ = of(formGroupData);
   }
 
-  // Form Setup
+  // form setup
   initializeForm() {
     this.loginForm = this.formBuilder.group({
-      email: new FormControl("jlab@jlab.com", [
-        Validators.required,
-        Validators.email
-      ]),
-      password: new FormControl("123456", [Validators.required])
+      email: new FormControl("", [Validators.required, Validators.email]),
+      password: new FormControl("", [Validators.required])
     });
   }
 
-  // Helpers -----------------------------------
+  // helpers -----------------------------------
   createErrMsg(controlName: string, currentControlErr) {
     this.controlNameErrs[controlName] = fieldValidation(currentControlErr);
   }
 
-  // Events & Cbs ---------------------------
+  // events & cbs ---------------------------
   blurEvent(controlName: string) {
     const currentControlErr = this.loginForm.get(controlName).errors;
     this.createErrMsg(controlName, currentControlErr);

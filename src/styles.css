@@ -35,8 +35,8 @@ body {
 .cursorPointer {
   cursor: pointer;
 }
-.cursorNone {
-  cursor: none;
+.cursorNotAllowed {
+  cursor: not-allowed;
 }
 
 /* margins */

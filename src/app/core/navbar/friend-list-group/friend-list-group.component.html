@@ -1,12 +1,13 @@
 <!-- no requests -->
-<li *ngIf="!requestLength" class="friendRequestWrapperXs nav-item d-none d-sm-block d-md-none text-muted mb-2" disable>
+<li *ngIf="!requestLength" class="friendRequestWrapperXs nav-item d-none d-sm-block d-md-none text-muted mb-2 cursorNotAllowed"
+  disable>
   <i class="fas fa-user-plus mr-1"></i>
   <span>Friend Request</span>
   <span class="friendRequestMenuBadgedXs badge badge-pill badge-info ml-2">0</span>
 </li>
 
 <!-- requests -->
-<li *ngIf="requestLength" (click)="onFriendRequest()" class="friendRequestWrapperXs nav-item d-none d-sm-block d-md-none mb-2">
+<li *ngIf="requestLength" (click)="onFriendRequest()" class="friendRequestWrapperXs nav-item d-none d-sm-block d-md-none mb-2 cursorPointer">
   <i class="fas fa-user-plus mr-1"></i>
   <span>Friend Request</span>
   <span class="friendRequestMenuBadgeXs badge badge-pill badge-danger ml-2">{{requestLength}}</span>

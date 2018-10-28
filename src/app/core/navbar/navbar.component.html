@@ -26,12 +26,10 @@
       <app-link text="Stories" icon="fas fa-atlas mr-1"></app-link>
 
       <!-- friendListGroup -->
-      <app-friend-list-group (friendRequest)="friendRequest()" (viewFriends)="navigateTo($event)" (logout)="logout()"
-        [requestLength]="requestLength"></app-friend-list-group>
+      <app-friend-list-group (friendRequest)="friendRequest()" (logout)="logout()" [requestLength]="requestLength"></app-friend-list-group>
 
       <!-- friendBtnGroup -->
-      <app-friend-btn-group (friendRequest)="friendRequest()" (viewFriends)="navigateTo($event)" (logout)="logout()"
-        [requestLength]="requestLength"></app-friend-btn-group>
+      <app-friend-btn-group (friendRequest)="friendRequest()" (logout)="logout()" [requestLength]="requestLength"></app-friend-btn-group>
 
     </ul>
 

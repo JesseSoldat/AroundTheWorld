@@ -27,6 +27,7 @@ export class AuthService {
 
   // Helpers
   handleError(err) {
+    console.log("auth service err", err);
     this.store.dispatch(new ShowMsg({ msg: err.msg }));
     return of({ msg: err.msg, payload: null });
   }
@@ -49,6 +50,11 @@ export class AuthService {
         const { token } = payload;
         const user: User = this.fromTokenToUser(token);
 
+        // token must be send before login action is dispatched
+        // when user logs in a call to request friends is sent
+        // the auth interceptor will nee the token
+        localStorage.setItem("token", token);
+
         this.store.dispatch(new ShowMsg({ msg }));
         this.store.dispatch(new Register({ user, token }));
       }),
@@ -62,6 +68,11 @@ export class AuthService {
         const { msg, payload } = res;
         const { token } = payload;
         const user: User = this.fromTokenToUser(token);
+
+        // token must be send before login action is dispatched
+        // when user logs in a call to request friends is sent
+        // the auth interceptor will nee the token
+        localStorage.setItem("token", token);
 
         this.store.dispatch(new ShowMsg({ msg }));
         this.store.dispatch(new Login({ user, token }));
