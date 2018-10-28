@@ -19,6 +19,9 @@ export function profileReducer(state = initialProfileState, action) {
     case AuthActionTypes.LogoutAction:
       return { profile: null };
 
+    case ProfileActionTypes.ProfileLoaded:
+      return { profile: { ...payload.profile } };
+
     default:
       return { ...state };
   }

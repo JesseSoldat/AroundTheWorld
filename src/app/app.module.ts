@@ -19,6 +19,7 @@ import { HttpService } from "./services/http.service";
 import { AuthService } from "./services/auth.service";
 import { StoryService } from "./services/story.service";
 import { FriendService } from "./services/friend.service";
+import { ProfileService } from "./services/profile.service";
 // interceptors
 import { AuthInterceptor } from "./services/interceptors/auth.interceptor";
 // guards
@@ -42,6 +43,7 @@ import { AuthGuard } from "./services/guards/auth.guard";
     AuthService,
     StoryService,
     FriendService,
+    ProfileService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AuthGuard
   ],

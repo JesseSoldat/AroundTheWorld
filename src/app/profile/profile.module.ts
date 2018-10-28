@@ -7,6 +7,7 @@ import { SharedModule } from "../shared/shared.module";
 import { ProfileRoutingModule } from "./profile-routing.module";
 // components
 import { ProfileComponent } from "./profile/profile.component";
+import { ProfileCardComponent } from "./profile/profile-card/profile-card.component";
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { ProfileComponent } from "./profile/profile.component";
     StoreModule.forFeature("profile", profileReducer)
   ],
   exports: [ProfileRoutingModule],
-  declarations: [ProfileComponent]
+  declarations: [ProfileComponent, ProfileCardComponent]
 })
 export class ProfileModule {}

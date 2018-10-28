@@ -12,17 +12,12 @@ import { HttpRes } from "../models/http-res.model";
 // services
 import { HttpService } from "./http.service";
 // actions
-import {
-  FriendsRequested,
-  FriendsLoaded,
-  FriendRequestRequested,
-  FriendRequestLoaded
-} from "../friend/friend.actions";
+import { ProfileRequested, ProfileLoaded } from "../profile/profile.actions";
 
 @Injectable({
   providedIn: "root"
 })
-export class FriendService {
+export class ProfileService {
   userId: string;
 
   constructor(
@@ -63,46 +58,14 @@ export class FriendService {
   }
 
   //--------------  api calls -------------------
-
-  getFriends(): Observable<HttpRes> {
-    this.store.dispatch(new FriendsRequested());
-    return this.httpService.httpGetRequest(`friends/${this.userId}`).pipe(
+  getProfile(): Observable<HttpRes> {
+    this.store.dispatch(new ProfileRequested());
+    return this.httpService.httpGetRequest(`profile/${this.userId}`).pipe(
       tap((res: HttpRes) => {
         const { payload } = res;
-        this.store.dispatch(new FriendsLoaded({ friends: payload.friends }));
+        this.store.dispatch(new ProfileLoaded({ profile: payload.profile }));
       }),
       catchError(err => this.handleError(err))
     );
-  }
-  // Send a Friends Request
-  sendFriendRequest(friendId: string): Observable<HttpRes> {
-    return this.httpService
-      .httpPostRequest("friend/request", { userId: this.userId, friendId })
-      .pipe(
-        tap((res: HttpRes) => {
-          const { msg, payload } = res;
-          console.log("sendFriendRequest", payload);
-
-          this.handleSuccess(msg);
-        }),
-        catchError(err => this.handleError(err))
-      );
-  }
-
-  // Get all Friends Request Sent or Received
-  allFriendRequests(): Observable<HttpRes> {
-    this.store.dispatch(new FriendRequestRequested());
-    return this.httpService
-      .httpGetRequest(`friend/requests/${this.userId}`)
-      .pipe(
-        tap((res: HttpRes) => {
-          const { payload } = res;
-          // console.log("getFriendRequests", payload);
-          this.store.dispatch(
-            new FriendRequestLoaded({ friendRequests: payload.friendsRequest })
-          );
-        }),
-        catchError(err => this.handleError(err))
-      );
   }
 }

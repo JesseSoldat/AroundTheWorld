@@ -1,21 +1,28 @@
 <div class="row px-3">
   <div class="col-xs-12 col-sm-10 col-md-9 mx-auto">
+
     <app-heading heading="My Friends"></app-heading>
 
-    <div *ngIf="(friends$ | async) as friends; else showSpinner" class="row">
+    <div class="row">
       <div class="bulletinBg col-12 mx-auto">
 
-        <!-- have friends -->
-        <div *ngFor="let friend of friends" class="card col-10 mx-auto my-4">
-          friend
+        <div *ngIf="(friends$ | async) as friends; else showSpinner">
+
+          <!-- have friends -->
+          <div class="row">
+            <div *ngFor="let friend of friends" class="card col-10 mx-auto my-4">
+              friend
+            </div>
+          </div>
+
+          <!-- no friends empty array -->
+          <app-no-data (onBtnClick)="navigateToStoryList()" *ngIf="friends.length === 0" title="No Friends" text="Start matching with others from your story list"
+            btnIcon="fas fa-atlas mr-1" btnText="Go to Stories"></app-no-data>
+
         </div>
 
-        <!-- no friends empty array -->
-        <app-no-data (onBtnClick)="navigateToStoryList()" *ngIf="friends.length === 0" title="No Friends" text="Start matching with others from your story list"
-          btnIcon="fas fa-atlas mr-1" btnText="Go to Stories"></app-no-data>
       </div>
     </div>
-
   </div>
 </div>
 
