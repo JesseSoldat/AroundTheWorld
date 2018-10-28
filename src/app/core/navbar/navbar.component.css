@@ -25,10 +25,6 @@ i {
   color: black !important;
 }
 
-.friendBtnGroup {
-  margin-top: 6px;
-}
-
 .noFriendsRequest {
   cursor: not-allowed;
 }

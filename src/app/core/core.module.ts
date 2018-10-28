@@ -23,10 +23,12 @@ import { environment } from "../../environments/environment";
 import { SharedModule } from "../shared/shared.module";
 // Components
 import { NavbarComponent } from "./navbar/navbar.component";
+import { FriendListGroupComponent } from "./navbar/friend-list-group/friend-list-group.component";
+import { FriendBtnGroupComponent } from "./navbar/friend-btn-group/friend-btn-group.component";
 import { ModalManagerComponent } from "./modals/modal-manager/modal-manager.component";
 import { MatchUsersModalComponent } from "./modals/match-users-modal/match-users-modal.component";
-import { UploadImageModalComponent } from './modals/upload-image-modal/upload-image-modal.component';
-import { FriendRequestModalComponent } from './modals/friend-request-modal/friend-request-modal.component';
+import { UploadImageModalComponent } from "./modals/upload-image-modal/upload-image-modal.component";
+import { FriendRequestModalComponent } from "./modals/friend-request-modal/friend-request-modal.component";
 
 @NgModule({
   imports: [
@@ -45,12 +47,16 @@ import { FriendRequestModalComponent } from './modals/friend-request-modal/frien
   ],
   exports: [
     NavbarComponent,
+    FriendBtnGroupComponent,
+    FriendListGroupComponent,
     AppRoutingModule,
     ModalManagerComponent,
     MatchUsersModalComponent
   ],
   declarations: [
     NavbarComponent,
+    FriendBtnGroupComponent,
+    FriendListGroupComponent,
     ModalManagerComponent,
     MatchUsersModalComponent,
     UploadImageModalComponent,

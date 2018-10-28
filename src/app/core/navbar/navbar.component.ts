@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 // Rxjs
 import { Observable } from "rxjs";
 import { tap, switchMap, filter } from "rxjs/operators";
@@ -20,18 +21,23 @@ import { FriendService } from "../../services/friend.service";
 })
 export class NavbarComponent implements OnInit {
   isAuth$: Observable<boolean>;
+  isAuth: boolean;
   userId$: Observable<string>;
   requestLength: number;
   friendRequests;
 
   constructor(
+    private router: Router,
     private authService: AuthService,
     private store: Store<AuthState>,
     private friendService: FriendService
   ) {}
 
   ngOnInit() {
-    this.isAuth$ = this.store.pipe(select(selectIsAuth));
+    this.isAuth$ = this.store.pipe(
+      select(selectIsAuth),
+      tap(isAuth => (this.isAuth = isAuth))
+    );
 
     this.userId$ = this.store.pipe(
       select(selectUserId),
@@ -60,14 +66,27 @@ export class NavbarComponent implements OnInit {
   }
 
   friendRequest() {
-    console.log("friends");
     this.store.dispatch(
       new OpenModal({ modalType: "friendsRequest", data: this.friendRequests })
     );
   }
 
-  viewFriends() {
-    console.log("nav friends");
+  navigateTo(route) {
+    let url;
+
+    switch (route) {
+      case "home":
+        url = this.isAuth ? "/dashboard" : "/";
+        break;
+
+      case "friends":
+        url = "/friends";
+
+      default:
+        break;
+    }
+
+    this.router.navigateByUrl(url);
   }
 
   logout() {

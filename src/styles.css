@@ -32,6 +32,13 @@ body {
   padding: 30px 10px;
 }
 
+.cursorPointer {
+  cursor: pointer;
+}
+.cursorNone {
+  cursor: none;
+}
+
 /* margins */
 @media (max-width: 575.98px) {
   .mTopXsSmall {

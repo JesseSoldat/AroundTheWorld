@@ -1,9 +1,10 @@
 <nav class="navbar navbar-expand-md navbar-light bg-dark fixed-top">
 
   <!-- Brand -->
-  <a routerLink="/" class="navbar-brand" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+  <a class="navbar-brand cursorPointer" (click)="navigateTo('home')">
     <img class="logo" src="/assets/jLogo.png">
-    <span class='brand-text'>Around The World</span>
+    <span class='brand-text d-none d-sm-inline d-md-inline d-lg-inline d-xl-inline'>Around The World</span>
+    <span class='brand-text d-inline d-sm-none d-md-none d-lg-none d-xl-none'>ATW</span>
   </a>
 
   <!-- Responsive Btn -->
@@ -18,67 +19,29 @@
     <ul class="navbar-nav mr-auto"></ul>
 
     <!-- Right Links -->
+    <!-- private -->
     <ul *ngIf="(isAuth$ | async); else isNotAuth" class="navbar-nav ml-auto">
-      <app-link text="Dashboard"></app-link>
-      <app-link text="Map"></app-link>
-      <app-link text="Stories"></app-link>
 
+      <app-link text="Map" icon="fas fa-map mr-1"></app-link>
+      <app-link text="Stories" icon="fas fa-atlas mr-1"></app-link>
 
+      <!-- friendListGroup -->
+      <app-friend-list-group (friendRequest)="friendRequest()" (viewFriends)="navigateTo($event)" (logout)="logout()"
+        [requestLength]="requestLength"></app-friend-list-group>
 
-      <li *ngIf="!requestLength" class="friendRequestWrapperXs nav-item d-none d-sm-block d-md-none text-muted" disable>
-        <a>
-          <span>Friend Request</span>
-          <span class="friendRequestMenuBadgedXs badge badge-pill badge-info ml-2">0</span>
-        </a>
-      </li>
-
-      <li *ngIf="requestLength" class="friendRequestWrapperXs nav-item d-none d-sm-block d-md-none" routerLinkActive="active">
-        <a class="nav-link" (click)="friendRequest()">
-          <span>Friend Request</span>
-          <span class="friendRequestMenuBadgeXs badge badge-pill badge-danger ml-2">{{requestLength}}</span>
-        </a>
-      </li>
-
-      <app-link class="d-none d-sm-block d-md-none" text="Friends"></app-link>
-
-      <li class="nav-item d-none d-sm-block d-md-none" routerLinkActive="active" (click)="logout()">
-        <a class="nav-link">Logout</a>
-      </li>
-
-
-      <div class="d-sm-none d-md-block friendBtnGroup">
-        <div class="btn-group mx-3">
-          <button type="button" class="btn btn-light btn-sm dropdown-toggle d-flex align-items-center" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-user-friends"></i>
-            <span *ngIf="requestLength" class="badge badge-pill badge-danger ml-2">{{requestLength}}</span>
-          </button>
-          <div class="dropdown-menu dropdown-menu-right">
-            <button *ngIf="!requestLength" class="dropdown-item d-flex noFriendsRequest" disabled type="button" (click)="friendRequest()">
-              <span>Friend Request</span>
-              <span class="friendRequestMenuBadge badge badge-pill badge-info ml-2">0</span>
-            </button>
-            <button *ngIf="requestLength" class="dropdown-item d-flex" type="button" (click)="friendRequest()">
-              <span>Friend Request</span>
-              <span *ngIf="requestLength" class="friendRequestMenuBadge badge badge-pill badge-danger ml-2">{{requestLength}}</span>
-            </button>
-            <button class="dropdown-item" type="button" (click)="viewFriends()">View Friends </button>
-            <div class="dropdown-divider"></div>
-            <button class="dropdown-item" type="button" (click)="logout()">Logout </button>
-          </div>
-        </div>
-
-      </div>
+      <!-- friendBtnGroup -->
+      <app-friend-btn-group (friendRequest)="friendRequest()" (viewFriends)="navigateTo($event)" (logout)="logout()"
+        [requestLength]="requestLength"></app-friend-btn-group>
 
     </ul>
 
+    <!-- public -->
     <ng-template #isNotAuth>
       <ul class="navbar-nav ml-auto">
-        <app-link text="Register"></app-link>
-        <app-link text="Login"></app-link>
+        <app-link text="Register" icon="fas fa-sign-in-alt mr-1"></app-link>
+        <app-link text="Login" icon="fas fa-edit mr-1"></app-link>
       </ul>
     </ng-template>
   </div>
-
 
 </nav>

@@ -9,6 +9,8 @@ import linkMap from "./linkMap";
 })
 export class LinkComponent implements OnInit {
   @Input()
+  icon: string;
+  @Input()
   text: string;
   link: string;
 

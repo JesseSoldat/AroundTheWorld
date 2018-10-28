@@ -1,0 +1,23 @@
+<div class="d-sm-none d-md-block friendBtnGroup">
+  <div class="btn-group mx-3">
+    <button type="button" class="btn btn-light btn-sm dropdown-toggle d-flex align-items-center" data-toggle="dropdown"
+      aria-haspopup="true" aria-expanded="false">
+      <i class="fas fa-user-friends"></i>
+      <span *ngIf="requestLength" class="badge badge-pill badge-danger ml-2">{{requestLength}}</span>
+    </button>
+    <div class="dropdown-menu dropdown-menu-right">
+      <button *ngIf="!requestLength" class="dropdown-item d-flex noFriendsRequest" disabled type="button" (click)="onFriendRequest()">
+        <span>Friend Request</span>
+        <span class="friendRequestMenuBadge badge badge-pill badge-info ml-2">0</span>
+      </button>
+      <button *ngIf="requestLength" class="dropdown-item d-flex" type="button" (click)="onFriendRequest()">
+        <span>Friend Request</span>
+        <span *ngIf="requestLength" class="friendRequestMenuBadge badge badge-pill badge-danger ml-2">{{requestLength}}</span>
+      </button>
+      <button class="dropdown-item" type="button" (click)="onViewFriends()">View Friends </button>
+      <div class="dropdown-divider"></div>
+      <button class="dropdown-item" type="button" (click)="onLogout()">Logout </button>
+    </div>
+  </div>
+
+</div>
