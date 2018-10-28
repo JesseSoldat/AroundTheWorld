@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
-// Rxjs
+// rxjs
 import { first } from "rxjs/operators";
 import { Observable } from "rxjs";
-// Ngrx
+// ngrx
 import { Store } from "@ngrx/store";
 import { AppState } from "../../../reducers";
 import { CloseModal } from "../modal.actions";
@@ -31,7 +31,6 @@ export class MatchUsersModalComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.modalType$.subscribe(type => {
-      console.log("Modal Type:", type);
       if (type === "matchUser") {
         this.modalData$.pipe(first()).subscribe(data => {
           console.log("Data", data);

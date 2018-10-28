@@ -1,14 +1,14 @@
 import { Component, OnInit } from "@angular/core";
-// Rxjs
+// rxjs
 import { Observable } from "rxjs";
 import { tap, first } from "rxjs/operators";
-// Ngrx
+// ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { selectStoryList } from "../story.selector";
-// Services
+// services
 import { StoryService } from "../../services/story.service";
-// Models
+// models
 import { Story } from "../../models/story.model";
 
 interface SearchDistance {
@@ -40,17 +40,17 @@ export class StoryListComponent implements OnInit {
     this.stories$ = this.store.pipe(
       select(selectStoryList),
       tap((storyList: Story[]) => {
-        // Fetch From Store tap returns storyList by default
+        // fetch from store tap returns storyList by default
         if (storyList !== null) {
           return this.createCoordinatesById(storyList);
         }
-        // Fetch From Server
+        // fetch from server
         this.fetchStoriesFromTheApi();
       })
     );
   }
 
-  // Api Calls
+  // api calls
   fetchStoriesFromTheApi() {
     this.storyService
       .getMyStories()
@@ -77,7 +77,7 @@ export class StoryListComponent implements OnInit {
     this.coordinatesById = coordinatesById;
   }
 
-  // Events & Cbs
+  // events & cbs
   onHandleSubmit(form: SearchDistance) {
     const coordinates = this.coordinatesById[form.storyId];
 

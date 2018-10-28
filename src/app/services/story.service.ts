@@ -1,18 +1,18 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-// Rxjs
+// rxjs
 import { tap, catchError } from "rxjs/operators";
 import { Observable, of } from "rxjs";
-// Ngrx
+// ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../reducers";
 import { selectUserId } from "../auth/auth.selectors";
 import { ShowMsg } from "../shared/shared.actions";
 import { OpenModal } from "../core/modals/modal.actions";
-// Models
+// models
 import { HttpRes } from "../models/http-res.model";
 import { Story } from "../models/story.model";
-// Services
+// services
 import { HttpService } from "./http.service";
 import {
   MyStoriesRequested,
@@ -34,6 +34,17 @@ export class StoryService {
     private store: Store<AppState>,
     private router: Router
   ) {
+    this.getUserId();
+  }
+
+  // helpers
+  handleError(err) {
+    console.error("story service handleError:", err);
+    this.store.dispatch(new ShowMsg({ msg: err.error.msg }));
+    return of({ msg: err.error.msg, payload: null });
+  }
+
+  getUserId() {
     this.store
       .pipe(
         select(selectUserId),
@@ -42,16 +53,9 @@ export class StoryService {
       .subscribe();
   }
 
-  // Helpers
-  handleError(err) {
-    console.error("handleError:", err);
-    this.store.dispatch(new ShowMsg({ msg: err.error.msg }));
-    return of({ msg: err.error.msg, payload: null });
-  }
+  //------------------  api calls -----------------------
 
-  //------------------  Api Calls -----------------------
-
-  // Get All Stories
+  // get all stories
   getMyStories(): Observable<HttpRes> {
     this.store.dispatch(new MyStoriesRequested());
     return this.httpService.httpGetRequest(`story/${this.userId}`).pipe(
@@ -65,7 +69,7 @@ export class StoryService {
     );
   }
 
-  // Post New Story
+  // post new story
   createNewStory(story: Story): Observable<HttpRes> {
     return this.httpService
       .httpPostRequest(`story/add/${this.userId}`, story)
@@ -83,7 +87,7 @@ export class StoryService {
       );
   }
 
-  // Add Image Urls to Story
+  // add image urls to story
   addImageToStory(url: string, storyId: string): Observable<HttpRes> {
     return this.httpService
       .httpPatchRequest(`story/addImage/${storyId}`, { url })
@@ -98,7 +102,7 @@ export class StoryService {
       );
   }
 
-  // Get Other Persons Stories
+  // get other persons stories
   getOtherPersonsStories(userId: string): Observable<HttpRes> {
     this.store.dispatch(new OtherPersonsStoriesRequested());
     return this.httpService.httpGetRequest(`story/${userId}`).pipe(
@@ -112,7 +116,7 @@ export class StoryService {
     );
   }
 
-  // Get Other Persons Story
+  // get other persons story
   getOtherPersonsStory(storyId: string): Observable<HttpRes> {
     this.store.dispatch(new OtherPersonsStoryRequested());
     return this.httpService.httpGetRequest(`story/details/${storyId}`).pipe(
@@ -126,7 +130,7 @@ export class StoryService {
     );
   }
 
-  // Match with Other Peoples Stories
+  // match with other peoples stories
   matchOtherUsers(matchQuery): Observable<HttpRes> {
     const { unit, maxDistance, coordinates } = matchQuery;
 

@@ -15,6 +15,7 @@
             <option *ngFor="let distance of distances" [value]="distance">{{distance}}</option>
           </select>
         </div>
+
         <!-- radio -->
         <div class="radioGroup form-group">
           <input formControlName="distanceType" class="mr-2" checked type="radio" name="distanceType" value="miles">
@@ -23,10 +24,28 @@
           <span>Km</span>
         </div>
 
+        <!-- submit buttons -->
+        <!-- small -->
+        <div class="btn-group">
+          <button type="submit" class="showSmBtn btn btn-primary btn-sm mr-2">
+            <i class="fas fa-link mr-1"></i>
+            Match Others
+          </button>
+          <button [routerLink]="['/map/storyDetails', data.user._id, data._id]" type="button" class="showSmBtn btn btn-secondary btn-sm">
+            <i class="fas fa-atlas mr-1"></i>
+            Story Details
+          </button>
+        </div>
 
-        <!-- submit -->
-        <button type="submit" class="showSmBtn btn btn-primary">Match Others</button>
-        <button type="submit" class="showLgBtn btn btn-primary btn-block">Match Others</button>
+        <!-- large -->
+        <button type="submit" class="showLgBtn btn btn-primary btn-block btn-sm">
+          <i class="fas fa-link mr-1"></i>
+          Match Others
+        </button>
+        <button [routerLink]="['/map/storyDetails', data.user._id, data._id]" type="button" class="showLgBtn btn btn-secondary btn-block btn-sm">
+          <i class="fas fa-atlas mr-1"></i>
+          Story Details
+        </button>
 
       </form>
     </div>

@@ -1,14 +1,16 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, ParamMap } from "@angular/router";
-// Rxjs
+// rxjs
 import { switchMap, tap } from "rxjs/operators";
 import { Observable } from "rxjs";
-// Ngrx
+// ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { selectStory } from "../story.selector";
-// Services
+// services
 import { StoryService } from "../../services/story.service";
+// actions
+import { OpenModal } from "src/app/core/modals/modal.actions";
 
 @Component({
   selector: "app-story-details",
@@ -45,7 +47,9 @@ export class StoryDetailsComponent implements OnInit {
   }
 
   // Events & Cbs
-  viewImage(image) {
-    console.log(image);
+  viewImage(imageUrl) {
+    this.store.dispatch(
+      new OpenModal({ modalType: "imageDetails", data: imageUrl })
+    );
   }
 }

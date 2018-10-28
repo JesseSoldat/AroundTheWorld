@@ -1,0 +1,14 @@
+<ng-template #imageDetails let-modal>
+  <div class="modal-header p-3">
+    <h5 class="modal-title" id="modal-basic-title">View Image Details</h5>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body p-3">
+    <img [src]="data" class="img-fluid" alt="story photo">
+  </div>
+  <div class="modal-footer p-3">
+    <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+  </div>
+</ng-template>

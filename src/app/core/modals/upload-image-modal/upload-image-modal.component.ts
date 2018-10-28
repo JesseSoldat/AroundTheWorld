@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
-// Rxjs
+// rxjs
 import { first } from "rxjs/operators";
 import { Observable } from "rxjs";
-// Ngrx
+// ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../../reducers";
 import { CloseModal } from "../modal.actions";
@@ -31,8 +31,6 @@ export class UploadImageModalComponent implements OnInit {
 
   ngOnInit() {
     this.modalType$.subscribe(type => {
-      console.log("Modal Type:", type);
-
       if (type === "uploadPhotos") {
         this.modalData$.pipe(first()).subscribe(data => {
           console.log("uploadPhotos Data", data);
@@ -49,7 +47,7 @@ export class UploadImageModalComponent implements OnInit {
     modal.result.then(
       () => {},
       e => {
-        // All Events button | background clicks
+        // all events button | background clicks
         console.log("Close Modal", e);
         this.store.dispatch(new CloseModal());
         // e === 0 is a background click

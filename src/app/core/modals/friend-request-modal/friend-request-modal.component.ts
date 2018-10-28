@@ -1,10 +1,10 @@
 import { Component, Input, OnInit, OnDestroy, ViewChild } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
-// Rxjs
+// rxjs
 import { first } from "rxjs/operators";
 import { Observable } from "rxjs";
-// Ngrx
+// ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../../reducers";
 import { CloseModal } from "../modal.actions";
@@ -23,16 +23,10 @@ export class FriendRequestModalComponent implements OnInit {
   friendsRequest;
   data;
 
-  constructor(
-    private modalService: NgbModal,
-    private store: Store<AppState>,
-    private router: Router
-  ) {}
+  constructor(private modalService: NgbModal, private store: Store<AppState>) {}
 
   ngOnInit() {
     this.modalType$.subscribe(type => {
-      console.log("Modal Type:", type);
-
       if (type === "friendsRequest") {
         this.modalData$.pipe(first()).subscribe(data => {
           console.log("friendsRequest Data", data);

@@ -1,10 +1,9 @@
 import { NgModule } from "@angular/core";
 import { HttpClientModule } from "@angular/common/http";
-// Firebase
+// firebase
 import { AngularFireModule } from "angularfire2";
-// import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireStorageModule } from "angularfire2/storage";
-// Ngrx
+// ngrx
 import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import {
@@ -15,20 +14,22 @@ import { EffectsModule } from "@ngrx/effects";
 import { reducers, metaReducers } from "../reducers";
 import { CustomSerializer } from "../reducers/customSerialize";
 import { modalReducer } from "./modals/modal.reducer";
-// Routing
+// routing
 import { AppRoutingModule } from "../app-routing.module";
-// Env
+// env
 import { environment } from "../../environments/environment";
-// Module
+// module
 import { SharedModule } from "../shared/shared.module";
-// Components
+// components
 import { NavbarComponent } from "./navbar/navbar.component";
 import { FriendListGroupComponent } from "./navbar/friend-list-group/friend-list-group.component";
 import { FriendBtnGroupComponent } from "./navbar/friend-btn-group/friend-btn-group.component";
+// modals
 import { ModalManagerComponent } from "./modals/modal-manager/modal-manager.component";
 import { MatchUsersModalComponent } from "./modals/match-users-modal/match-users-modal.component";
 import { UploadImageModalComponent } from "./modals/upload-image-modal/upload-image-modal.component";
 import { FriendRequestModalComponent } from "./modals/friend-request-modal/friend-request-modal.component";
+import { ImageDetailsModalComponent } from "./modals/image-details-modal/image-details-modal.component";
 
 @NgModule({
   imports: [
@@ -60,7 +61,8 @@ import { FriendRequestModalComponent } from "./modals/friend-request-modal/frien
     ModalManagerComponent,
     MatchUsersModalComponent,
     UploadImageModalComponent,
-    FriendRequestModalComponent
+    FriendRequestModalComponent,
+    ImageDetailsModalComponent
   ],
   providers: [{ provide: RouterStateSerializer, useClass: CustomSerializer }]
 })
