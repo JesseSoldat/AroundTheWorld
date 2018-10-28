@@ -1,4 +1,4 @@
-const getErrMsg = (type, method, target, code = null) => {
+const getErrMsg = (type, method, target) => {
   const msgTypes = {
     err: `An error ocurred while trying to ${method} the ${target}.`,
     allFields: "All form fields must be filled in.",
@@ -9,13 +9,11 @@ const getErrMsg = (type, method, target, code = null) => {
     noUser: "No user for this email and password."
   };
 
-  return { info: msgTypes[type], color: "red", code };
+  return msgTypes[type];
 };
 
-const getMsg = (info, color = "red", code = null) => ({ info, color, code });
-
-const serverRes = (res, status, msg = null, payload = null) => {
-  res.status(status).send({ msg, payload });
+const serverRes = (res, status, msg = null, payload = null, options = null) => {
+  res.status(status).send({ msg, payload, options });
 };
 
-module.exports = { getErrMsg, getMsg, serverRes };
+module.exports = { getErrMsg, serverRes };

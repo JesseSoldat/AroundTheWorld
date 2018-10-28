@@ -1,19 +1,19 @@
 import { Injectable } from "@angular/core";
-// Rxjs
+import { ToastrService } from "ngx-toastr";
+// rxjs
 import { tap, catchError } from "rxjs/operators";
 import { Observable, of } from "rxjs";
-// Ngrx
+// ngrx
 import { Store } from "@ngrx/store";
 import { AppState } from "../reducers";
 import { Register, Login, Logout } from "../auth/auth.actions";
-import { ShowMsg } from "../shared/shared.actions";
-// Models
+// models
 import { Auth } from "../models/auth.model";
 import { User } from "../models/user.model";
 import { HttpRes } from "../models/http-res.model";
-// Utils
+// utils
 import { decodeToken } from "../utils/auth/decodeToken";
-// Services
+// services
 import { HttpService } from "./http.service";
 
 @Injectable({
@@ -22,14 +22,26 @@ import { HttpService } from "./http.service";
 export class AuthService {
   constructor(
     private httpService: HttpService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    private toastr: ToastrService
   ) {}
 
   // Helpers
   handleError(err) {
     console.log("auth service err", err);
-    this.store.dispatch(new ShowMsg({ msg: err.msg }));
+    this.toastr.error("", err.msg, {
+      timeOut: 3000,
+      positionClass: "toast-bottom-right"
+    });
+
     return of({ msg: err.msg, payload: null });
+  }
+
+  handleSuccess(msg) {
+    this.toastr.success("", msg, {
+      timeOut: 3000,
+      positionClass: "toast-bottom-right"
+    });
   }
 
   fromTokenToUser(token: string): User {
@@ -55,7 +67,7 @@ export class AuthService {
         // the auth interceptor will nee the token
         localStorage.setItem("token", token);
 
-        this.store.dispatch(new ShowMsg({ msg }));
+        this.handleSuccess(msg);
         this.store.dispatch(new Register({ user, token }));
       }),
       catchError(err => this.handleError(err.error))
@@ -74,7 +86,7 @@ export class AuthService {
         // the auth interceptor will nee the token
         localStorage.setItem("token", token);
 
-        this.store.dispatch(new ShowMsg({ msg }));
+        this.handleSuccess(msg);
         this.store.dispatch(new Login({ user, token }));
       }),
       catchError(err => this.handleError(err.error))

@@ -3,7 +3,7 @@ const FriendRequest = require("../models/friend");
 // Middleware
 const isAuth = require("../middleware/isAuth");
 // Utils
-const { serverRes, getMsg, getErrMsg } = require("../utils/serverRes");
+const { serverRes, getErrMsg } = require("../utils/serverRes");
 
 module.exports = app => {
   // Get all Friends Request Sent or Received
@@ -42,15 +42,12 @@ module.exports = app => {
 
       friendRequest.save();
 
-      const msg = getMsg("Your friend request has been sent.", "blue");
+      const msg = "Your friend request has been sent.";
 
       serverRes(res, 200, msg, { friendRequest });
     } catch (err) {
       console.log("Err: Friend Request", err);
-      const msg = getMsg(
-        "There was an error while sending a friend request.",
-        "color"
-      );
+      const msg = "There was an error while sending a friend request.";
       serverRes(res, 400, msg, null);
     }
   });

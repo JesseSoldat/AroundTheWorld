@@ -1,31 +1,35 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
 
-// Modules
+// modules
 import { CoreModule } from "./core/core.module";
 import { AuthModule } from "./auth/auth.module";
 import { FriendModule } from "./friend/friend.module";
-
-// Components
+// 3rd party
+import { ToastrModule } from "ngx-toastr";
+// components
 import { AppComponent } from "./app.component";
-// SW
+// sw
 import { ServiceWorkerModule } from "@angular/service-worker";
 import { environment } from "../environments/environment";
-// Services
+// services
 import { HttpService } from "./services/http.service";
 import { AuthService } from "./services/auth.service";
 import { StoryService } from "./services/story.service";
 import { FriendService } from "./services/friend.service";
-// Interceptors
+// interceptors
 import { AuthInterceptor } from "./services/interceptors/auth.interceptor";
-// Guards
+// guards
 import { AuthGuard } from "./services/guards/auth.guard";
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     CoreModule,
     AuthModule,
     FriendModule,

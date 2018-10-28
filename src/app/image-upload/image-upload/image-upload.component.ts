@@ -1,18 +1,18 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router, ParamMap } from "@angular/router";
-// Firebase
+import { ToastrService } from "ngx-toastr";
+// firebase
 import {
   AngularFireStorage,
   AngularFireUploadTask
 } from "angularfire2/storage";
-// Rxjs
+// rxjs
 import { Observable } from "rxjs";
 import { finalize, tap } from "rxjs/operators";
-// Ngrx
+// ngrx
 import { Store } from "@ngrx/store";
 import { AppState } from "../../reducers";
-import { ShowMsg } from "../../shared/shared.actions";
-// Services
+// services
 import { StoryService } from "../../services/story.service";
 
 @Component({
@@ -38,13 +38,22 @@ export class ImageUploadComponent implements OnInit {
     private router: Router,
     private storage: AngularFireStorage,
     private store: Store<AppState>,
-    private storyService: StoryService
+    private storyService: StoryService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.userId = params.get("userId");
       this.storyId = params.get("storyId");
+    });
+  }
+
+  // helpers
+  handleError(err) {
+    this.toastr.error("", err.msg, {
+      timeOut: 3000,
+      positionClass: "toast-bottom-right"
     });
   }
 
@@ -58,8 +67,8 @@ export class ImageUploadComponent implements OnInit {
 
     // Client-side validation example
     if (file.type.split("/")[0] !== "image") {
-      const msg = { info: "The file type is not supported", color: "red" };
-      return this.store.dispatch(new ShowMsg({ msg }));
+      const err = { msg: "The file type is not supported" };
+      return this.handleError(err);
     }
 
     const path = `aroundTheWorld/${new Date().getTime()}_${file.name}`;

@@ -14,6 +14,8 @@ export class TopRowBtnsComponent {
   editBtn;
   @Input()
   deleteBtn;
+  @Input()
+  detailBtn;
 
   goBack() {
     this.onBtnClick.emit("back");
@@ -25,5 +27,9 @@ export class TopRowBtnsComponent {
 
   edit() {
     this.onBtnClick.emit("edit");
+  }
+
+  details() {
+    this.onBtnClick.emit("details");
   }
 }

@@ -1,7 +1,7 @@
 // Models
 const User = require("../models/user");
 // Utils
-const { getMsg, serverRes } = require("../utils/serverRes");
+const { serverRes } = require("../utils/serverRes");
 
 const handleErrMsg = (res, type) => {
   const errs = {
@@ -9,9 +9,9 @@ const handleErrMsg = (res, type) => {
     noToken: "A token was not sent with the request. ",
     noUser: "Could not find a user matching the token. "
   };
-  const msg = getMsg(errs[type] + " Please login again.", "red", "tokenErr");
+  const msg = errs[type] + " Please login again.";
 
-  serverRes(res, 400, msg, null);
+  serverRes(res, 400, msg, null, { tokenErr: true });
 };
 
 const isAuth = async (req, res, next) => {

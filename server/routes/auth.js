@@ -4,7 +4,7 @@ const User = require("../models/user");
 const authCheckForm = require("../middleware/authCheckForm");
 const isAuth = require("../middleware/isAuth");
 // Utils
-const { serverRes, getMsg, getErrMsg } = require("../utils/serverRes");
+const { serverRes, getErrMsg } = require("../utils/serverRes");
 
 module.exports = app => {
   // ----------------- Register -----------------------
@@ -30,11 +30,11 @@ module.exports = app => {
 
       // err: false unless set in catch block
       if (err) {
-        const msg = getMsg(err);
+        const msg = err;
         return serverRes(res, 400, msg, null);
       }
 
-      const msg = getMsg(`${user.email} is now registered.`, "blue");
+      const msg = `${user.email} is now registered.`;
 
       serverRes(res, 200, msg, { token });
     } catch (err) {
@@ -61,11 +61,11 @@ module.exports = app => {
 
       // err: false unless set in catch block
       if (err) {
-        const msg = getMsg(err);
+        const msg = err;
         return serverRes(res, 400, msg, null);
       }
 
-      const msg = getMsg(`${user.email} has logged in successfully.`, "blue");
+      const msg = `${user.email} has logged in successfully.`;
 
       serverRes(res, 200, msg, { token });
     } catch (err) {

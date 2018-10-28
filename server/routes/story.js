@@ -5,7 +5,7 @@ const Story = require("../models/story");
 // Middleware
 const isAuth = require("../middleware/isAuth");
 // Utils
-const { serverRes, getMsg, getErrMsg } = require("../utils/serverRes");
+const { serverRes, getErrMsg } = require("../utils/serverRes");
 
 module.exports = app => {
   // Get a list of your stories or another users stories
@@ -61,7 +61,7 @@ module.exports = app => {
 
       story.save();
 
-      const msg = getMsg("Your new story has been saved.", "blue");
+      const msg = "Your new story has been saved.";
 
       serverRes(res, 200, msg, { story });
     } catch (err) {
@@ -84,7 +84,9 @@ module.exports = app => {
         { new: true }
       );
 
-      serverRes(res, 200, null, { story });
+      const msg = "Your image was uploaded";
+
+      serverRes(res, 200, msg, { story });
     } catch (err) {
       console.log("Err: Edit Story", err);
       const msg = getErrMsg("err", "edit", "story");

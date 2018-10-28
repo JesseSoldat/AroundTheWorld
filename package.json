@@ -43,6 +43,7 @@
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.2.17",
     "ngrx-store-freeze": "^0.2.4",
+    "ngx-toastr": "^9.1.1",
     "rxjs": "~6.2.0",
     "zone.js": "~0.8.26"
   },

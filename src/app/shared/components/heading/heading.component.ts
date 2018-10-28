@@ -14,6 +14,8 @@ export class HeadingComponent implements OnInit {
   editBtn;
   @Input()
   deleteBtn;
+  @Input()
+  detailBtn;
 
   @Output()
   btnClick: EventEmitter<string> = new EventEmitter();

@@ -1,9 +1,6 @@
-<div class="imageUploadWrapper">
+<div class="imageUploadWrapper mx-2">
 
-  <button (click)="goToStory()" class="btn btn-primary topRightBtn">View Story</button>
-
-
-  <app-heading heading="Upload an Image"></app-heading>
+  <app-heading heading="Upload an Image" (btnClick)="goToStory()" [detailBtn]="true"></app-heading>
 
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-lg-6 mx-auto">

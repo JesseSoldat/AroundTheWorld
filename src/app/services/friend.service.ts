@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 // Rxjs
 import { tap, catchError } from "rxjs/operators";
 import { Observable, of } from "rxjs";
@@ -7,8 +7,6 @@ import { Observable, of } from "rxjs";
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../reducers";
 import { selectUserId } from "../auth/auth.selectors";
-import { ShowMsg } from "../shared/shared.actions";
-import { OpenModal } from "../core/modals/modal.actions";
 // Models
 import { HttpRes } from "../models/http-res.model";
 // Services
@@ -30,7 +28,7 @@ export class FriendService {
   constructor(
     private httpService: HttpService,
     private store: Store<AppState>,
-    private router: Router
+    private toastr: ToastrService
   ) {
     this.getUserId();
   }
@@ -38,8 +36,21 @@ export class FriendService {
   // Helpers
   handleError(err) {
     console.error("friend service handleError:", err);
-    this.store.dispatch(new ShowMsg({ msg: err.error.msg }));
+    // TODO err.error?
+    //new ShowMsg({ msg: err.error.msg });
+    this.toastr.error("", err.msg, {
+      timeOut: 3000,
+      positionClass: "toast-bottom-right"
+    });
+
     return of({ msg: err.error.msg, payload: null });
+  }
+
+  handleSuccess(msg) {
+    this.toastr.success("", msg, {
+      timeOut: 3000,
+      positionClass: "toast-bottom-right"
+    });
   }
 
   getUserId() {
@@ -61,7 +72,7 @@ export class FriendService {
           const { msg, payload } = res;
           console.log("sendFriendRequest", payload);
 
-          this.store.dispatch(new ShowMsg({ msg }));
+          this.handleSuccess(msg);
         }),
         catchError(err => this.handleError(err))
       );

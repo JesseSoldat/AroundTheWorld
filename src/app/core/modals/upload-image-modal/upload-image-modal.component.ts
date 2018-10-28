@@ -46,19 +46,19 @@ export class UploadImageModalComponent implements OnInit {
     const modal = this.modalService.open(modalRef);
     modal.result.then(
       () => {},
-      e => {
-        // all events button | background clicks
-        console.log("Close Modal", e);
-        this.store.dispatch(new CloseModal());
+      event => {
         // e === 0 is a background click
-        if (e === 0) {
+        if (event === 0) {
+          console.log("Close Modal", event);
+          this.store.dispatch(new CloseModal());
+
           this.navToStoryDetails();
         }
       }
     );
   }
 
-  // All Events button | background clicks
+  // click close button or x button
   closeModal() {
     this.modalService.dismissAll();
   }
