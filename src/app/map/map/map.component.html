@@ -3,9 +3,16 @@
     <div class="col-12 ">
 
       <div class="btnGroup">
-        <button class="btn btn-primary" (click)="onSetLocation()" [disabled]="!marker">Select</button>
+        <button class="btn btn-danger btn-sm" (click)="onCancel()">
+          <i class="fas fa-backspace mr-1"></i>
+          Cancel
+        </button>
         <div class="widthSpacer10"></div>
-        <button class="btn btn-danger " (click)="onCancel()">Cancel</button>
+        <button class="btn btn-secondary btn-sm" (click)="onSetLocation()" [disabled]="!marker">
+          <i class="fas fa-check mr-1"></i>
+          Select
+        </button>
+
       </div>
 
 

@@ -15,9 +15,19 @@
             [errMsg]="controlNameErrs.description"></app-text-box>
 
           <div class="spacer20"></div>
-          <button type="submit" [disabled]="!storyForm.valid" class="btn btn-dark btn-block">Submit</button>
+
+          <button type="button" (click)="cancel()" class="btn btn-danger btn-block btn-sm">
+            <i class="fas fa-backspace mr-1"></i>
+            Cancel
+          </button>
+
           <div class="spacer10"></div>
-          <button type="button" (click)="cancel()" class="btn btn-danger btn-block">Cancel</button>
+
+
+          <button type="submit" [disabled]="!storyForm.valid" class="btn btn-dark btn-block btn-sm">
+            <i class="fas fa-check mr-1"></i>
+            Submit
+          </button>
         </form>
 
       </div>
