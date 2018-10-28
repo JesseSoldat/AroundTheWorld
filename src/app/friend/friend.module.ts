@@ -1,11 +1,11 @@
 import { NgModule } from "@angular/core";
-//Ngrx
+//ngrx
 import { StoreModule } from "@ngrx/store";
 import { friendReducer } from "./friend.reducer";
-// Modules
+// modules
 import { SharedModule } from "../shared/shared.module";
 import { FriendRoutingModule } from "./friend-routing.module";
-// Components
+// components
 import { FriendsComponent } from "./friends/friends.component";
 
 @NgModule({

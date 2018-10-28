@@ -3,7 +3,7 @@
     <app-heading heading="My Friends"></app-heading>
 
     <div *ngIf="(friends$ | async) as friends; else showSpinner" class="row">
-      <div class="bulletinBg col-xs-12 col-sm-11 col-md-10 col-lg-9 col-xl-8 mx-auto">
+      <div class="bulletinBg col-12 mx-auto">
 
         <!-- have friends -->
         <div *ngFor="let friend of friends" class="card col-10 mx-auto my-4">

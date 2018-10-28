@@ -3,14 +3,14 @@ import { Routes, RouterModule } from "@angular/router";
 // services
 import { AuthGuard } from "../services/guards/auth.guard";
 // components
-import { FriendsComponent } from "./friends/friends.component";
+import { ProfileComponent } from "./profile/profile.component";
 
 const routes: Routes = [
-  { path: "friends", component: FriendsComponent, canActivate: [AuthGuard] }
+  { path: "", component: ProfileComponent, canActivate: [AuthGuard] }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class FriendRoutingModule {}
+export class ProfileRoutingModule {}

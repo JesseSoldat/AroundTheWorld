@@ -22,8 +22,8 @@
     <!-- private -->
     <ul *ngIf="(isAuth$ | async); else isNotAuth" class="navbar-nav ml-auto">
 
-      <app-link text="Map" icon="fas fa-map mr-1"></app-link>
-      <app-link text="Stories" icon="fas fa-atlas mr-1"></app-link>
+      <app-link text="Map" icon="fas fa-map mr-2"></app-link>
+      <app-link text="Stories" icon="fas fa-atlas mr-2"></app-link>
 
       <!-- friendListGroup -->
       <app-friend-list-group (friendRequest)="friendRequest()" (logout)="logout()" [requestLength]="requestLength"></app-friend-list-group>
@@ -36,8 +36,8 @@
     <!-- public -->
     <ng-template #isNotAuth>
       <ul class="navbar-nav ml-auto">
-        <app-link text="Register" icon="fas fa-sign-in-alt mr-1"></app-link>
-        <app-link text="Login" icon="fas fa-edit mr-1"></app-link>
+        <app-link text="Register" icon="fas fa-sign-in-alt mr-2"></app-link>
+        <app-link text="Login" icon="fas fa-edit mr-2"></app-link>
       </ul>
     </ng-template>
   </div>
