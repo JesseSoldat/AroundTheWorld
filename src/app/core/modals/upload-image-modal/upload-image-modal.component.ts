@@ -21,7 +21,7 @@ export class UploadImageModalComponent implements OnInit {
   modalType$: Observable<string>;
   @ViewChild("uploadPhotos")
   uploadPhotos;
-  data;
+  story;
 
   constructor(
     private modalService: NgbModal,
@@ -34,7 +34,7 @@ export class UploadImageModalComponent implements OnInit {
       if (type === "uploadPhotos") {
         this.modalData$.pipe(first()).subscribe(data => {
           console.log("uploadPhotos Data", data);
-          this.data = data;
+          this.story = data;
 
           this.open(this.uploadPhotos);
         });
@@ -64,8 +64,8 @@ export class UploadImageModalComponent implements OnInit {
   }
 
   navToStoryDetails() {
-    const userId = this.data.story.user;
-    const storyId = this.data.story._id;
+    const userId = this.story.user;
+    const storyId = this.story._id;
     const url = `/map/storyDetails/${userId}/${storyId}`;
     this.router.navigateByUrl(url);
   }
@@ -77,8 +77,8 @@ export class UploadImageModalComponent implements OnInit {
 
   closeModalAndUploadPhoto() {
     this.closeModal();
-    const userId = this.data.story.user;
-    const storyId = this.data.story._id;
+    const userId = this.story.user;
+    const storyId = this.story._id;
     const url = `/uploadImage/${userId}/${storyId}`;
 
     this.router.navigateByUrl(url);

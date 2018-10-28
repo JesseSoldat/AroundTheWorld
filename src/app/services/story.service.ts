@@ -13,9 +13,14 @@ import { HttpRes } from "../models/http-res.model";
 import { Story } from "../models/story.model";
 // services
 import { HttpService } from "./http.service";
+// actions
 import {
   MyStoriesRequested,
   MyStoriesLoaded,
+  AddStoryStarted,
+  AddStoryFinished,
+  AddStoryImageStarted,
+  AddStoryImageFinished,
   OtherPersonsStoriesRequested,
   OtherPersonsStoriesLoaded,
   OtherPersonsStoryRequested,
@@ -72,7 +77,7 @@ export class StoryService {
     this.store.dispatch(new MyStoriesRequested());
     return this.httpService.httpGetRequest(`story/${this.userId}`).pipe(
       tap((res: HttpRes) => {
-        const { msg, payload } = res;
+        const { payload } = res;
         const { stories } = payload;
         // console.log("getMyStories", payload);
         this.store.dispatch(new MyStoriesLoaded({ stories }));
@@ -83,17 +88,20 @@ export class StoryService {
 
   // post new story
   createNewStory(story: Story): Observable<HttpRes> {
+    this.store.dispatch(new AddStoryStarted());
     return this.httpService
       .httpPostRequest(`story/add/${this.userId}`, story)
       .pipe(
         tap((res: HttpRes) => {
           const { msg, payload } = res;
-          // console.log("createNewStory", payload);
+          const { story } = payload;
+          console.log("createNewStory", story);
 
           this.handleSuccess(msg);
           this.store.dispatch(
-            new OpenModal({ modalType: "uploadPhotos", data: payload })
+            new OpenModal({ modalType: "uploadPhotos", data: story })
           );
+          this.store.dispatch(new AddStoryFinished({ update: story }));
         }),
         catchError(err => this.handleError(err))
       );
@@ -101,14 +109,17 @@ export class StoryService {
 
   // add image urls to story
   addImageToStory(url: string, storyId: string): Observable<HttpRes> {
+    this.store.dispatch(new AddStoryImageStarted());
     return this.httpService
       .httpPatchRequest(`story/addImage/${storyId}`, { url })
       .pipe(
         tap((res: HttpRes) => {
           const { msg, payload } = res;
-          // console.log("addImageToStory", payload);
+          const { story } = payload;
+          console.log("addImageToStory", story);
 
           this.handleSuccess(msg);
+          this.store.dispatch(new AddStoryImageFinished({ update: story }));
         }),
         catchError(err => this.handleError(err))
       );

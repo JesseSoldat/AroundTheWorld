@@ -1,5 +1,5 @@
 import { FriendActionTypes } from "./friend.actions";
-
+import { AuthActionTypes } from "../auth/auth.actions";
 import { FriendRequest } from "../models/friend-request.model";
 
 export interface FriendState {
@@ -16,6 +16,9 @@ export function friendReducer(state = initialFriendState, action) {
   const { type, payload } = action;
 
   switch (type) {
+    case AuthActionTypes.LogoutAction:
+      return { friends: null, friendRequests: null };
+
     case FriendActionTypes.FriendRequestLoaded:
       return { ...state, friendRequests: [...payload.friendRequests] };
 

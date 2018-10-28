@@ -19,10 +19,12 @@ import { LinkComponent } from "./components/link/link.component";
 import { TextBoxComponent } from "./components/text-box/text-box.component";
 import { TileCardComponent } from "./components/tile-card/tile-card.component";
 import { SpinnerComponent } from "./components/spinner/spinner.component";
+import { OverlayComponent } from "./components/overlay/overlay.component";
 import { ListCardComponent } from "./components/list-card/list-card.component";
 import { ImgCardComponent } from "./components/img-card/img-card.component";
 import { TopRowBtnsComponent } from "./components/buttons/top-row-btns/top-row-btns.component";
 import { BottomRowBtnsComponent } from "./components/buttons/bottom-row-btns/bottom-row-btns.component";
+import { NoDataComponent } from "./components/no-data/no-data.component";
 
 const routes: Routes = [];
 
@@ -48,7 +50,9 @@ const routes: Routes = [];
     ListCardComponent,
     ImgCardComponent,
     TopRowBtnsComponent,
-    BottomRowBtnsComponent
+    BottomRowBtnsComponent,
+    OverlayComponent,
+    NoDataComponent
   ],
   exports: [
     CommonModule,
@@ -69,7 +73,9 @@ const routes: Routes = [];
     ListCardComponent,
     ImgCardComponent,
     TopRowBtnsComponent,
-    BottomRowBtnsComponent
+    BottomRowBtnsComponent,
+    OverlayComponent,
+    NoDataComponent
   ]
 })
 export class SharedModule {}

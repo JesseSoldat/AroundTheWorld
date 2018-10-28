@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from '@angular/router';
 // rxjs
 import { Observable } from "rxjs";
 import { tap, first } from "rxjs/operators";
@@ -33,7 +34,8 @@ export class StoryListComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private storyService: StoryService
+    private storyService: StoryService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -78,6 +80,9 @@ export class StoryListComponent implements OnInit {
   }
 
   // events & cbs
+  navigateToMap() {
+    this.router.navigateByUrl('/map')
+  }
   onHandleSubmit(form: SearchDistance) {
     const coordinates = this.coordinatesById[form.storyId];
 
