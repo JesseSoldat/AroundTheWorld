@@ -9,7 +9,13 @@
     <p>They say a picture is worth a thousand words.</p>
   </div>
   <div class="modal-footer p-3">
-    <button type="button" class="btn btn-danger" (click)="closeModalAndNav()">Close</button>
-    <button class="btn btn-primary" (click)="closeModalAndUploadPhoto()">Upload Image</button>
+    <button type="button" class="btn btn-danger btn-sm" (click)="closeModalAndNav()">
+      <i class="fas fa-backspace mr-1"></i>
+      Close
+    </button>
+    <button class="btn btn-secondary btn-sm" (click)="closeModalAndUploadPhoto()">
+      <i class="fas fa-file-upload mr-1"></i>
+      Upload Image
+    </button>
   </div>
 </ng-template>

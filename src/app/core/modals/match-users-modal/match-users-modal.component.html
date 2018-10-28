@@ -2,7 +2,6 @@
   <div class="modal-header">
     <h4 class="modal-title" id="modal-basic-title">You Matched {{data?.match.length}} Users</h4>
 
-
     <button type="button" class="close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -28,6 +27,9 @@
 
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button>
+    <button type="button" class="btn btn-outline-dark btn-sm" (click)="closeModal()">
+      <i class="fas fa-backspace mr-1"></i>
+      Close
+    </button>
   </div>
 </ng-template>

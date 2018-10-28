@@ -1,33 +1,30 @@
-<div class="addStoryWrapper">
+<app-overlay [overlay$]="overlay$"></app-overlay>
 
-  <div class="container">
-    <div class="spacer80"></div>
+<div class="container">
+  <div class="spacer80"></div>
 
-    <!-- google maps -->
-    <div class="mapContainer">
-      <div class="row">
-        <div class="col-xs-12 col-sm-11 mx-auto">
-          <agm-map [latitude]="location.lat" [longitude]="location.lng" [zoom]="8" (mapClick)="onSetMarker($event)">
+  <!-- google maps -->
+  <div class="mapContainer">
+    <div class="row">
+      <div class="col-xs-12 col-sm-11 mx-auto">
+        <agm-map [latitude]="location.lat" [longitude]="location.lng" [zoom]="8" (mapClick)="onSetMarker($event)">
 
-            <agm-marker *ngIf="marker" [latitude]="marker.lat" [longitude]="marker.lng">
-            </agm-marker>
+          <agm-marker *ngIf="marker" [latitude]="marker.lat" [longitude]="marker.lng">
+          </agm-marker>
 
-          </agm-map>
+        </agm-map>
 
-        </div>
       </div>
-
     </div>
-
-    <!-- important to stop shaking screen -->
-    <div class="spacer10"></div>
-
-    <!-- form -->
-    <app-add-map-story-form (onHandleSubmit)="handleSubmit($event)" (onCancel)="onCancel()"></app-add-map-story-form>
-
-    <div class="spacer100"></div>
 
   </div>
 
+  <!-- important to stop shaking screen -->
+  <div class="spacer10"></div>
+
+  <!-- form -->
+  <app-add-map-story-form (onHandleSubmit)="handleSubmit($event)" (onCancel)="onCancel()"></app-add-map-story-form>
+
+  <div class="spacer100"></div>
 
 </div>

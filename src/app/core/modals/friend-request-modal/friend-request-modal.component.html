@@ -11,8 +11,14 @@
       <li class="list-group-item d-flex justify-content-between">
         <a href="" (click)="viewProfile(friend.requester, $event)">{{friend.requester.username | titlecase}}</a>
         <span>
-          <button class="btn btn-secondary mr-2" (click)="acceptRequest(friend.requester)">Deny</button>
-          <button class="btn btn-primary" (click)="denyRequest(friend.requester)">Accept</button>
+          <button class="btn btn-secondary mr-2 btn-sm" (click)="acceptRequest(friend.requester)">
+            <i class="fas fa-backspace mr-1"></i>
+            Deny
+          </button>
+          <button class="btn btn-primary btn-sm" (click)="denyRequest(friend.requester)">
+            <i class="fas fa-check mr-1"></i>
+            Accept
+          </button>
         </span>
       </li>
     </ul>
@@ -27,6 +33,9 @@
 
 
   <div class="modal-footer">
-    <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+    <button type="button" class="btn btn-danger btn-sm" (click)="closeModal()">
+      <i class="fas fa-backspace mr-1"></i>
+      Close
+    </button>
   </div>
 </ng-template>

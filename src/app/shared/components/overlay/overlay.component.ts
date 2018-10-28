@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { Observable } from "rxjs";
 
 @Component({
@@ -6,9 +6,7 @@ import { Observable } from "rxjs";
   templateUrl: "./overlay.component.html",
   styleUrls: ["./overlay.component.css"]
 })
-export class OverlayComponent implements OnInit {
-  showOverlay: Observable<boolean>;
-  constructor() {}
-
-  ngOnInit() {}
+export class OverlayComponent {
+  @Input()
+  overlay$: Observable<boolean>;
 }

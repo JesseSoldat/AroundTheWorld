@@ -95,7 +95,7 @@ export class StoryService {
         tap((res: HttpRes) => {
           const { msg, payload } = res;
           const { story } = payload;
-          console.log("createNewStory", story);
+          // console.log("createNewStory", story);
 
           this.handleSuccess(msg);
           this.store.dispatch(
@@ -116,7 +116,7 @@ export class StoryService {
         tap((res: HttpRes) => {
           const { msg, payload } = res;
           const { story } = payload;
-          console.log("addImageToStory", story);
+          // console.log("addImageToStory", story);
 
           this.handleSuccess(msg);
           this.store.dispatch(new AddStoryImageFinished({ update: story }));

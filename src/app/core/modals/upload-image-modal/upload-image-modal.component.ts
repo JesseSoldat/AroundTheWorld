@@ -33,7 +33,7 @@ export class UploadImageModalComponent implements OnInit {
     this.modalType$.subscribe(type => {
       if (type === "uploadPhotos") {
         this.modalData$.pipe(first()).subscribe(data => {
-          console.log("uploadPhotos Data", data);
+          // console.log("uploadPhotos Data", data);
           this.story = data;
 
           this.open(this.uploadPhotos);

@@ -3,12 +3,12 @@
 
   <div *ngIf="(stories$ | async) as stories; else showSpinner" class="row">
     <div class="bulletinBg col-xs-12 col-sm-11 col-md-10 col-lg-9 col-xl-8 mx-auto">
+      
       <!-- have stories -->
       <div *ngFor="let story of stories" class="card col-10 mx-auto my-4">
-
         <app-list-card (onHandleSubmit)="onHandleSubmit($event)" [data]="story"></app-list-card>
-
       </div>
+
       <!-- no stories created yet -->
       <app-no-data (onBtnClick)="navigateToMap()" *ngIf="stories.length === 0" title="No Stories" text="Create some stories to get started matching with others" btnIcon="fas fa-map mr-1" btnText="Go to Map"></app-no-data>
     </div>

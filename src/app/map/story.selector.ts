@@ -4,7 +4,13 @@ import { Story } from "../models/story.model";
 
 export const selectStoryState = createFeatureSelector<StoryState>("story");
 
-// My Stories
+// overlay
+export const selectOverlay = createSelector(
+  selectStoryState,
+  storyState => storyState.overlay
+);
+
+// my stories
 export const selectStoryList = createSelector(
   selectStoryState,
   storyState => storyState.stories
@@ -16,7 +22,7 @@ export const selectStory = (storyId: string) => {
     return stories.find(story => story._id === storyId);
   });
 };
-// Other Peoples' Stories
+// other peoples stories
 export const selectOtherPersonsStoryList = createSelector(
   selectStoryState,
   storyState => storyState.otherPersonsStories

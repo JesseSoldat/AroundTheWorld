@@ -18,24 +18,21 @@ export const initialStoryState: StoryState = {
 // helpers
 const addNewStoryToStories = (prevStories, update) => {
   const updatedStories = prevStories ? [...prevStories] : [];
-  return updatedStories.unshift(update);
+  updatedStories.unshift(update);
+  return updatedStories;
 };
 
 const addImageToStory = (prevStories, update) => {
-  console.log("update", update);
-
   if (!prevStories) return null;
 
   const updatedStories = [...prevStories];
 
   const index = updatedStories.findIndex(story => story._id === update._id);
-  console.log("index", index);
+  console.log("addImageToStory index", index);
 
   if (index === -1) return null;
 
   updatedStories.splice(index, 1, update);
-
-  console.log("spliced", updatedStories);
 
   return updatedStories;
 };

@@ -14,9 +14,6 @@
 }
 
 /* right */
-.cardImg > img {
-  float: right;
-}
 
 /* from large break-point */
 @media (max-width: 1199.98px) {
@@ -35,13 +32,8 @@
   .cardImg {
     margin-top: 10px;
   }
-  .cardImg > img {
-    float: none;
-  }
 }
 
 /* from small break-point */
 @media (max-width: 767.98px) {
-  .radioGroup {
-  }
 }

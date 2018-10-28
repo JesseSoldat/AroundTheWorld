@@ -1,9 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
-// Models
+import { Observable } from "rxjs";
+// ngrx
+import { Store, select } from "@ngrx/store";
+import { AppState } from "../../reducers";
+import { selectOverlay } from "../story.selector";
+// models
 import { Location } from "../../models/location.model";
 import { Story } from "../../models/story.model";
-// Services
+// services
 import { StoryService } from "../../services/story.service";
 
 @Component({
@@ -12,12 +17,14 @@ import { StoryService } from "../../services/story.service";
   styleUrls: ["./add-map-story.component.css"]
 })
 export class AddMapStoryComponent implements OnInit {
+  overlay$: Observable<boolean>;
   location: Location;
   marker: Location;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private store: Store<AppState>,
     private storyService: StoryService
   ) {}
 
@@ -29,6 +36,12 @@ export class AddMapStoryComponent implements OnInit {
       };
       this.marker = this.location;
     });
+
+    this.showOverlay();
+  }
+
+  showOverlay() {
+    this.overlay$ = this.store.pipe(select(selectOverlay));
   }
 
   // Events & Cbs

@@ -33,9 +33,6 @@ export class StoryDetailsComponent implements OnInit {
         return this.store.select(selectStory(storyId));
       }),
       tap(story => {
-        if (story) {
-          console.log("Have Story", story);
-        }
         if (story) return;
 
         this.storyService
