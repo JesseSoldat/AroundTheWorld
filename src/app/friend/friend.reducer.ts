@@ -1,9 +1,12 @@
+// actions
 import { FriendActionTypes } from "./friend.actions";
 import { AuthActionTypes } from "../auth/auth.actions";
+// models
 import { FriendRequest } from "../models/friend-request.model";
+import { Profile } from "../models/profile.model";
 
 export interface FriendState {
-  friends: String[];
+  friends: Profile[];
   friendRequests: FriendRequest[];
 }
 

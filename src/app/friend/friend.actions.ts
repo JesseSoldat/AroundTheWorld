@@ -1,5 +1,6 @@
 import { Action } from "@ngrx/store";
 
+import { Profile } from "../models/profile.model";
 import { FriendRequest } from "../models/friend-request.model";
 
 export enum FriendActionTypes {
@@ -16,7 +17,7 @@ export class FriendsRequested implements Action {
 export class FriendsLoaded implements Action {
   readonly type = FriendActionTypes.FriendsLoaded;
 
-  constructor(public payload: { friends: String[] }) {}
+  constructor(public payload: { friends: Profile[] }) {}
 }
 // Get Friend Requests
 export class FriendRequestRequested implements Action {

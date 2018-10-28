@@ -1,12 +1,30 @@
-// Models
+// models
+const User = require("../models/user");
 const FriendRequest = require("../models/friend");
-// Middleware
+// middleware
 const isAuth = require("../middleware/isAuth");
-// Utils
+// utils
 const { serverRes, getErrMsg } = require("../utils/serverRes");
 
 module.exports = app => {
-  // Get all Friends Request Sent or Received
+  // get all friends
+  app.get("/api/friends/:userId", isAuth, async (req, res) => {
+    try {
+      const { userId } = req.params;
+
+      const friends = await User.findById(userId, { _id: 1 }).populate({
+        path: "friends",
+        select: ["username", "avatar"]
+      });
+
+      serverRes(res, 200, null, { friends: friends.friends });
+    } catch (err) {
+      console.log("Err: Get Friends", err);
+      const msg = getErrMsg("err", "fetch", "friends");
+      serverRes(res, 400, msg, null);
+    }
+  });
+  // get all friends request sent or received
   app.get("/api/friend/requests/:userId", isAuth, async (req, res) => {
     const { userId } = req.params;
 
@@ -30,7 +48,7 @@ module.exports = app => {
       serverRes(res, 400, msg, null);
     }
   });
-  // Send a Friends Request
+  // send a friends request
   app.post("/api/friend/request", isAuth, async (req, res) => {
     const { userId, friendId } = req.body;
     try {

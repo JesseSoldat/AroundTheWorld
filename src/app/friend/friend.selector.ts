@@ -4,6 +4,12 @@ import { selectUserId } from "../auth/auth.selectors";
 
 export const selectFriendState = createFeatureSelector<FriendState>("friend");
 
+// Friends
+export const selectFriends = createSelector(
+  selectFriendState,
+  friendState => friendState.friends
+);
+
 // My Friend Request
 export const selectFriendRequests = createSelector(
   selectFriendState,

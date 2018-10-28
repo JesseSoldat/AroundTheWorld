@@ -63,6 +63,16 @@ export class FriendService {
   }
 
   //----------------------  Api Calls ------------------------------
+  getFriends(): Observable<HttpRes> {
+    this.store.dispatch(new FriendsRequested());
+    return this.httpService.httpGetRequest(`friends/${this.userId}`).pipe(
+      tap((res: HttpRes) => {
+        const { payload } = res;
+        this.store.dispatch(new FriendsLoaded({ friends: payload.friends }));
+      }),
+      catchError(err => this.handleError(err))
+    );
+  }
   // Send a Friends Request
   sendFriendRequest(friendId: string): Observable<HttpRes> {
     return this.httpService
