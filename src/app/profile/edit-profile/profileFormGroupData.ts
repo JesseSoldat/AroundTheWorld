@@ -6,33 +6,33 @@ export const profileFormGroupData = {
     placeholder: "Enter a username",
     info: "",
     err: "usernameErr",
+    required: true
+  },
+  gender: {
+    name: "gender",
+    type: "radio",
+    label: "Gender",
+    placeholder: "",
+    info: "",
+    err: "",
     required: false
   },
-  email: {
-    name: "email",
-    type: "email",
-    label: "Email address",
-    placeholder: "Enter an email",
-    info: "We'll never share your email with anyone else.",
-    err: "emailErr",
+  hometown: {
+    name: "hometown",
+    type: "text",
+    label: "Hometown",
+    placeholder: "Enter where your from",
+    info: "",
+    err: "",
     required: false
   },
-  password: {
-    name: "password",
-    type: "password",
-    label: "Password",
-    placeholder: "Enter a password",
-    info: "Make sure it is a least 6 characters long.",
-    err: "passwordErr",
-    required: false
-  },
-  confirmPassword: {
-    name: "confirmPassword",
-    type: "password",
-    label: "Confirm Password",
-    placeholder: "Enter a password",
-    info: "Make sure your password is the same as above!",
-    err: "confirmPasswordErr",
+  occupation: {
+    name: "occupation",
+    type: "text",
+    label: "Occupation",
+    placeholder: "What do you do for work",
+    info: "",
+    err: "",
     required: false
   }
 };
