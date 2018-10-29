@@ -2,7 +2,7 @@ export const profileFormGroupData = {
   username: {
     name: "username",
     type: "text",
-    label: "Username",
+    label: "* username",
     placeholder: "Enter a username",
     info: "",
     err: "usernameErr",
@@ -11,7 +11,7 @@ export const profileFormGroupData = {
   gender: {
     name: "gender",
     type: "radio",
-    label: "Gender",
+    label: "gender",
     placeholder: "",
     info: "",
     err: "",
@@ -20,7 +20,7 @@ export const profileFormGroupData = {
   hometown: {
     name: "hometown",
     type: "text",
-    label: "Hometown",
+    label: "hometown",
     placeholder: "Enter where your from",
     info: "",
     err: "",
@@ -29,7 +29,7 @@ export const profileFormGroupData = {
   occupation: {
     name: "occupation",
     type: "text",
-    label: "Occupation",
+    label: "occupation",
     placeholder: "What do you do for work",
     info: "",
     err: "",

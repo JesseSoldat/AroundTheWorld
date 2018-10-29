@@ -60,10 +60,10 @@ export class EditProfileComponent implements OnInit {
   // form
   initializeForm() {
     this.profileForm = this.formBuilder.group({
-      username: new FormControl("", [Validators.required])
+      username: new FormControl("", [Validators.required]),
       // hometown: new FormControl(""),
       // gender: new FormControl(""),
-      // occupation: new FormControl(""),
+      occupation: new FormControl("")
       // about: new FormControl("")
     });
   }
