@@ -36,9 +36,8 @@ export class FriendService {
   // Helpers
   handleError(err) {
     console.error("friend service handleError:", err);
-    // TODO err.error?
-    //new ShowMsg({ msg: err.error.msg });
-    this.toastr.error("", err.msg, {
+
+    this.toastr.error("", err.error.msg, {
       timeOut: 3000,
       positionClass: "toast-bottom-right"
     });

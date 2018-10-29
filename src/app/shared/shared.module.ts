@@ -15,6 +15,8 @@ import { FileSizePipe } from "./pipes/file-size.pipe";
 // components
 import { HeadingComponent } from "./components/heading/heading.component";
 import { FormGroupComponent } from "./components/form-group/form-group.component";
+import { TextFormGroupComponent } from "./components/text-form-group/text-form-group.component";
+import { RadioFormGroupComponent } from "./components/radio-form-group/radio-form-group.component";
 import { LinkComponent } from "./components/link/link.component";
 import { TextBoxComponent } from "./components/text-box/text-box.component";
 import { TileCardComponent } from "./components/tile-card/tile-card.component";
@@ -43,6 +45,8 @@ const routes: Routes = [];
     FileSizePipe,
     HeadingComponent,
     FormGroupComponent,
+    TextFormGroupComponent,
+    RadioFormGroupComponent,
     LinkComponent,
     TextBoxComponent,
     TileCardComponent,
@@ -66,6 +70,8 @@ const routes: Routes = [];
     FileSizePipe,
     HeadingComponent,
     FormGroupComponent,
+    TextFormGroupComponent,
+    RadioFormGroupComponent,
     LinkComponent,
     TextBoxComponent,
     TileCardComponent,

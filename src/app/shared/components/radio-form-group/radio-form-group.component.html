@@ -1,0 +1,7 @@
+<div class="form-group" *ngIf="(data$ | async) as data">
+
+  <label class="d-block"><small>{{data[key]['groupLabel']}}</small></label>
+
+  <ng-content></ng-content>
+
+</div>

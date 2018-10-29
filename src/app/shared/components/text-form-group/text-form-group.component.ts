@@ -4,19 +4,19 @@ import { Observable } from "rxjs";
 import { InputGroup } from "../../../models/input-group.model";
 
 @Component({
-  selector: "app-form-group",
-  templateUrl: "./form-group.component.html",
-  styleUrls: ["./form-group.component.css"]
+  selector: "app-text-form-group",
+  templateUrl: "./text-form-group.component.html",
+  styleUrls: ["./text-form-group.component.css"]
 })
-export class FormGroupComponent implements OnInit {
-  @Input("formControlName")
+export class TextFormGroupComponent implements OnInit {
+  @Input("name")
   key;
   @Input()
   data$: Observable<InputGroup>;
   @Input()
   errMsg: string;
 
-  ngOnInit() {
-    // console.log(this.key);
-  }
+  constructor() {}
+
+  ngOnInit() {}
 }

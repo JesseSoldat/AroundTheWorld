@@ -8,20 +8,11 @@ export const profileFormGroupData = {
     err: "usernameErr",
     required: true
   },
-  gender: {
-    name: "gender",
-    type: "radio",
-    label: "gender",
-    placeholder: "",
-    info: "",
-    err: "",
-    required: false
-  },
   hometown: {
     name: "hometown",
     type: "text",
     label: "hometown",
-    placeholder: "Enter where your from",
+    placeholder: "Where are you from",
     info: "",
     err: "",
     required: false
@@ -31,6 +22,15 @@ export const profileFormGroupData = {
     type: "text",
     label: "occupation",
     placeholder: "What do you do for work",
+    info: "",
+    err: "",
+    required: false
+  },
+  about: {
+    name: "about",
+    type: "textarea",
+    label: "about",
+    placeholder: "What do you want others to know about you",
     info: "",
     err: "",
     required: false

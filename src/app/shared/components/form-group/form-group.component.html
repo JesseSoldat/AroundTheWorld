@@ -6,8 +6,13 @@
     <strong>* = required fields</strong>
   </small>
 
-  <input type="{{data[key]['type']}}" name="{{data[key]['name']}}" class="form-control" placeholder="{{data[key]['label']}}"
-    [class.is-invalid]="errMsg">
+  <input *ngIf="data[key]['type'] !== 'textarea'" type="{{data[key]['type']}}" name="{{data[key]['name']}}" class="form-control"
+    placeholder="{{data[key]['placeholder']}}" [class.is-invalid]="errMsg">
+
+
+  <textarea *ngIf="data[key]['type'] === 'textarea'" rows="10" name="{{data[key]['name']}}" class="form-control"
+    placeholder="{{data[key]['placeholder']}}" [class.is-invalid]="errMsg"></textarea>
+
 
   <small class="form-text text-muted">{{data[key]['info']}}</small>
 

@@ -10,7 +10,6 @@ import { ProfileComponent } from "./profile/profile.component";
 import { ProfileCardComponent } from "./profile/profile-card/profile-card.component";
 import { EditProfileComponent } from "./edit-profile/edit-profile.component";
 import { SideBarComponent } from "./edit-profile/side-bar/side-bar.component";
-import { BasicFormComponent } from "./edit-profile/basic-form/basic-form.component";
 
 @NgModule({
   imports: [
@@ -23,8 +22,7 @@ import { BasicFormComponent } from "./edit-profile/basic-form/basic-form.compone
     ProfileComponent,
     ProfileCardComponent,
     EditProfileComponent,
-    SideBarComponent,
-    BasicFormComponent
+    SideBarComponent
   ]
 })
 export class ProfileModule {}

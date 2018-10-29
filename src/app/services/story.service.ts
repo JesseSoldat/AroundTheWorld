@@ -44,9 +44,8 @@ export class StoryService {
   // helpers
   handleError(err) {
     console.error("story service handleError:", err);
-    // TODO
-    // this.store.dispatch(new ShowMsg({ msg: err.error.msg }));
-    this.toastr.error("", err.msg, {
+
+    this.toastr.error("", err.error.msg, {
       timeOut: 3000,
       positionClass: "toast-bottom-right"
     });

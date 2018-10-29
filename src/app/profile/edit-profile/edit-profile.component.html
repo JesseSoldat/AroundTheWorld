@@ -21,16 +21,70 @@
           <div class="col-xs-12 col-md-8 mx-auto">
             <div class="card">
               <div class="card-body">
-                <app-basic-form *ngIf="formType === 'basic'"></app-basic-form>
+                <div class="row">
+                  <div class="col-12">
+                    <h4 *ngIf="formType === 'basic'">Basics</h4>
+                    <h4 *ngIf="formType === 'about'">About</h4>
+
+
+                  </div>
+                </div>
 
                 <form [formGroup]="profileForm" (ngSubmit)="handleSubmit()" novalidate>
 
+                  <!-- basics form -->
+                  <app-text-form-group *ngIf="formType === 'basic'" [data$]="formGroupData$" name="username" [errMsg]="controlNameErrs.username">
 
-                  <app-form-group [data$]="formGroupData$" formControlName="username" ngDefaultControl (appBlurEvent)="blurEvent($event)"
-                    [errMsg]="controlNameErrs.username"></app-form-group>
+                    <input type="text" (appBlurEvent)="blurEvent($event)" formControlName="username" class="form-control"
+                      [placeholder]="formGroupData.username.placeholder">
 
-                  <app-form-group [data$]="formGroupData$" formControlName="occupation" ngDefaultControl (appBlurEvent)="blurEvent($event)"></app-form-group>
+                  </app-text-form-group>
 
+                  <!-- radio -->
+                  <app-radio-form-group *ngIf="formType === 'basic'" [data$]="radioGroupData$" name="gender">
+
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="gender" value="male">
+
+                      <label class="form-check-label"><small>male</small></label>
+                    </div>
+
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" formControlName="gender" value="female">
+
+                      <label class="form-check-label"><small>female</small></label>
+                    </div>
+
+                  </app-radio-form-group>
+
+
+                  <app-text-form-group *ngIf="formType === 'basic'" [data$]="formGroupData$" name="occupation">
+
+                    <input type="text" (appBlurEvent)="blurEvent($event)" formControlName="occupation" class="form-control"
+                      [placeholder]="formGroupData.occupation.placeholder">
+
+                  </app-text-form-group>
+
+
+                  <!-- about form -->
+                  <app-text-form-group *ngIf="formType === 'about'" [data$]="formGroupData$" name="about">
+
+                    <input type="text" (appBlurEvent)="blurEvent($event)" formControlName="about" class="form-control"
+                      [placeholder]="formGroupData.about.placeholder">
+
+                  </app-text-form-group>
+
+
+                  <app-text-form-group *ngIf="formType === 'about'" [data$]="formGroupData$" name="about">
+
+                    <textarea (appBlurEvent)="blurEvent($event)" rows="10" class="form-control" formControlName="about"
+                      [placeholder]="formGroupData.about.placeholder"></textarea>
+
+                  </app-text-form-group>
+
+
+                  <!-- button -->
+                  <button type="submit" [disabled]="!profileForm.valid" class="btn btn-outline-dark btn-block btn-sm">Submit</button>
                 </form>
               </div>
             </div>

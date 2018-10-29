@@ -15,9 +15,10 @@ import { AppState } from "../../reducers";
 import { Profile } from "../../models/profile.model";
 import { ProfileService } from "../../services/profile.service";
 import { InputGroup } from "../../models/input-group.model";
-
+import { RadioGroup } from "src/app/models/radio-group.model";
 // data
 import { profileFormGroupData } from "./profileFormGroupData";
+import { profileRadioGroupData } from "./profileRadioGroupData";
 
 @Component({
   selector: "app-edit-profile",
@@ -27,6 +28,8 @@ import { profileFormGroupData } from "./profileFormGroupData";
 export class EditProfileComponent implements OnInit {
   profile$: Observable<Profile>;
   formGroupData$: Observable<InputGroup> = null;
+  formGroupData = profileFormGroupData;
+  radioGroupData$: Observable<RadioGroup> = null;
   profileForm: FormGroup;
   formType: string = "basic";
   // form errors
@@ -34,17 +37,22 @@ export class EditProfileComponent implements OnInit {
     username: null
   };
 
+  name;
+
   constructor(
     private router: Router,
     private store: Store<AppState>,
     private profileService: ProfileService,
     private formBuilder: FormBuilder
-  ) {}
+  ) {
+    this.initializeForm();
+    this.name = new FormControl("Jesse");
+  }
 
   ngOnInit() {
     this.formGroupData$ = of(profileFormGroupData);
+    this.radioGroupData$ = of(profileRadioGroupData);
     this.getProfile();
-    this.initializeForm();
   }
 
   // store / api calls
@@ -60,12 +68,14 @@ export class EditProfileComponent implements OnInit {
   // form
   initializeForm() {
     this.profileForm = this.formBuilder.group({
-      username: new FormControl("", [Validators.required]),
-      // hometown: new FormControl(""),
-      // gender: new FormControl(""),
-      occupation: new FormControl("")
-      // about: new FormControl("")
+      username: new FormControl("Jesse", [Validators.required]),
+      hometown: new FormControl(""),
+      occupation: new FormControl(""),
+      about: new FormControl(""),
+      gender: new FormControl("male")
     });
+
+    this.profileForm.patchValue({ gender: "male", occupation: "coder" });
   }
 
   // cbs
@@ -75,7 +85,9 @@ export class EditProfileComponent implements OnInit {
     this.formType = formType;
   }
 
-  handleSubmit() {}
+  handleSubmit() {
+    console.log(this.profileForm.value);
+  }
 
   navToProfile() {
     this.router.navigateByUrl("/profile");

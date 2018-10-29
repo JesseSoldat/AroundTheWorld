@@ -1,0 +1,16 @@
+<div class="form-group" *ngIf="(data$ | async) as data">
+
+  <label><small>{{data[key]['label']}}</small></label>
+
+  <small *ngIf="data[key]['required']" class="d-block pr-3 float-right">
+    <strong>* = required fields</strong>
+  </small>
+
+  <ng-content></ng-content>
+
+  <small class="form-text text-muted">{{data[key]['info']}}</small>
+
+  <div class="invalid-feedback">
+    {{errMsg}}
+  </div>
+</div>

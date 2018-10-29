@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { BasicFormComponent } from './basic-form.component';
+import { RadioFormGroupComponent } from './radio-form-group.component';
 
-describe('BasicFormComponent', () => {
-  let component: BasicFormComponent;
-  let fixture: ComponentFixture<BasicFormComponent>;
+describe('RadioFormGroupComponent', () => {
+  let component: RadioFormGroupComponent;
+  let fixture: ComponentFixture<RadioFormGroupComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BasicFormComponent ]
+      declarations: [ RadioFormGroupComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BasicFormComponent);
+    fixture = TestBed.createComponent(RadioFormGroupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
