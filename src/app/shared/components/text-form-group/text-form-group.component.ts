@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { Observable } from "rxjs";
 // models
 import { InputGroup } from "../../../models/input-group.model";
 
@@ -12,7 +11,7 @@ export class TextFormGroupComponent implements OnInit {
   @Input("name")
   key;
   @Input()
-  data$: Observable<InputGroup>;
+  data: InputGroup;
   @Input()
   errMsg: string;
 

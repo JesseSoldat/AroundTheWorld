@@ -5,6 +5,11 @@ export const selectProfileState = createFeatureSelector<ProfileState>(
   "profile"
 );
 
+export const selectError = createSelector(
+  selectProfileState,
+  profileState => profileState.error
+);
+
 export const selectProfile = createSelector(
   selectProfileState,
   profileState => profileState.profile

@@ -11,8 +11,6 @@ import { selectUserId } from "../auth/auth.selectors";
 import { HttpRes } from "../models/http-res.model";
 // services
 import { HttpService } from "./http.service";
-// actions
-import { ProfileRequested, ProfileLoaded } from "../profile/profile.actions";
 
 @Injectable({
   providedIn: "root"
@@ -37,7 +35,7 @@ export class ProfileService {
       positionClass: "toast-bottom-right"
     });
 
-    return of({ msg: err.error.msg, payload: null });
+    return of(null);
   }
 
   handleSuccess(msg) {
@@ -58,6 +56,8 @@ export class ProfileService {
 
   //--------------  api calls -------------------
   getProfile(): Observable<HttpRes> {
+    if (!this.userId) return of(null);
+
     return this.httpService
       .httpGetRequest(`profile/${this.userId}`)
       .pipe(catchError(err => this.handleError(err)));

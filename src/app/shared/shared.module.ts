@@ -27,6 +27,7 @@ import { ImgCardComponent } from "./components/img-card/img-card.component";
 import { TopRowBtnsComponent } from "./components/buttons/top-row-btns/top-row-btns.component";
 import { BottomRowBtnsComponent } from "./components/buttons/bottom-row-btns/bottom-row-btns.component";
 import { NoDataComponent } from "./components/no-data/no-data.component";
+import { ErrorRetryComponent } from "./components/error-retry/error-retry.component";
 
 const routes: Routes = [];
 
@@ -56,7 +57,8 @@ const routes: Routes = [];
     TopRowBtnsComponent,
     BottomRowBtnsComponent,
     OverlayComponent,
-    NoDataComponent
+    NoDataComponent,
+    ErrorRetryComponent
   ],
   exports: [
     CommonModule,
@@ -81,7 +83,8 @@ const routes: Routes = [];
     TopRowBtnsComponent,
     BottomRowBtnsComponent,
     OverlayComponent,
-    NoDataComponent
+    NoDataComponent,
+    ErrorRetryComponent
   ]
 })
 export class SharedModule {}

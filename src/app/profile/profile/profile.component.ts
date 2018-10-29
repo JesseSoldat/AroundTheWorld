@@ -8,8 +8,6 @@ import { selectProfile } from "../profile.selector";
 import { ProfileRequested } from "../profile.actions";
 // models
 import { Profile } from "../../models/profile.model";
-// services
-import { ProfileService } from "../../services/profile.service";
 
 @Component({
   selector: "app-profile",
@@ -19,17 +17,13 @@ import { ProfileService } from "../../services/profile.service";
 export class ProfileComponent implements OnInit {
   profile$: Observable<Profile>;
 
-  constructor(
-    private store: Store<AppState>,
-    private profileService: ProfileService,
-    private router: Router
-  ) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit() {
-    this.getProfile();
+    this.requestProfile();
   }
 
-  getProfile() {
+  requestProfile() {
     this.profile$ = this.store.pipe(
       select(selectProfile),
       tap(profile => {

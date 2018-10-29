@@ -64,6 +64,7 @@ export class FriendService {
   //--------------  api calls -------------------
 
   getFriends(): Observable<HttpRes> {
+    if (!this.userId) return of(null);
     this.store.dispatch(new FriendsRequested());
     return this.httpService.httpGetRequest(`friends/${this.userId}`).pipe(
       tap((res: HttpRes) => {
@@ -90,6 +91,7 @@ export class FriendService {
 
   // Get all Friends Request Sent or Received
   allFriendRequests(): Observable<HttpRes> {
+    if (!this.userId) return of(null);
     this.store.dispatch(new FriendRequestRequested());
     return this.httpService
       .httpGetRequest(`friend/requests/${this.userId}`)

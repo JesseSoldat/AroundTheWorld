@@ -73,6 +73,7 @@ export class StoryService {
 
   // get all stories
   getMyStories(): Observable<HttpRes> {
+    if (!this.userId) return of(null);
     this.store.dispatch(new MyStoriesRequested());
     return this.httpService.httpGetRequest(`story/${this.userId}`).pipe(
       tap((res: HttpRes) => {
@@ -126,6 +127,7 @@ export class StoryService {
 
   // get other persons stories
   getOtherPersonsStories(userId: string): Observable<HttpRes> {
+    if (!this.userId) return of(null);
     this.store.dispatch(new OtherPersonsStoriesRequested());
     return this.httpService.httpGetRequest(`story/${userId}`).pipe(
       tap((res: HttpRes) => {
