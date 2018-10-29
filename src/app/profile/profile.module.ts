@@ -2,6 +2,8 @@ import { NgModule } from "@angular/core";
 //ngrx
 import { StoreModule } from "@ngrx/store";
 import { profileReducer } from "./profile.reducer";
+import { EffectsModule } from "@ngrx/effects";
+import { ProfileEffects } from "./profile.effects";
 // modules
 import { SharedModule } from "../shared/shared.module";
 import { ProfileRoutingModule } from "./profile-routing.module";
@@ -15,7 +17,8 @@ import { SideBarComponent } from "./edit-profile/side-bar/side-bar.component";
   imports: [
     SharedModule,
     ProfileRoutingModule,
-    StoreModule.forFeature("profile", profileReducer)
+    StoreModule.forFeature("profile", profileReducer),
+    EffectsModule.forFeature([ProfileEffects])
   ],
   exports: [ProfileRoutingModule],
   declarations: [

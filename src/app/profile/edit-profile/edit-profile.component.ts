@@ -11,11 +11,11 @@ import { tap } from "rxjs/operators";
 import { Store, select } from "@ngrx/store";
 import { selectProfile } from "../profile.selector";
 import { AppState } from "../../reducers";
+import { ProfileRequested } from "../profile.actions";
 // models
 import { Profile } from "../../models/profile.model";
-import { ProfileService } from "../../services/profile.service";
 import { InputGroup } from "../../models/input-group.model";
-import { RadioGroup } from "src/app/models/radio-group.model";
+import { RadioGroup } from "../..//models/radio-group.model";
 // data
 import { profileFormGroupData } from "./profileFormGroupData";
 import { profileRadioGroupData } from "./profileRadioGroupData";
@@ -42,7 +42,6 @@ export class EditProfileComponent implements OnInit {
   constructor(
     private router: Router,
     private store: Store<AppState>,
-    private profileService: ProfileService,
     private formBuilder: FormBuilder
   ) {
     this.initializeForm();
@@ -52,15 +51,15 @@ export class EditProfileComponent implements OnInit {
   ngOnInit() {
     this.formGroupData$ = of(profileFormGroupData);
     this.radioGroupData$ = of(profileRadioGroupData);
-    this.getProfile();
+    this.requestProfile();
   }
 
   // store / api calls
-  getProfile() {
+  requestProfile() {
     this.profile$ = this.store.pipe(
       select(selectProfile),
       tap(profile => {
-        if (!profile) return this.profileService.getProfile().subscribe();
+        if (!profile) this.store.dispatch(new ProfileRequested());
       })
     );
   }

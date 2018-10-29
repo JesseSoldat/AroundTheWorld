@@ -58,13 +58,8 @@ export class ProfileService {
 
   //--------------  api calls -------------------
   getProfile(): Observable<HttpRes> {
-    this.store.dispatch(new ProfileRequested());
-    return this.httpService.httpGetRequest(`profile/${this.userId}`).pipe(
-      tap((res: HttpRes) => {
-        const { payload } = res;
-        this.store.dispatch(new ProfileLoaded({ profile: payload.profile }));
-      }),
-      catchError(err => this.handleError(err))
-    );
+    return this.httpService
+      .httpGetRequest(`profile/${this.userId}`)
+      .pipe(catchError(err => this.handleError(err)));
   }
 }

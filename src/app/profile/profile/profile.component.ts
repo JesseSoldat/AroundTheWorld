@@ -1,10 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
+import { tap, first } from "rxjs/operators";
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { selectProfile } from "../profile.selector";
+import { ProfileRequested } from "../profile.actions";
 // models
 import { Profile } from "../../models/profile.model";
 // services
@@ -32,7 +33,7 @@ export class ProfileComponent implements OnInit {
     this.profile$ = this.store.pipe(
       select(selectProfile),
       tap(profile => {
-        if (!profile) return this.profileService.getProfile().subscribe();
+        if (!profile) this.store.dispatch(new ProfileRequested());
       })
     );
   }
