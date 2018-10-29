@@ -43,6 +43,10 @@ body {
   cursor: not-allowed;
 }
 
+button:focus {
+  outline: 0;
+}
+
 /* margins */
 @media (max-width: 575.98px) {
   .mTopXsSmall {

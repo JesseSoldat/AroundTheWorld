@@ -5,7 +5,10 @@
         <i class="fas fa-cogs mr-2"></i>
         Profile
       </li>
-
+      <button *ngFor="let field of buttonFields" (click)="onChangeFormType(field.formType)" [ngStyle]="{'background': currentForm === field.formType ? '#f2f2f2' : 'white' }"
+        type="button" class="list-group-item list-group-item-action">
+        {{field.btnText}}
+      </button>
     </ul>
   </div>
 </div>

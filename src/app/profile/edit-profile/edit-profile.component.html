@@ -12,7 +12,7 @@
 
           <!-- side bar -->
           <div class="col-xs-12 col-md-4 mx-auto mb-2">
-            <app-side-bar></app-side-bar>
+            <app-side-bar (changeFormType)="changeFormType($event)"></app-side-bar>
           </div>
 
 
@@ -22,6 +22,14 @@
             <div class="card">
               <div class="card-body">
                 <app-basic-form *ngIf="formType === 'basic'"></app-basic-form>
+
+                <form [formGroup]="profileForm" (ngSubmit)="handleSubmit()" novalidate>
+
+
+                  <app-form-group [data$]="formGroupData$" formControlName="username" ngDefaultControl (appBlurEvent)="blurEvent($event)"
+                    [errMsg]="controlNameErrs.username"></app-form-group>
+
+                </form>
               </div>
             </div>
           </div>
