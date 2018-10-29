@@ -1,0 +1,39 @@
+<div class="row px-3">
+  <div class="col-xs-12 col-sm-10 col-md-9 mx-auto">
+
+    <app-heading (btnClick)="navToProfile()" heading="Edit Profile" [backBtn]="true">
+    </app-heading>
+
+    <div class="row">
+      <div class="col-12 mx-auto">
+
+        <div *ngIf="(profile$ | async) as profile; else showSpinner" class="row">
+
+
+          <!-- side bar -->
+          <div class="col-xs-12 col-md-4 mx-auto mb-2">
+            <app-side-bar></app-side-bar>
+          </div>
+
+
+
+          <!-- form -->
+          <div class="col-xs-12 col-md-8 mx-auto">
+            <div class="card">
+              <div class="card-body">
+                <app-basic-form *ngIf="formType === 'basic'"></app-basic-form>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<ng-template #showSpinner>
+  <app-spinner></app-spinner>
+</ng-template>

@@ -10,8 +10,13 @@ import { Profile } from "src/app/models/profile.model";
 export class ProfileCardComponent implements OnInit {
   @Input()
   profile: Profile;
+  avatar: string;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.avatar = this.profile.avatar
+      ? this.profile.avatar
+      : "../../../../assets/img/userdefault.png";
+  }
 }

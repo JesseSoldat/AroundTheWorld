@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { Store, select } from "@ngrx/store";
@@ -19,7 +20,8 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private store: Store<AppState>,
-    private profileService: ProfileService
+    private profileService: ProfileService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -33,5 +35,9 @@ export class ProfileComponent implements OnInit {
         if (!profile) return this.profileService.getProfile().subscribe();
       })
     );
+  }
+
+  editProfile() {
+    this.router.navigateByUrl("/profile/edit");
   }
 }
