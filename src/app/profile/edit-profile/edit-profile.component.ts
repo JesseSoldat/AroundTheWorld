@@ -6,7 +6,7 @@ import {
   FormControl,
   Validators
 } from "@angular/forms";
-import { Observable, of } from "rxjs";
+import { Observable } from "rxjs";
 import { tap } from "rxjs/operators";
 import { Store, select } from "@ngrx/store";
 import { selectError, selectProfile } from "../profile.selector";
@@ -50,14 +50,11 @@ export class EditProfileComponent implements OnInit {
 
   // store / api calls
   listenForErrors() {
-    this.error$ = this.store.pipe(
-      select(selectError),
-      tap(error => console.log(error))
-    );
+    this.error$ = this.store.pipe(select(selectError));
   }
 
+  // retry logic
   fetchData() {
-    console.log("fetch data again");
     this.store.dispatch(new ProfileRequested());
   }
 

@@ -1,10 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Observable } from "rxjs";
-import { tap, first } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
-import { selectProfile } from "../profile.selector";
+import { selectError, selectProfile } from "../profile.selector";
 import { ProfileRequested } from "../profile.actions";
 // models
 import { Profile } from "../../models/profile.model";
@@ -15,12 +15,24 @@ import { Profile } from "../../models/profile.model";
   styleUrls: ["./profile.component.css"]
 })
 export class ProfileComponent implements OnInit {
+  error$: Observable<string>;
   profile$: Observable<Profile>;
 
   constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit() {
+    this.listenForErrors();
     this.requestProfile();
+  }
+
+  // store / api calls
+  listenForErrors() {
+    this.error$ = this.store.pipe(select(selectError));
+  }
+
+  // retry logic
+  fetchData() {
+    this.store.dispatch(new ProfileRequested());
   }
 
   requestProfile() {
@@ -32,6 +44,7 @@ export class ProfileComponent implements OnInit {
     );
   }
 
+  // cbs
   editProfile() {
     this.router.navigateByUrl("/profile/edit");
   }

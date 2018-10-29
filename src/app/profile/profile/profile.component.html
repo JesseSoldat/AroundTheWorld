@@ -1,13 +1,16 @@
 <div class="row px-3">
   <div class="col-xs-12 col-sm-10 col-md-9 mx-auto">
-    <app-heading *ngIf="(profile$ | async) as profile; else showHeading" (btnClick)="editProfile()" [heading]="profile.username | titlecase"
+
+    <!-- heading -->
+    <app-heading *ngIf="(profile$ | async) as profile; else showHeadingPlaceholder" (btnClick)="editProfile()" [heading]="profile.username | titlecase"
       [editBtn]="true">
     </app-heading>
+
 
     <div class="row">
       <div class="bulletinBg col-12 mx-auto">
 
-        <div *ngIf="(profile$ | async) as profile; else showSpinner" class="row">
+        <div *ngIf="(profile$ | async) as profile; else showFetchAndRetry" class="row">
           <div class="col-12">
             <app-profile-card [profile]="profile"></app-profile-card>
           </div>
@@ -15,13 +18,19 @@
       </div>
     </div>
   </div>
-</div>
+</div> 
 
-<ng-template #showHeading>
+
+<!-- heading placeholder -->
+<ng-template #showHeadingPlaceholder>
   <app-heading></app-heading>
   <div class="spacer100"></div>
 </ng-template>
 
-<ng-template #showSpinner>
-  <app-spinner></app-spinner>
+<!-- handle loading and errors -->
+<ng-template #showFetchAndRetry>
+  <div *ngIf="(error$ | async) as error">
+    <app-error-retry (fetchData)="fetchData()" [msg]="error"></app-error-retry>
+  </div>
+  <app-spinner *ngIf="!(error$ | async)"></app-spinner>
 </ng-template>

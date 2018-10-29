@@ -1,21 +1,18 @@
 <div class="row px-3">
   <div class="col-xs-12 col-sm-10 col-md-9 mx-auto">
 
-
-
     <app-heading (btnClick)="navToProfile()" heading="Edit Profile" [backBtn]="true">
     </app-heading>
 
     <div class="row">
       <div class="col-12 mx-auto">
 
-        <div *ngIf="(profile$ | async) as profile; else showSpinner" class="row">
+        <div *ngIf="(profile$ | async) as profile; else showFetchAndRetry" class="row">
 
           <!-- side bar -->
           <div class="col-xs-12 col-md-4 mx-auto mb-2">
             <app-side-bar (changeFormType)="changeFormType($event)"></app-side-bar>
           </div>
-
 
           <!-- form -->
           <div class="col-xs-12 col-md-8 mx-auto">
@@ -25,7 +22,6 @@
                   <div class="col-12">
                     <h4 *ngIf="formType === 'basic'">Basics</h4>
                     <h4 *ngIf="formType === 'about'">About</h4>
-
 
                   </div>
                 </div>
@@ -97,10 +93,10 @@
 </div>
 
 
-
-<ng-template #showSpinner>
+<!-- handle loading and errors -->
+<ng-template #showFetchAndRetry>
   <div *ngIf="(error$ | async) as error">
     <app-error-retry (fetchData)="fetchData()" [msg]="error"></app-error-retry>
   </div>
-  <app-spinner *ngIf="(!error$ | async)"></app-spinner>
+  <app-spinner *ngIf="!(error$ | async)"></app-spinner>
 </ng-template>
