@@ -3,6 +3,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule, Routes } from "@angular/router";
+import { ImageCropperModule } from "ngx-image-cropper";
 // ng bootstrap
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
@@ -37,6 +38,7 @@ const routes: Routes = [];
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
+    ImageCropperModule,
     RouterModule.forChild(routes)
   ],
   declarations: [
@@ -65,6 +67,7 @@ const routes: Routes = [];
     FormsModule,
     RouterModule,
     NgbModule,
+    ImageCropperModule,
     ReactiveFormsModule,
     BlurEventDirective,
     DropZoneDirective,

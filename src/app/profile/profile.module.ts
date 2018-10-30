@@ -12,6 +12,7 @@ import { ProfileComponent } from "./profile/profile.component";
 import { ProfileCardComponent } from "./profile/profile-card/profile-card.component";
 import { EditProfileComponent } from "./edit-profile/edit-profile.component";
 import { SideBarComponent } from "./edit-profile/side-bar/side-bar.component";
+import { UploadAvatarComponent } from "./edit-profile/upload-avatar/upload-avatar.component";
 
 @NgModule({
   imports: [
@@ -25,7 +26,8 @@ import { SideBarComponent } from "./edit-profile/side-bar/side-bar.component";
     ProfileComponent,
     ProfileCardComponent,
     EditProfileComponent,
-    SideBarComponent
+    SideBarComponent,
+    UploadAvatarComponent
   ]
 })
 export class ProfileModule {}

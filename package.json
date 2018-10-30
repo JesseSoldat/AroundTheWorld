@@ -38,11 +38,13 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "core-js": "^2.5.4",
+    "cropperjs": "^1.4.3",
     "express": "^4.16.3",
     "firebase": "^5.5.2",
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.2.17",
     "ngrx-store-freeze": "^0.2.4",
+    "ngx-image-cropper": "^1.2.2",
     "ngx-toastr": "^9.1.1",
     "rxjs": "~6.2.0",
     "zone.js": "~0.8.26"

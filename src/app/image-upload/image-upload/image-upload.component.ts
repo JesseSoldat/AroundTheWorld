@@ -23,14 +23,14 @@ import { StoryService } from "../../services/story.service";
 export class ImageUploadComponent implements OnInit {
   userId: string;
   storyId: string;
-  // Main task
+  // main task
   task: AngularFireUploadTask;
-  // Progress monitoring
+  // progress monitoring
   percentage: Observable<number>;
   snapshot;
-  // Download URL
+  // download url
   downloadURL$: Observable<any>;
-  // State for dropzone CSS toggling
+  // state for dropzone css toggling
   isHovering: boolean;
 
   constructor(
@@ -57,7 +57,7 @@ export class ImageUploadComponent implements OnInit {
     });
   }
 
-  // Events & Cbs
+  // events & cbs
   toggleHover(event: boolean) {
     this.isHovering = event;
   }
@@ -65,8 +65,8 @@ export class ImageUploadComponent implements OnInit {
   startUpload(event: FileList) {
     const file = event.item(0);
 
-    // Client-side validation example
-    if (file.type.split("/")[0] !== "image") {
+    // client-side validation
+    if (!file || file.type.split("/")[0] !== "image") {
       const err = { msg: "The file type is not supported" };
       return this.handleError(err);
     }
@@ -91,10 +91,10 @@ export class ImageUploadComponent implements OnInit {
       )
       .subscribe();
 
-    // Progress monitoring
+    // progress monitoring
     this.percentage = this.task.percentageChanges();
 
-    // The file's download URL
+    // the file's download URL
     const ref = this.storage.ref(path);
   }
 
@@ -104,7 +104,7 @@ export class ImageUploadComponent implements OnInit {
     );
   }
 
-  // Save to DB
+  // save to db
   saveUrlRefToTheStory(url: string) {
     this.storyService
       .addImageToStory(url, this.storyId)

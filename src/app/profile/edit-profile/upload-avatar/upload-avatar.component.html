@@ -1,0 +1,65 @@
+<!-- dropzone -->
+<div class="row titleRow">
+  <h5>Step 1 - Add Photo</h5>
+</div>
+<div class="row dropzoneRow">
+  <div class="col-12 d-flex justify-content-center align-items-center">
+
+    <label>
+      <input type="file" hidden (change)="fileChangeEvent($event)">
+      <span>
+        <span class="mr-2 cursorPointer">
+          <i class="fa fa-upload fa-2x"></i>
+        </span>
+        <span class="file-label cursorPointer">
+          choose a file…
+        </span>
+      </span>
+    </label>
+
+  </div>
+
+</div>
+
+<!-- cropper -->
+<div class="row titleRow">
+  <h5>Step 2 - Resize image</h5>
+
+</div>
+<div class="row cropperRow">
+  <div class="col-12">
+    <image-cropper *ngIf="imageChangedEvent" [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true"
+      [aspectRatio]="1" format="png" [resizeToWidth]="250" (imageCropped)="imageCropped($event)"></image-cropper>
+  </div>
+</div>
+
+
+<!-- submit and preview -->
+<div class="row titleRow">
+  <h5>Step 3 - Preview and Upload</h5>
+
+</div>
+
+<div class="row uploadRow">
+  <div class="col-12">
+    <img *ngIf="croppedImage" class="d-block mx-auto" [src]="croppedImage" alt="preview">
+  </div>
+
+</div>
+
+<div class="row mt-3">
+  <div class="col-12 d-flex justify-content-center align-items-center">
+
+    <div class="btn-group">
+      <button (click)="cancelUpload()" class="btn btn-danger btn-sm mr-2">
+        <i class="fas fa-backspace mr-1"></i>
+        Cancel
+      </button>
+      <button (click)="uploadImage()" class="btn btn-dark btn-sm">
+        <i class="fas fa-file-upload mr-1"></i>
+        Upload
+      </button>
+    </div>
+
+  </div>
+</div>
