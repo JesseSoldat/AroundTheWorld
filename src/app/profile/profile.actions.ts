@@ -7,7 +7,9 @@ export enum ProfileActionTypes {
   ProfileRequested = "ProfileRequested",
   ProfileLoaded = "ProfileLoaded",
   ProfileUpdateStarted = "ProfileUpdateStarted",
-  ProfileUpdateFinished = "ProfileUpdateFinished"
+  ProfileUpdateFinished = "ProfileUpdateFinished",
+  AvatarUpdateStarted = "AvatarUpdateStarted",
+  AvatarUpdateFinished = "AvatarUpdateFinished"
 }
 
 // handle all profile errors
@@ -41,9 +43,22 @@ export class ProfileUpdateFinished implements Action {
   constructor(public payload: { profile: Profile }) {}
 }
 
+// update avatar
+export class AvatarUpdateStarted implements Action {
+  readonly type = ProfileActionTypes.AvatarUpdateStarted;
+}
+
+export class AvatarUpdateFinished implements Action {
+  readonly type = ProfileActionTypes.AvatarUpdateFinished;
+
+  constructor(public payload: { profile: Profile }) {}
+}
+
 export type ProfileActions =
   | ProfileError
   | ProfileRequested
   | ProfileLoaded
   | ProfileUpdateStarted
-  | ProfileUpdateFinished;
+  | ProfileUpdateFinished
+  | AvatarUpdateStarted
+  | AvatarUpdateFinished;

@@ -10,7 +10,7 @@
 <div *ngIf="permission?.status === 'accepted'">
   <div *ngIf="story.images.length; else showPlaceholderImage">
 
-    <img *ngFor="let image of story.images" (click)="viewImage(image)" [src]="image" class="smallImg">
+    <img *ngFor="let image of story.images" (click)="viewImage(image)" [src]="image.downloadURL" class="smallImg">
 
   </div>
 

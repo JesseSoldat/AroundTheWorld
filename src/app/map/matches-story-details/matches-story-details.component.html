@@ -16,8 +16,7 @@
         <ngb-panel title="Map">
           <ng-template ngbPanelContent>
 
-            <agm-map [longitude]="story.geometry.coordinates[0]" [latitude]="story.geometry.coordinates[1]" [zoom]="8"
-              (mapClick)="onSetMarker($event)">
+            <agm-map [longitude]="story.geometry.coordinates[0]" [latitude]="story.geometry.coordinates[1]" [zoom]="8">
 
               <agm-marker [longitude]="story.geometry.coordinates[0]" [latitude]="story.geometry.coordinates[1]">
               </agm-marker>

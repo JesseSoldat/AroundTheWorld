@@ -108,10 +108,10 @@ export class StoryService {
   }
 
   // add image urls to story
-  addImageToStory(url: string, storyId: string): Observable<HttpRes> {
+  addImageToStory(storyImg, storyId: string): Observable<HttpRes> {
     this.store.dispatch(new AddStoryImageStarted());
     return this.httpService
-      .httpPatchRequest(`story/addImage/${storyId}`, { url })
+      .httpPatchRequest(`story/addImage/${storyId}`, { storyImg })
       .pipe(
         tap((res: HttpRes) => {
           const { msg, payload } = res;

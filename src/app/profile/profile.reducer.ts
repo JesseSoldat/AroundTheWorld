@@ -36,12 +36,18 @@ export function profileReducer(state = initialProfileState, action) {
 
     // -------- overlay ------------
 
-    // update profile
     case ProfileActionTypes.ProfileUpdateStarted:
-      return { ...state, overlay: true };
+    case ProfileActionTypes.AvatarUpdateStarted:
+      return { ...state, overlay: true, error: null };
 
     case ProfileActionTypes.ProfileUpdateFinished:
-      return { ...state, overlay: false, profile: payload.profile };
+    case ProfileActionTypes.AvatarUpdateFinished:
+      return {
+        ...state,
+        overlay: false,
+        profile: payload.profile,
+        error: null
+      };
 
     default:
       return { ...state };

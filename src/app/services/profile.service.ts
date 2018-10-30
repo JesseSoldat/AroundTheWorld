@@ -7,6 +7,7 @@ import { Observable, of } from "rxjs";
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../reducers";
 import { selectUserId } from "../auth/auth.selectors";
+import { AvatarUpdateFinished } from "../profile/profile.actions";
 // models
 import { HttpRes } from "../models/http-res.model";
 import { Profile } from "../models/profile.model";
@@ -56,6 +57,7 @@ export class ProfileService {
   }
 
   //--------------  api calls -------------------
+  // get profile
   getProfile(): Observable<HttpRes> {
     if (!this.userId) return of(null);
 
@@ -65,6 +67,7 @@ export class ProfileService {
     );
   }
 
+  // update profile
   updateProfile(profile: Profile): Observable<HttpRes> {
     if (!this.userId) return of(null);
 
@@ -73,6 +76,25 @@ export class ProfileService {
       .pipe(
         tap((res: HttpRes) => {
           this.handleSuccess(res.msg);
+        }),
+        catchError(err => this.handleError(err))
+      );
+  }
+
+  // update avatar
+  updateAvatar(avatar: string): Observable<HttpRes> {
+    if (!this.userId) return of(null);
+
+    return this.httpService
+      .httpPatchRequest(`profile/${this.userId}`, { profile: { avatar } })
+      .pipe(
+        tap((res: HttpRes) => {
+          console.log("updateAvatar", res);
+
+          this.handleSuccess(res.msg);
+          this.store.dispatch(
+            new AvatarUpdateFinished({ profile: res.payload.profile })
+          );
         }),
         catchError(err => this.handleError(err))
       );

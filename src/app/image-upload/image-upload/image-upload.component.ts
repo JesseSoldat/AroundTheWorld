@@ -71,7 +71,9 @@ export class ImageUploadComponent implements OnInit {
       return this.handleError(err);
     }
 
-    const path = `aroundTheWorld/${new Date().getTime()}_${file.name}`;
+    const imageName = `story_${new Date().getTime()}`;
+
+    const path = `aroundTheWorld/${this.userId}/story_images/${imageName}`;
 
     this.task = this.storage.upload(path, file);
 
@@ -83,8 +85,12 @@ export class ImageUploadComponent implements OnInit {
         }),
         finalize(() => {
           this.downloadURL$ = ref.getDownloadURL().pipe(
-            tap(url => {
-              this.saveUrlRefToTheStory(url);
+            tap(downloadURL => {
+              const storyImg = {
+                path,
+                downloadURL
+              };
+              this.saveUrlRefToTheStory(storyImg);
             })
           );
         })
@@ -105,9 +111,9 @@ export class ImageUploadComponent implements OnInit {
   }
 
   // save to db
-  saveUrlRefToTheStory(url: string) {
+  saveUrlRefToTheStory(storyImg) {
     this.storyService
-      .addImageToStory(url, this.storyId)
+      .addImageToStory(storyImg, this.storyId)
       .subscribe(res => {}, err => {});
   }
 }

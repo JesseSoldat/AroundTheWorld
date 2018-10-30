@@ -74,12 +74,12 @@ module.exports = app => {
   // Add Image to Story
   app.patch("/api/story/addImage/:storyId", isAuth, async (req, res) => {
     const { storyId } = req.params;
-    const { url } = req.body;
+    const { storyImg } = req.body;
     try {
       const story = await Story.findOneAndUpdate(
         { _id: storyId },
         {
-          $addToSet: { images: url }
+          $addToSet: { images: storyImg }
         },
         { new: true }
       );
