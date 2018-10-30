@@ -7,16 +7,18 @@ import {
   Validators
 } from "@angular/forms";
 import { Observable } from "rxjs";
-import { tap } from "rxjs/operators";
+import { tap, filter } from "rxjs/operators";
 import { Store, select } from "@ngrx/store";
-import { selectError, selectProfile } from "../profile.selector";
+import { selectError, selectOverlay, selectProfile } from "../profile.selector";
 import { AppState } from "../../reducers";
-import { ProfileRequested } from "../profile.actions";
+import { ProfileRequested, ProfileUpdateStarted } from "../profile.actions";
 // models
 import { Profile } from "../../models/profile.model";
 import { InputGroup } from "../../models/input-group.model";
 // data
 import { profileFormGroupData } from "./profileFormGroupData";
+// helpers
+import { fieldValidation } from "../../utils/validation/fieldValidation";
 
 @Component({
   selector: "app-edit-profile",
@@ -24,6 +26,7 @@ import { profileFormGroupData } from "./profileFormGroupData";
   styleUrls: ["./edit-profile.component.css"]
 })
 export class EditProfileComponent implements OnInit {
+  overlay$: Observable<boolean>;
   error$: Observable<string>;
   profile$: Observable<Profile>;
   formGroupData: InputGroup;
@@ -45,10 +48,15 @@ export class EditProfileComponent implements OnInit {
   ngOnInit() {
     this.listenForErrors();
     this.requestProfile();
+    this.showOverlay();
     this.formGroupData = profileFormGroupData;
   }
 
   // store / api calls
+  showOverlay() {
+    this.overlay$ = this.store.pipe(select(selectOverlay));
+  }
+
   listenForErrors() {
     this.error$ = this.store.pipe(select(selectError));
   }
@@ -61,9 +69,11 @@ export class EditProfileComponent implements OnInit {
   requestProfile() {
     this.profile$ = this.store.pipe(
       select(selectProfile),
-      tap(profile => {
+      tap((profile: Profile) => {
         if (!profile) this.store.dispatch(new ProfileRequested());
-      })
+      }),
+      filter((profile: Profile) => profile !== null),
+      tap(profile => this.hydrateFormFromApi(profile))
     );
   }
 
@@ -76,19 +86,36 @@ export class EditProfileComponent implements OnInit {
       about: new FormControl(""),
       gender: new FormControl("")
     });
-
-    this.profileForm.patchValue({ gender: "male" });
   }
 
-  // cbs
-  blurEvent() {}
+  hydrateFormFromApi(profile: Profile) {
+    this.profileForm.patchValue({
+      username: profile.username,
+      occupation: profile.occupation,
+      hometown: profile.hometown,
+      gender: profile.gender
+    });
+  }
+
+  // helpers
+  createErrMsg(controlName: string, currentControlErr) {
+    this.controlNameErrs[controlName] = fieldValidation(currentControlErr);
+  }
+
+  // events & cbs ---------------------------
+  blurEvent(controlName: string) {
+    const currentControlErr = this.profileForm.get(controlName).errors;
+    this.createErrMsg(controlName, currentControlErr);
+  }
 
   changeFormType(formType) {
     this.formType = formType;
   }
 
   handleSubmit() {
-    console.log(this.profileForm.value);
+    const profile: Profile = this.profileForm.value;
+
+    this.store.dispatch(new ProfileUpdateStarted({ profile }));
   }
 
   navToProfile() {

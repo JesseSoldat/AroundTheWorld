@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-// Rxjs
+// rxjs
 import { of, Observable } from "rxjs";
 import {
   FormBuilder,
@@ -7,18 +7,17 @@ import {
   FormControl,
   Validators
 } from "@angular/forms";
-
-// Models
+// models
 import { Auth } from "../../models/auth.model";
 import { InputGroup } from "../../models/input-group.model";
 import { HttpRes } from "../../models/http-res.model";
-// Data
+// data
 import { formGroupData } from "../formGroupData";
-// Helpers
+// helpers
 import { fieldValidation } from "../../utils/validation/fieldValidation";
-// Validators
+// validators
 import { confirmPasswordValidator } from "../helpers/confirmPassword.validator";
-// Services
+// services
 import { AuthService } from "../../services/auth.service";
 
 @Component({
@@ -28,9 +27,9 @@ import { AuthService } from "../../services/auth.service";
 })
 export class RegisterComponent implements OnInit {
   formGroupData$: Observable<InputGroup> = null;
-  // Form
+  // form
   registerForm: FormGroup;
-  // Form Errors
+  // form errors
   controlNameErrs = {
     username: null,
     email: null,
@@ -48,7 +47,7 @@ export class RegisterComponent implements OnInit {
     this.formGroupData$ = of(formGroupData);
   }
 
-  // Form Setup
+  // form setup
   initializeForm() {
     this.registerForm = this.formBuilder.group({
       username: new FormControl("", [
@@ -76,7 +75,7 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  // Helpers -----------------------------------
+  // helpers -----------------------------------
   createErrMsg(controlName: string, currentControlErr) {
     this.controlNameErrs[controlName] = fieldValidation(currentControlErr);
   }
@@ -84,24 +83,24 @@ export class RegisterComponent implements OnInit {
   handlePasswordGroupErrs(controlName: string) {
     const passwordGroup = this.registerForm.get("passwordGroup");
 
-    // Handle the Group Validator Error
+    // handle the group validator error
     if (controlName === "confirmPassword") {
       const currentControlGroupErr = passwordGroup.errors;
       return this.createErrMsg(controlName, currentControlGroupErr);
     }
 
-    // Handle a Single Control Error
+    // handle a single control error
     const currentControlErr = passwordGroup.get(controlName).errors;
     this.createErrMsg(controlName, currentControlErr);
   }
 
-  // Events & Cbs ---------------------------
+  // events & cbs ---------------------------
   blurEvent(controlName: string) {
-    // Handle Group Controls
+    // handle group controls
     if (controlName === "password" || controlName === "confirmPassword") {
       return this.handlePasswordGroupErrs(controlName);
     }
-    // Handle any other Controls
+    // handle any other controls
     const currentControlErr = this.registerForm.get(controlName).errors;
     this.createErrMsg(controlName, currentControlErr);
   }
@@ -115,13 +114,8 @@ export class RegisterComponent implements OnInit {
       password: formValues.passwordGroup.password
     };
 
-    this.authService.registerByEmail(auth).subscribe(
-      (res: HttpRes) => {
-        // console.log("Res", res);
-      },
-      err => {
-        console.log("Register Err:", err);
-      }
-    );
+    this.authService
+      .registerByEmail(auth)
+      .subscribe((res: HttpRes) => {}, err => {});
   }
 }

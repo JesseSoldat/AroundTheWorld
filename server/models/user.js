@@ -45,9 +45,31 @@ const UserSchema = new Schema(
 UserSchema.methods.toJSON = function() {
   const user = this;
   const userObj = user.toObject();
-  const { username, email, _id, role } = userObj;
+  const {
+    username,
+    email,
+    _id,
+    role,
+    avatar,
+    gender,
+    hometown,
+    about,
+    occupation,
+    friends
+  } = userObj;
 
-  return { username, email, _id, role };
+  return {
+    username,
+    email,
+    _id,
+    role,
+    avatar,
+    gender,
+    hometown,
+    about,
+    occupation,
+    friends
+  };
 };
 
 UserSchema.pre("save", function(next) {

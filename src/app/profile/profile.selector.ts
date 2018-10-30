@@ -5,6 +5,12 @@ export const selectProfileState = createFeatureSelector<ProfileState>(
   "profile"
 );
 
+// overlay
+export const selectOverlay = createSelector(
+  selectProfileState,
+  profileState => profileState.overlay
+);
+
 export const selectError = createSelector(
   selectProfileState,
   profileState => profileState.error

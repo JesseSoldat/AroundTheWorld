@@ -9,6 +9,7 @@ import { AppState } from "../reducers";
 import { selectUserId } from "../auth/auth.selectors";
 // models
 import { HttpRes } from "../models/http-res.model";
+import { Profile } from "../models/profile.model";
 // services
 import { HttpService } from "./http.service";
 
@@ -26,9 +27,9 @@ export class ProfileService {
     this.getUserId();
   }
 
-  // Helpers
+  // helpers
   handleError(err) {
-    console.error("friend service handleError:", err);
+    console.error("friend service handleError:", err.error);
 
     this.toastr.error("", err.error.msg, {
       timeOut: 3000,
@@ -58,8 +59,22 @@ export class ProfileService {
   getProfile(): Observable<HttpRes> {
     if (!this.userId) return of(null);
 
+    return this.httpService.httpGetRequest(`profile/${this.userId}`).pipe(
+      tap((profile: Profile) => {}),
+      catchError(err => this.handleError(err))
+    );
+  }
+
+  updateProfile(profile: Profile): Observable<HttpRes> {
+    if (!this.userId) return of(null);
+
     return this.httpService
-      .httpGetRequest(`profile/${this.userId}`)
-      .pipe(catchError(err => this.handleError(err)));
+      .httpPatchRequest(`profile/${this.userId}`, { profile })
+      .pipe(
+        tap((res: HttpRes) => {
+          this.handleSuccess(res.msg);
+        }),
+        catchError(err => this.handleError(err))
+      );
   }
 }

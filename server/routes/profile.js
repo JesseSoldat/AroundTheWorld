@@ -2,6 +2,7 @@
 const User = require("../models/user");
 // middleware
 const isAuth = require("../middleware/isAuth");
+const isUser = require("../middleware/isUser");
 // utils
 const { serverRes, getErrMsg } = require("../utils/serverRes");
 
@@ -22,6 +23,27 @@ module.exports = app => {
     } catch (err) {
       console.log("Err get profile", err);
       const msg = getErrMsg("err", "fetch", "profile");
+      serverRes(res, 400, msg, null);
+    }
+  });
+
+  // update user profile
+  app.patch("/api/profile/:userId", isAuth, isUser, async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const { profile } = req.body;
+
+      const updatedProfile = await User.findByIdAndUpdate(
+        userId,
+        { $set: { ...profile } },
+        { new: true }
+      );
+
+      const msg = "Profile has been updated";
+      serverRes(res, 200, msg, { profile: updatedProfile });
+    } catch (err) {
+      console.log("Err update profile", err);
+      const msg = getErrMsg("err", "update", "profile");
       serverRes(res, 400, msg, null);
     }
   });

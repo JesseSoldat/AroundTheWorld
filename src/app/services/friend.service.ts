@@ -33,7 +33,7 @@ export class FriendService {
     this.getUserId();
   }
 
-  // Helpers
+  // helpers
   handleError(err) {
     console.error("friend service handleError:", err);
 
@@ -42,7 +42,7 @@ export class FriendService {
       positionClass: "toast-bottom-right"
     });
 
-    return of({ msg: err.error.msg, payload: null });
+    return of(null);
   }
 
   handleSuccess(msg) {
@@ -65,28 +65,10 @@ export class FriendService {
 
   getFriends(): Observable<HttpRes> {
     if (!this.userId) return of(null);
-    this.store.dispatch(new FriendsRequested());
-    return this.httpService.httpGetRequest(`friends/${this.userId}`).pipe(
-      tap((res: HttpRes) => {
-        const { payload } = res;
-        this.store.dispatch(new FriendsLoaded({ friends: payload.friends }));
-      }),
-      catchError(err => this.handleError(err))
-    );
-  }
-  // Send a Friends Request
-  sendFriendRequest(friendId: string): Observable<HttpRes> {
-    return this.httpService
-      .httpPostRequest("friend/request", { userId: this.userId, friendId })
-      .pipe(
-        tap((res: HttpRes) => {
-          const { msg, payload } = res;
-          console.log("sendFriendRequest", payload);
 
-          this.handleSuccess(msg);
-        }),
-        catchError(err => this.handleError(err))
-      );
+    return this.httpService
+      .httpGetRequest(`friends/${this.userId}`)
+      .pipe(catchError(err => this.handleError(err)));
   }
 
   // Get all Friends Request Sent or Received
@@ -102,6 +84,20 @@ export class FriendService {
           this.store.dispatch(
             new FriendRequestLoaded({ friendRequests: payload.friendsRequest })
           );
+        }),
+        catchError(err => this.handleError(err))
+      );
+  }
+
+  // send a friends request
+  sendFriendRequest(friendId: string): Observable<HttpRes> {
+    return this.httpService
+      .httpPostRequest("friend/request", { userId: this.userId, friendId })
+      .pipe(
+        tap((res: HttpRes) => {
+          const { msg, payload } = res;
+
+          this.handleSuccess(msg);
         }),
         catchError(err => this.handleError(err))
       );

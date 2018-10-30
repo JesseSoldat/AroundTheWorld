@@ -5,9 +5,8 @@ import { tap } from "rxjs/operators";
 // ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
-import { selectFriends } from "../friend.selector";
-// services
-import { FriendService } from "../../services/friend.service";
+import { selectError, selectFriends } from "../friend.selector";
+import { FriendsRequested } from "../friend.actions";
 // models
 import { Profile } from "../../models/profile.model";
 
@@ -17,23 +16,31 @@ import { Profile } from "../../models/profile.model";
   styleUrls: ["./friends.component.css"]
 })
 export class FriendsComponent implements OnInit {
+  error$: Observable<string>;
   friends$: Observable<Profile[]>;
 
-  constructor(
-    private friendService: FriendService,
-    private store: Store<AppState>,
-    private router: Router
-  ) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit() {
-    this.getFriends();
+    this.listenForErrors();
+    this.requestFriends();
   }
 
-  getFriends() {
+  // store / api calls
+  listenForErrors() {
+    this.error$ = this.store.pipe(select(selectError));
+  }
+
+  // retry logic
+  fetchData() {
+    this.store.dispatch(new FriendsRequested());
+  }
+
+  requestFriends() {
     this.friends$ = this.store.pipe(
       select(selectFriends),
       tap(friends => {
-        if (!friends) this.friendService.getFriends().subscribe();
+        if (!friends) this.store.dispatch(new FriendsRequested());
       })
     );
   }

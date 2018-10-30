@@ -1,12 +1,13 @@
 <div class="row px-3">
   <div class="col-xs-12 col-sm-10 col-md-9 mx-auto">
 
+    <!-- heading -->
     <app-heading heading="My Friends"></app-heading>
 
     <div class="row">
       <div class="bulletinBg col-12 mx-auto">
 
-        <div *ngIf="(friends$ | async) as friends; else showSpinner">
+        <div *ngIf="(friends$ | async) as friends; else showFetchAndRetry">
 
           <!-- have friends -->
           <div class="row">
@@ -26,7 +27,10 @@
   </div>
 </div>
 
-
-<ng-template #showSpinner>
-  <app-spinner></app-spinner>
+<!-- handle loading and errors -->
+<ng-template #showFetchAndRetry>
+  <div *ngIf="(error$ | async) as error">
+    <app-error-retry (fetchData)="fetchData()" [msg]="error"></app-error-retry>
+  </div>
+  <app-spinner *ngIf="!(error$ | async)"></app-spinner>
 </ng-template>

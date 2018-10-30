@@ -4,7 +4,7 @@ export const formGroupData = {
     type: "text",
     label: "Username",
     placeholder: "Enter a username",
-    info: "Pick a good one. You can NOT change this later!",
+    info: "You can change this later",
     err: "usernameErr",
     required: false
   },

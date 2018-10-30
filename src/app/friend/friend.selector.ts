@@ -4,13 +4,19 @@ import { selectUserId } from "../auth/auth.selectors";
 
 export const selectFriendState = createFeatureSelector<FriendState>("friend");
 
-// Friends
+// errors
+export const selectError = createSelector(
+  selectFriendState,
+  friendState => friendState.error
+);
+
+// friends
 export const selectFriends = createSelector(
   selectFriendState,
   friendState => friendState.friends
 );
 
-// My Friend Request
+// my friend request
 export const selectFriendRequests = createSelector(
   selectFriendState,
   friendState => {
@@ -20,7 +26,7 @@ export const selectFriendRequests = createSelector(
   }
 );
 
-// Check for Received Request by matching user
+// check for received request by matching user
 export const selectReceivedRequestByMatchingUser = (
   matchedUserId: string,
   userId: string
@@ -30,24 +36,24 @@ export const selectReceivedRequestByMatchingUser = (
     const request = friendRequests.find(
       obj => obj.recipient._id === userId && obj.requester._id === matchedUserId
     );
-    // status notRequested if the request has not been made yet
+    // status not requested if the request has not been made yet
     return request ? request : { status: "notRequested" };
   });
 };
 
-// Check if I sent a request to this persons or not
+// check if I sent a request to this persons or not
 export const selectSentFriendRequest = (matchedUserId: string) => {
   return createSelector(selectFriendRequests, friendRequests => {
     if (friendRequests === null) return null;
     const request = friendRequests.find(
       obj => obj.recipient._id === matchedUserId
     );
-    // status notRequested if the request has not been made yet
+    // status not requested if the request has not been made yet
     return request ? request : { status: "notRequested" };
   });
 };
 
-// Check if I have any friends request
+// check if I have any friends request
 export const selectReceivedFriendRequest = userId => {
   return createSelector(selectFriendRequests, friendRequests => {
     if (userId === null || friendRequests === null) return null;

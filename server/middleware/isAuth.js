@@ -1,6 +1,6 @@
-// Models
+// models
 const User = require("../models/user");
-// Utils
+// utils
 const { serverRes } = require("../utils/serverRes");
 
 const handleErrMsg = (res, type) => {

@@ -5,7 +5,7 @@ import { Observable, of } from "rxjs";
 // ngrx
 import { Actions, Effect, ofType } from "@ngrx/effects";
 // models
-import { Profile } from "../models/profile.model";
+import { HttpRes } from "../models/http-res.model";
 // services
 import { ProfileService } from "../services/profile.service";
 // actions
@@ -13,9 +13,10 @@ import {
   ProfileError,
   ProfileRequested,
   ProfileLoaded,
+  ProfileUpdateStarted,
+  ProfileUpdateFinished,
   ProfileActionTypes
 } from "./profile.actions";
-import { HttpRes } from "../models/http-res.model";
 
 @Injectable()
 export class ProfileEffects {
@@ -25,8 +26,8 @@ export class ProfileEffects {
   ) {}
 
   // Helpers
-  handleError() {
-    return new ProfileError({ error: "Could not fetch the profile" });
+  handleError(error: string = null) {
+    return new ProfileError({ error });
   }
 
   @Effect()
@@ -39,11 +40,36 @@ export class ProfileEffects {
         map(
           (res: HttpRes) => {
             // any error will come back as null
-            if (!res) return this.handleError();
+            if (!res) return this.handleError("Could not fetch the profile");
 
             const { payload } = res;
 
             return new ProfileLoaded({ profile: payload.profile });
+          },
+          catchError(err => {
+            return of(null);
+          })
+        )
+      )
+    )
+  );
+
+  @Effect()
+  profileUpdateStarted$: Observable<
+    ProfileUpdateFinished | ProfileError
+  > = this.action$.pipe(
+    ofType<ProfileUpdateStarted>(ProfileActionTypes.ProfileUpdateStarted),
+    switchMap(action =>
+      this.profileService.updateProfile(action.payload.profile).pipe(
+        map(
+          (res: HttpRes) => {
+            console.log(res);
+
+            if (!res) return this.handleError();
+
+            const { payload } = res;
+
+            return new ProfileUpdateFinished({ profile: payload.profile });
           },
           catchError(err => {
             return of(null);

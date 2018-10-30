@@ -1,6 +1,9 @@
+<app-overlay [overlay$]="overlay$"></app-overlay>
+
 <div class="row px-3">
   <div class="col-xs-12 col-sm-10 col-md-9 mx-auto">
 
+    <!-- heading -->
     <app-heading (btnClick)="navToProfile()" heading="Edit Profile" [backBtn]="true">
     </app-heading>
 
@@ -31,8 +34,8 @@
                   <!-- basics form -->
                   <app-text-form-group *ngIf="formType === 'basic'" [data]="formGroupData" name="username" [errMsg]="controlNameErrs.username">
 
-                    <input type="text" (appBlurEvent)="blurEvent($event)" formControlName="username" class="form-control"
-                      [placeholder]="formGroupData['username'].placeholder">
+                    <input type="text" (appBlurEvent)="blurEvent($event)" name="username" formControlName="username"
+                      class="form-control" placeholder="Enter a username" [class.is-invalid]="controlNameErrs.username">
 
                   </app-text-form-group>
 
@@ -56,8 +59,7 @@
 
                   <app-text-form-group *ngIf="formType === 'basic'" [data]="formGroupData" name="occupation">
 
-                    <input type="text" (appBlurEvent)="blurEvent($event)" formControlName="occupation" class="form-control"
-                      [placeholder]="formGroupData['occupation'].placeholder">
+                    <input type="text" formControlName="occupation" class="form-control" placeholder="Enter you occupation">
 
                   </app-text-form-group>
 
@@ -65,22 +67,24 @@
                   <!-- about form -->
                   <app-text-form-group *ngIf="formType === 'about'" [data]="formGroupData" name="hometown">
 
-                    <input type="text" (appBlurEvent)="blurEvent($event)" formControlName="hometown" class="form-control"
-                      [placeholder]="formGroupData['hometown'].placeholder">
+                    <input type="text" formControlName="hometown" class="form-control" placeholder="Where are you from">
 
                   </app-text-form-group>
 
 
                   <app-text-form-group *ngIf="formType === 'about'" [data]="formGroupData" name="about">
 
-                    <textarea (appBlurEvent)="blurEvent($event)" rows="10" class="form-control" formControlName="about"
-                      [placeholder]="formGroupData['about'].placeholder"></textarea>
+                    <textarea rows="10" class="form-control" formControlName="about" placeholder="Tell about yourself"></textarea>
 
                   </app-text-form-group>
 
 
                   <!-- button -->
+                  <small *ngIf="formType === 'about'" class="form-text text-muted mb-2">* make sure you fill in the
+                    username on the basics form to
+                    submit</small>
                   <button type="submit" [disabled]="!profileForm.valid" class="btn btn-outline-dark btn-block btn-sm">Submit</button>
+
                 </form>
               </div>
             </div>
