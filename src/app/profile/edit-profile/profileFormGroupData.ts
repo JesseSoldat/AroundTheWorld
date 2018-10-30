@@ -1,24 +1,24 @@
 export const profileFormGroupData = {
   username: {
-    label: "* username",
+    label: "* Username",
     info: "",
     err: "usernameErr",
     required: true
   },
   hometown: {
-    label: "hometown",
+    label: "Hometown",
     info: "",
     err: "",
     required: false
   },
   occupation: {
-    label: "occupation",
+    label: "Occupation",
     info: "",
     err: "",
     required: false
   },
   about: {
-    label: "about",
+    label: "About",
     info: "",
     err: "",
     required: false

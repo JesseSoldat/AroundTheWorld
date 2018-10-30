@@ -26,6 +26,7 @@
                     <h4 *ngIf="formType === 'basic'">Basics</h4>
                     <h4 *ngIf="formType === 'about'">About</h4>
                     <h4 *ngIf="formType === 'avatar'">Avatar</h4>
+                    <h4 *ngIf="formType === 'password'">Password</h4>
 
                   </div>
                 </div>
@@ -42,7 +43,7 @@
                   </app-text-form-group>
 
                   <!-- radio -->
-                  <app-radio-form-group *ngIf="formType === 'basic'" groupLabel="gender">
+                  <app-radio-form-group *ngIf="formType === 'basic'" groupLabel="Gender">
 
                     <div class="form-check form-check-inline">
                       <input class="form-check-input" type="radio" formControlName="gender" value="male">
@@ -61,7 +62,7 @@
 
                   <app-text-form-group *ngIf="formType === 'basic'" [data]="formGroupData" name="occupation">
 
-                    <input type="text" formControlName="occupation" class="form-control" placeholder="Enter you occupation">
+                    <input type="text" formControlName="occupation" class="form-control" placeholder="Enter your occupation">
 
                   </app-text-form-group>
 
@@ -82,7 +83,7 @@
 
 
                   <!-- button -->
-                  <div *ngIf="formType === 'basic' || formType === 'about'">
+                  <div class="mt-3" *ngIf="formType === 'basic' || formType === 'about'">
                     <small *ngIf="formType === 'about'" class="form-text text-muted mb-2">* make sure you fill in the
                       username on the basics form to
                       submit</small>
@@ -93,7 +94,12 @@
 
                 <!-- upload avatar -->
                 <app-upload-avatar *ngIf="formType === 'avatar'"></app-upload-avatar>
+
+
+                <!-- update password -->
+                <app-update-password *ngIf="formType === 'password'"></app-update-password>
               </div>
+
             </div>
           </div>
 

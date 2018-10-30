@@ -93,7 +93,8 @@ export class EditProfileComponent implements OnInit {
       username: profile.username,
       occupation: profile.occupation,
       hometown: profile.hometown,
-      gender: profile.gender
+      gender: profile.gender,
+      about: profile.about
     });
   }
 

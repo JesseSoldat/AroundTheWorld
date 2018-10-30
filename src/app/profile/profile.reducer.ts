@@ -38,6 +38,7 @@ export function profileReducer(state = initialProfileState, action) {
 
     case ProfileActionTypes.ProfileUpdateStarted:
     case ProfileActionTypes.AvatarUpdateStarted:
+    case ProfileActionTypes.PasswordUpdateStarted:
       return { ...state, overlay: true, error: null };
 
     case ProfileActionTypes.ProfileUpdateFinished:
@@ -46,6 +47,13 @@ export function profileReducer(state = initialProfileState, action) {
         ...state,
         overlay: false,
         profile: payload.profile,
+        error: null
+      };
+
+    case ProfileActionTypes.PasswordUpdateFinished:
+      return {
+        ...state,
+        overlay: false,
         error: null
       };
 

@@ -1,3 +1,4 @@
+const bcrypt = require("bcryptjs");
 // models
 const User = require("../models/user");
 // middleware
@@ -47,4 +48,42 @@ module.exports = app => {
       serverRes(res, 400, msg, null);
     }
   });
+
+  // update user password
+
+  const hashPassword = password => {
+    return new Promise((resolve, reject) => {
+      bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(password, salt, (err, hash) => {
+          if (err) reject();
+          resolve(hash);
+        });
+      });
+    });
+  };
+
+  app.patch(
+    "/api/profile/password/:userId",
+    isAuth,
+    isUser,
+    async (req, res) => {
+      try {
+        const { userId } = req.params;
+        const { password } = req.body;
+
+        const hashedPassword = await hashPassword(password);
+
+        await User.findByIdAndUpdate(userId, {
+          $set: { password: hashedPassword }
+        });
+
+        const msg = "The password was updated";
+
+        serverRes(res, 200, msg, null);
+      } catch (err) {
+        const msg = getErrMsg("err", "change", "password");
+        serverRes(res, 401, msg, null);
+      }
+    }
+  );
 };

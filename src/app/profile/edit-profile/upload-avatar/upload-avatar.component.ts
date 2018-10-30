@@ -6,7 +6,6 @@ import {
   AngularFireUploadTask
 } from "angularfire2/storage";
 // rxjs
-import { Observable } from "rxjs";
 import { finalize, tap, filter, first } from "rxjs/operators";
 // ngrx
 import { Store, select } from "@ngrx/store";
@@ -25,9 +24,6 @@ export class UploadAvatarComponent implements OnInit {
   userId: string;
   // -- firebase --
   task: AngularFireUploadTask;
-  // progress monitoring
-  percentage: Observable<number>;
-  snapshot;
   // -- cropper --
   imageChangedEvent: any = "";
   croppedImage: any = "";
@@ -96,16 +92,14 @@ export class UploadAvatarComponent implements OnInit {
     this.task
       .snapshotChanges()
       .pipe(
-        tap(snapshot => {
-          this.snapshot = snapshot;
-        }),
         finalize(() => {
           ref
             .getDownloadURL()
             .pipe(
               tap(url => {
                 this.saveUrlRefToAsAvatar(url);
-              })
+              }),
+              first()
             )
             .subscribe();
         })
@@ -117,6 +111,8 @@ export class UploadAvatarComponent implements OnInit {
 
   // save to db
   saveUrlRefToAsAvatar(url: string) {
-    this.profileService.updateAvatar(url).subscribe();
+    this.profileService.updateAvatar(url).subscribe(_ => {
+      this.cancelUpload();
+    });
   }
 }

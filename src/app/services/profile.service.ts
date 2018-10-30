@@ -7,7 +7,12 @@ import { Observable, of } from "rxjs";
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../reducers";
 import { selectUserId } from "../auth/auth.selectors";
-import { AvatarUpdateFinished } from "../profile/profile.actions";
+import {
+  ProfileError,
+  AvatarUpdateFinished,
+  PasswordUpdateStarted,
+  PasswordUpdateFinished
+} from "../profile/profile.actions";
 // models
 import { HttpRes } from "../models/http-res.model";
 import { Profile } from "../models/profile.model";
@@ -89,14 +94,32 @@ export class ProfileService {
       .httpPatchRequest(`profile/${this.userId}`, { profile: { avatar } })
       .pipe(
         tap((res: HttpRes) => {
-          console.log("updateAvatar", res);
-
           this.handleSuccess(res.msg);
           this.store.dispatch(
             new AvatarUpdateFinished({ profile: res.payload.profile })
           );
         }),
         catchError(err => this.handleError(err))
+      );
+  }
+
+  // update password
+  updatePassword(password: string) {
+    if (!this.userId) return of(null);
+
+    this.store.dispatch(new PasswordUpdateStarted());
+
+    return this.httpService
+      .httpPatchRequest(`profile/password/${this.userId}`, { password })
+      .pipe(
+        tap((res: HttpRes) => {
+          this.handleSuccess(res.msg);
+          this.store.dispatch(new PasswordUpdateFinished());
+        }),
+        catchError(err => {
+          this.store.dispatch(new ProfileError({ error: null }));
+          return this.handleError(err);
+        })
       );
   }
 }

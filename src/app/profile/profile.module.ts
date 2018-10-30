@@ -13,6 +13,7 @@ import { ProfileCardComponent } from "./profile/profile-card/profile-card.compon
 import { EditProfileComponent } from "./edit-profile/edit-profile.component";
 import { SideBarComponent } from "./edit-profile/side-bar/side-bar.component";
 import { UploadAvatarComponent } from "./edit-profile/upload-avatar/upload-avatar.component";
+import { UpdatePasswordComponent } from "./edit-profile/update-password/update-password.component";
 
 @NgModule({
   imports: [
@@ -27,7 +28,8 @@ import { UploadAvatarComponent } from "./edit-profile/upload-avatar/upload-avata
     ProfileCardComponent,
     EditProfileComponent,
     SideBarComponent,
-    UploadAvatarComponent
+    UploadAvatarComponent,
+    UpdatePasswordComponent
   ]
 })
 export class ProfileModule {}

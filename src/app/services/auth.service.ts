@@ -26,7 +26,7 @@ export class AuthService {
     private toastr: ToastrService
   ) {}
 
-  // Helpers
+  // helpers
   handleError(err) {
     console.log("auth service err", err);
     this.toastr.error("", err.msg, {
@@ -54,7 +54,7 @@ export class AuthService {
     };
   }
 
-  // Api Calls
+  // api calls
   registerByEmail(auth: Auth): Observable<HttpRes> {
     return this.httpService.httpPostRequest("register", auth).pipe(
       tap((res: HttpRes) => {
