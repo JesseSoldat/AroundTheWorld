@@ -70,6 +70,10 @@ export class StoryDetailsComponent implements OnInit {
     this.router.navigateByUrl(`/uploadImage/${this.userId}/${this.storyId}`);
   }
 
+  goBack() {
+    this.router.navigateByUrl("/map/storyList");
+  }
+
   viewImage(imageUrl) {
     this.store.dispatch(
       new OpenModal({

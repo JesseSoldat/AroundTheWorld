@@ -1,19 +1,19 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
-// Rxjs
-import { switchMap, tap, first, shareReplay } from "rxjs/operators";
-import { Observable, of } from "rxjs";
-// Ngrx
+// rxjs
+import { switchMap, tap } from "rxjs/operators";
+import { Observable } from "rxjs";
+// ngrx
 import { Store } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { selectOtherPersonsStory } from "../story.selector";
+import { OtherPersonsStoriesRequested } from "../story.actions";
 import {
   selectSentFriendRequest,
   selectReceivedRequestByMatchingUser
 } from "../../friend/friend.selector";
 import { selectUserId } from "../../auth/auth.selectors";
-// Services
-import { StoryService } from "../../services/story.service";
+// services
 import { FriendService } from "../../services/friend.service";
 
 @Component({
@@ -24,8 +24,7 @@ import { FriendService } from "../../services/friend.service";
 export class MatchesStoryDetailsComponent implements OnInit {
   story$: Observable<any>;
   permission$: Observable<any>;
-  matchedUserId: string; // TEMP using for the go back btn
-
+  matchedUserId: string;
   matchedUserId$: Observable<ParamMap>;
   userId$: Observable<string>;
   receivedRequest;
@@ -34,7 +33,6 @@ export class MatchesStoryDetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<AppState>,
-    private storyService: StoryService,
     private friendsService: FriendService
   ) {}
 
@@ -43,14 +41,14 @@ export class MatchesStoryDetailsComponent implements OnInit {
 
     this.getMatchedUsersStories();
 
-    // Check if Friend
+    // check if friend
     const isFriend = false;
     if (isFriend) {
       // TODO user friends selector pass matchedUser id
       return;
     }
 
-    // Check for Friends Request Status Requested || Received
+    // check for friends request status requested || received
     this.userId$ = this.store.select(selectUserId);
     // this.receivedRequest$ =
     this.matchedUserId$
@@ -103,26 +101,18 @@ export class MatchesStoryDetailsComponent implements OnInit {
         );
       }),
       tap(story => {
-        // if (story) console.log("Have Story", story);
         if (story) return;
-
-        this.storyService
-          .getOtherPersonsStories(this.matchedUserId)
-          .pipe(
-            first(),
-            tap(() => console.log("Fetching Stories from Server"))
-          )
-          .subscribe(
-            res => {
-              // console.log("Subscribed @matches-story-details");
-            },
-            err => {}
-          );
+        // request from api
+        this.store.dispatch(
+          new OtherPersonsStoriesRequested({
+            matchedUserId: this.matchedUserId
+          })
+        );
       })
     );
   }
 
-  // Events & Cbs
+  // events & cbs
   addUserToFriends(receivedRequest) {
     console.log(receivedRequest);
   }
