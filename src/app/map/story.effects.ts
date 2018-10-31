@@ -14,6 +14,8 @@ import { HttpRes } from "../models/http-res.model";
 import {
   StoryError,
   StoryActionTypes,
+  MyStoriesRequested,
+  MyStoriesLoaded,
   DeleteStoryImageStarted,
   DeleteStoryImageFinished
 } from "./story.actions";
@@ -30,6 +32,24 @@ export class StoryEffects {
   handleError(error = null) {
     return new StoryError({ error });
   }
+
+  @Effect()
+  getMyStories$: Observable<MyStoriesLoaded | StoryError> = this.action$.pipe(
+    ofType<MyStoriesRequested>(StoryActionTypes.MyStoriesRequested),
+    switchMap(action =>
+      this.storyService.getMyStories().pipe(
+        map((res: HttpRes) => {
+          // any error will come back as null
+          if (!res) return this.handleError();
+          const { payload } = res;
+          return new MyStoriesLoaded({ stories: payload.stories });
+        }),
+        catchError(err => {
+          return of(null);
+        })
+      )
+    )
+  );
 
   @Effect()
   deleteStoryImage$: Observable<

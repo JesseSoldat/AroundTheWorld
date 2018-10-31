@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router } from '@angular/router';
+import { Router } from "@angular/router";
 // rxjs
 import { Observable } from "rxjs";
 import { tap, first } from "rxjs/operators";
@@ -7,6 +7,7 @@ import { tap, first } from "rxjs/operators";
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { selectStoryList } from "../story.selector";
+import { MyStoriesRequested } from "../story.actions";
 // services
 import { StoryService } from "../../services/story.service";
 // models
@@ -54,18 +55,7 @@ export class StoryListComponent implements OnInit {
 
   // api calls
   fetchStoriesFromTheApi() {
-    this.storyService
-      .getMyStories()
-      .pipe(tap(() => console.log("Fetching Stories from Server")))
-      .subscribe(
-        res => {
-          // console.log("subscribe @story-list");
-        },
-        err => {},
-        () => {
-          // console.log("complete @story-list");
-        }
-      );
+    this.store.dispatch(new MyStoriesRequested());
   }
 
   //  longitude then latitude
@@ -81,7 +71,7 @@ export class StoryListComponent implements OnInit {
 
   // events & cbs
   navigateToMap() {
-    this.router.navigateByUrl('/map')
+    this.router.navigateByUrl("/map");
   }
   onHandleSubmit(form: SearchDistance) {
     const coordinates = this.coordinatesById[form.storyId];

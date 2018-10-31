@@ -75,16 +75,9 @@ export class StoryService {
   getMyStories(): Observable<HttpRes> {
     if (!this.userId) return of(null);
 
-    this.store.dispatch(new MyStoriesRequested());
-    return this.httpService.httpGetRequest(`story/${this.userId}`).pipe(
-      tap((res: HttpRes) => {
-        const { payload } = res;
-        const { stories } = payload;
-        // console.log("getMyStories", payload);
-        this.store.dispatch(new MyStoriesLoaded({ stories }));
-      }),
-      catchError(err => this.handleError(err))
-    );
+    return this.httpService
+      .httpGetRequest(`story/${this.userId}`)
+      .pipe(catchError(err => this.handleError(err)));
   }
 
   // post new story

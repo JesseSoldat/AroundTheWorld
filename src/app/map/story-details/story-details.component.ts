@@ -8,9 +8,8 @@ import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { selectOverlay, selectStory } from "../story.selector";
 import { selectUserId } from "../../auth/auth.selectors";
-// services
-import { StoryService } from "../../services/story.service";
 // actions
+import { MyStoriesRequested } from "../story.actions";
 import { OpenModal } from "src/app/core/modals/modal.actions";
 
 @Component({
@@ -27,8 +26,7 @@ export class StoryDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private store: Store<AppState>,
-    private storyService: StoryService
+    private store: Store<AppState>
   ) {}
 
   ngOnInit() {
@@ -49,12 +47,9 @@ export class StoryDetailsComponent implements OnInit {
         return this.store.select(selectStory(this.storyId));
       }),
       tap(story => {
-        if (story) return;
-
-        this.storyService
-          .getMyStories()
-          .pipe(tap(() => console.log("Fetching Stories from Server")))
-          .subscribe();
+        if (!story) {
+          this.store.dispatch(new MyStoriesRequested());
+        }
       })
     );
   }
