@@ -2,16 +2,15 @@ import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 // rxjs
 import { Observable } from "rxjs";
-import { tap, first } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 // ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { selectStoryList } from "../story.selector";
-import { MyStoriesRequested } from "../story.actions";
-// services
-import { StoryService } from "../../services/story.service";
+import { MyStoriesRequested, MatchOtherUsersStarted } from "../story.actions";
 // models
 import { Story } from "../../models/story.model";
+import { MatchQuery } from "../..//models/match-query.model";
 
 interface SearchDistance {
   storyId;
@@ -33,13 +32,14 @@ export class StoryListComponent implements OnInit {
   stories$: Observable<Story[]>;
   coordinatesById: CoordinatesById;
 
-  constructor(
-    private store: Store<AppState>,
-    private storyService: StoryService,
-    private router: Router
-  ) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit() {
+    this.fetchStories();
+  }
+
+  // store & api calls
+  fetchStories() {
     this.stories$ = this.store.pipe(
       select(selectStoryList),
       tap((storyList: Story[]) => {
@@ -48,14 +48,9 @@ export class StoryListComponent implements OnInit {
           return this.createCoordinatesById(storyList);
         }
         // fetch from server
-        this.fetchStoriesFromTheApi();
+        this.store.dispatch(new MyStoriesRequested());
       })
     );
-  }
-
-  // api calls
-  fetchStoriesFromTheApi() {
-    this.store.dispatch(new MyStoriesRequested());
   }
 
   //  longitude then latitude
@@ -73,17 +68,16 @@ export class StoryListComponent implements OnInit {
   navigateToMap() {
     this.router.navigateByUrl("/map");
   }
-  onHandleSubmit(form: SearchDistance) {
+
+  searchForFriendsByDistance(form: SearchDistance) {
     const coordinates = this.coordinatesById[form.storyId];
 
-    const matchQuery = {
+    const matchQuery: MatchQuery = {
       coordinates,
-      maxDistance: form.distances,
+      maxDistance: parseInt(form.distances),
       unit: form.distanceType
     };
 
-    this.storyService
-      .matchOtherUsers(matchQuery)
-      .subscribe(res => {}, err => {});
+    this.store.dispatch(new MatchOtherUsersStarted({ matchQuery }));
   }
 }

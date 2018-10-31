@@ -42,7 +42,15 @@ export class MatchUsersModalComponent implements OnInit {
 
   open(modalRef) {
     const modal = this.modalService.open(modalRef);
-    modal.result.then(() => {}, () => this.store.dispatch(new CloseModal()));
+    modal.result.then(
+      () => {},
+      event => {
+        // event === 0 is a background click
+        if (event === 0) {
+          this.store.dispatch(new CloseModal());
+        }
+      }
+    );
   }
 
   closeModal() {

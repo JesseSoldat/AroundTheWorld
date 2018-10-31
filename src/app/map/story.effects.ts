@@ -17,7 +17,9 @@ import {
   MyStoriesRequested,
   MyStoriesLoaded,
   DeleteStoryImageStarted,
-  DeleteStoryImageFinished
+  DeleteStoryImageFinished,
+  MatchOtherUsersStarted,
+  MatchOtherUsersFinished
 } from "./story.actions";
 
 @Injectable()
@@ -49,6 +51,27 @@ export class StoryEffects {
         })
       )
     )
+  );
+
+  @Effect()
+  matchOtherUsers$: Observable<
+    MatchOtherUsersFinished | StoryError
+  > = this.action$.pipe(
+    ofType<MatchOtherUsersStarted>(StoryActionTypes.MatchOtherUsersStarted),
+    switchMap(action => {
+      const { matchQuery } = action.payload;
+      return this.storyService.matchOtherUsers(matchQuery).pipe(
+        map((res: HttpRes) => {
+          // any error will come back as null
+          if (!res) return this.handleError();
+
+          return new MatchOtherUsersFinished();
+        }),
+        catchError(err => {
+          return of(null);
+        })
+      );
+    })
   );
 
   @Effect()

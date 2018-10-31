@@ -11,7 +11,7 @@
           <div class="row">
             <!-- have stories -->
             <div *ngFor="let story of stories" class="card col-10 mx-auto my-4">
-              <app-list-card (onHandleSubmit)="onHandleSubmit($event)" [data]="story"></app-list-card>
+              <app-list-card (onHandleSubmit)="searchForFriendsByDistance($event)" [data]="story"></app-list-card>
             </div>
           </div>
 

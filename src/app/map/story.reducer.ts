@@ -83,21 +83,24 @@ export function storyReducer(state = initialStoryState, action) {
 
     // ----------- overlay ----------------
 
+    // ----------- show overlay --------------
     // add a new story
     case StoryActionTypes.AddStoryStarted:
+    // add an image to a story
+    case StoryActionTypes.AddStoryImageStarted:
+    // delete an image from a story
+    case StoryActionTypes.DeleteStoryImageStarted:
+    // match other users based on story distance
+    case StoryActionTypes.MatchOtherUsersStarted:
       return { ...state, overlay: true };
 
+    // --------- hide overlay ------------
     case StoryActionTypes.AddStoryFinished:
       return {
         ...state,
         overlay: false,
         stories: addNewStoryToStories(state.stories, payload.update)
       };
-
-    // add an image to a story
-    case StoryActionTypes.AddStoryImageStarted:
-    case StoryActionTypes.DeleteStoryImageStarted:
-      return { ...state, overlay: true };
 
     case StoryActionTypes.AddStoryImageFinished:
       return {
@@ -111,6 +114,12 @@ export function storyReducer(state = initialStoryState, action) {
         ...state,
         overlay: false,
         stories: deleteImageFromStory(state.stories, payload.update)
+      };
+
+    case StoryActionTypes.MatchOtherUsersFinished:
+      return {
+        ...state,
+        overlay: false
       };
 
     default:
