@@ -74,6 +74,7 @@ export class StoryService {
   // get all stories
   getMyStories(): Observable<HttpRes> {
     if (!this.userId) return of(null);
+
     this.store.dispatch(new MyStoriesRequested());
     return this.httpService.httpGetRequest(`story/${this.userId}`).pipe(
       tap((res: HttpRes) => {
@@ -88,6 +89,8 @@ export class StoryService {
 
   // post new story
   createNewStory(story: Story): Observable<HttpRes> {
+    if (!this.userId) return of(null);
+
     this.store.dispatch(new AddStoryStarted());
     return this.httpService
       .httpPostRequest(`story/add/${this.userId}`, story)
@@ -125,6 +128,24 @@ export class StoryService {
       );
   }
 
+  // delete an image from a story
+  deleteStoryImage(storyId: string, imageId: string): Observable<HttpRes> {
+    if (!this.userId) return of(null);
+
+    return this.httpService
+      .httpPatchRequest(`story/deleteImage/${this.userId}`, {
+        storyId,
+        imageId
+      })
+      .pipe(
+        tap((res: HttpRes) => {
+          const { msg } = res;
+          this.handleSuccess(msg);
+        }),
+        catchError(err => this.handleError(err))
+      );
+  }
+
   // get other persons stories
   getOtherPersonsStories(userId: string): Observable<HttpRes> {
     if (!this.userId) return of(null);
@@ -156,6 +177,8 @@ export class StoryService {
 
   // match with other peoples stories
   matchOtherUsers(matchQuery): Observable<HttpRes> {
+    if (!this.userId) return of(null);
+
     const { unit, maxDistance, coordinates } = matchQuery;
 
     const lng = coordinates[0];

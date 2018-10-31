@@ -1,14 +1,15 @@
 const mongoose = require("mongoose");
 const ObjectId = mongoose.Types.ObjectId;
-// Models
+// models
 const Story = require("../models/story");
-// Middleware
+// middleware
 const isAuth = require("../middleware/isAuth");
-// Utils
+const isUser = require("../middleware/isUser");
+// utils
 const { serverRes, getErrMsg } = require("../utils/serverRes");
 
 module.exports = app => {
-  // Get a list of your stories or another users stories
+  // get a list of your stories or another users stories
   app.get("/api/story/:userId", isAuth, async (req, res) => {
     const { userId } = req.params;
 
@@ -28,7 +29,7 @@ module.exports = app => {
     }
   });
 
-  // Get a single story
+  // get a single story
   app.get("/api/story/details/:storyId", isAuth, async (req, res) => {
     const { storyId } = req.params;
 
@@ -46,8 +47,8 @@ module.exports = app => {
     }
   });
 
-  // Add a story
-  app.post("/api/story/add/:userId", isAuth, async (req, res) => {
+  // add a story
+  app.post("/api/story/add/:userId", isAuth, isUser, async (req, res) => {
     const { userId } = req.params;
     const { title, description, geometry } = req.body;
 
@@ -71,7 +72,7 @@ module.exports = app => {
     }
   });
 
-  // Add Image to Story
+  // add image to story
   app.patch("/api/story/addImage/:storyId", isAuth, async (req, res) => {
     const { storyId } = req.params;
     const { storyImg } = req.body;
@@ -88,13 +89,41 @@ module.exports = app => {
 
       serverRes(res, 200, msg, { story });
     } catch (err) {
-      console.log("Err: Edit Story", err);
-      const msg = getErrMsg("err", "edit", "story");
+      console.log("Err: add story image", err);
+      const msg = getErrMsg("err", "add", "story image");
       serverRes(res, 400, msg, null);
     }
   });
 
-  // Match other users based on distance between your story and theirs
+  // delete Image from story
+  app.patch(
+    "/api/story/deleteImage/:userId",
+    isAuth,
+    isUser,
+    async (req, res) => {
+      try {
+        const { imageId, storyId } = req.body;
+
+        const story = await Story.findOneAndUpdate(
+          { _id: storyId },
+          {
+            $pull: { images: { _id: imageId } }
+          },
+          { new: true }
+        );
+
+        const msg = "The story image was deleted";
+
+        serverRes(res, 200, msg, { story });
+      } catch (err) {
+        console.log("Err: delete Story image", err);
+        const msg = getErrMsg("err", "delete", "story image");
+        serverRes(res, 400, msg, null);
+      }
+    }
+  );
+
+  // match other users based on distance between your story and theirs
   const convertToRadiansFromMilesOrKm = ({ unit, maxDistance }) => {
     // meters for GeoJSON
     // radians for coordinate pairs.

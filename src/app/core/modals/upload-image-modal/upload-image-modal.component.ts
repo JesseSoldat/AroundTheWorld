@@ -1,13 +1,13 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
 // rxjs
-import { first } from "rxjs/operators";
 import { Observable } from "rxjs";
 // ngrx
-import { Store, select } from "@ngrx/store";
+import { Store } from "@ngrx/store";
 import { AppState } from "../../../reducers";
 import { CloseModal } from "../modal.actions";
+import { first } from "rxjs/operators";
 
 @Component({
   selector: "app-upload-image-modal",
@@ -33,9 +33,7 @@ export class UploadImageModalComponent implements OnInit {
     this.modalType$.subscribe(type => {
       if (type === "uploadPhotos") {
         this.modalData$.pipe(first()).subscribe(data => {
-          // console.log("uploadPhotos Data", data);
           this.story = data;
-
           this.open(this.uploadPhotos);
         });
       }
@@ -49,9 +47,7 @@ export class UploadImageModalComponent implements OnInit {
       event => {
         // e === 0 is a background click
         if (event === 0) {
-          console.log("Close Modal", event);
           this.store.dispatch(new CloseModal());
-
           this.navToStoryDetails();
         }
       }
@@ -60,6 +56,7 @@ export class UploadImageModalComponent implements OnInit {
 
   // click close button or x button
   closeModal() {
+    this.store.dispatch(new CloseModal());
     this.modalService.dismissAll();
   }
 

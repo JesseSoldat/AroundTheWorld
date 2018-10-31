@@ -1,3 +1,5 @@
+<app-overlay [overlay$]="overlay$"></app-overlay>
+
 <div class="storyDetailsWrapper" *ngIf="(story$ | async) as story; else showSpinner">
   <app-heading [heading]="story.title"></app-heading>
 
@@ -24,6 +26,14 @@
         </ngb-panel>
         <ngb-panel title="Photos">
           <ng-template ngbPanelContent>
+            <div class="row">
+              <div class="col-12">
+                <button (click)="addImage()" class="btn btn-dark btn-sm float-right">
+                  <i class="fas fa-plus mr-1"></i>
+                  Add Image
+                </button>
+              </div>
+            </div>
             <div *ngIf="story.images.length; else showPlaceholderImage">
 
               <img *ngFor="let image of story.images" (click)="viewImage(image)" [src]="image.downloadURL" class="smallImg">

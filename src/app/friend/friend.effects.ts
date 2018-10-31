@@ -22,15 +22,13 @@ import {
 export class FriendEffects {
   constructor(private action$: Actions, private friendService: FriendService) {}
 
-  // Helpers
+  // helpers
   handleError() {
     return new FriendError({ error: "Could not fetch the profile" });
   }
 
   @Effect()
-  friendRequested$: Observable<
-    FriendsLoaded | FriendError
-  > = this.action$.pipe(
+  friendRequested$: Observable<FriendsLoaded | FriendError> = this.action$.pipe(
     ofType<FriendsRequested>(FriendActionTypes.FriendsRequested),
     switchMap(action =>
       this.friendService.getFriends().pipe(

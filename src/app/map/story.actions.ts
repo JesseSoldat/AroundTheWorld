@@ -1,18 +1,29 @@
 import { Action } from "@ngrx/store";
 
 import { Story } from "../models/story.model";
+import { Image } from "../models/image.model";
 
 export enum StoryActionTypes {
+  StoryError = "StoryError",
   MyStoriesRequested = "MyStoriesRequested",
   MyStoriesLoaded = "MyStoriesLoaded",
   AddStoryStarted = "AddStoryStarted",
   AddStoryFinished = "AddStoryFinished",
   AddStoryImageStarted = "AddStoryImageStarted",
   AddStoryImageFinished = "AddStoryImageFinished",
+  DeleteStoryImageStarted = "DeleteStoryImageStarted",
+  DeleteStoryImageFinished = "DeleteStoryImageFinished",
   OtherPersonsStoriesRequested = "OtherPersonsStoriesRequested",
   OtherPersonsStoriesLoaded = "OtherPersonsStoriesLoaded",
   OtherPersonsStoryRequested = "OtherPersonsStoryRequested",
   OtherPersonsStoryLoaded = "OtherPersonsStoryLoaded"
+}
+
+// all story errors
+export class StoryError implements Action {
+  readonly type = StoryActionTypes.StoryError;
+
+  constructor(public payload: { error: string }) {}
 }
 
 // current user stories
@@ -48,6 +59,19 @@ export class AddStoryImageFinished implements Action {
   constructor(public payload: { update: Story }) {}
 }
 
+// delete an image from a story
+export class DeleteStoryImageStarted implements Action {
+  readonly type = StoryActionTypes.DeleteStoryImageStarted;
+
+  constructor(public payload: { image: Image }) {}
+}
+
+export class DeleteStoryImageFinished implements Action {
+  readonly type = StoryActionTypes.DeleteStoryImageFinished;
+
+  constructor(public payload: { update: Story }) {}
+}
+
 // other persons stories
 export class OtherPersonsStoriesRequested implements Action {
   readonly type = StoryActionTypes.OtherPersonsStoriesRequested;
@@ -71,12 +95,15 @@ export class OtherPersonsStoryLoaded implements Action {
 }
 
 export type StoryActions =
+  | StoryError
   | MyStoriesRequested
   | MyStoriesLoaded
   | AddStoryStarted
   | AddStoryFinished
   | AddStoryImageStarted
   | AddStoryImageFinished
+  | DeleteStoryImageStarted
+  | DeleteStoryImageFinished
   | OtherPersonsStoriesRequested
   | OtherPersonsStoriesLoaded
   | OtherPersonsStoryRequested

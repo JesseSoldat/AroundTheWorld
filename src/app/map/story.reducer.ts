@@ -4,12 +4,14 @@ import { AuthActionTypes } from "../auth/auth.actions";
 import { Story } from "../models/story.model";
 
 export interface StoryState {
+  error: string;
   overlay: boolean;
   stories: Story[];
   otherPersonsStories: Story[];
 }
 
 export const initialStoryState: StoryState = {
+  error: null,
   overlay: false,
   stories: null,
   otherPersonsStories: null
@@ -37,15 +39,37 @@ const addImageToStory = (prevStories, update) => {
   return updatedStories;
 };
 
+const deleteImageFromStory = (prevStories, update) => {
+  if (!prevStories) return null;
+
+  const updatedStories = [...prevStories];
+
+  const index = updatedStories.findIndex(story => story._id === update._id);
+
+  console.log("removeImageFromStory index", index);
+
+  if (index === -1) return null;
+
+  updatedStories.splice(index, 1, update);
+
+  return updatedStories;
+};
+
 export function storyReducer(state = initialStoryState, action) {
   const { type, payload } = action;
   switch (type) {
+    // clear all state
     case AuthActionTypes.LogoutAction:
       return {
         overlay: false,
         stories: null,
-        otherPersonsStories: null
+        otherPersonsStories: null,
+        error: null
       };
+
+    // handle error
+    case StoryActionTypes.StoryError:
+      return { ...state, error: payload.error };
 
     // ----------- loading ---------------
     case StoryActionTypes.MyStoriesLoaded:
@@ -72,6 +96,7 @@ export function storyReducer(state = initialStoryState, action) {
 
     // add an image to a story
     case StoryActionTypes.AddStoryImageStarted:
+    case StoryActionTypes.DeleteStoryImageStarted:
       return { ...state, overlay: true };
 
     case StoryActionTypes.AddStoryImageFinished:
@@ -79,6 +104,13 @@ export function storyReducer(state = initialStoryState, action) {
         ...state,
         overlay: false,
         stories: addImageToStory(state.stories, payload.update)
+      };
+
+    case StoryActionTypes.DeleteStoryImageFinished:
+      return {
+        ...state,
+        overlay: false,
+        stories: deleteImageFromStory(state.stories, payload.update)
       };
 
     default:

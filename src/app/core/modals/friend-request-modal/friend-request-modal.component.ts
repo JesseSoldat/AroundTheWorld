@@ -1,6 +1,5 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
-import { Router } from "@angular/router";
 // rxjs
 import { first } from "rxjs/operators";
 import { Observable } from "rxjs";
@@ -29,7 +28,7 @@ export class FriendRequestModalComponent implements OnInit {
     this.modalType$.subscribe(type => {
       if (type === "friendsRequest") {
         this.modalData$.pipe(first()).subscribe(data => {
-          console.log("friendsRequest Data", data);
+          // console.log("friendsRequest Data", data);
           this.data = data;
 
           this.open(this.friendsRequest);
@@ -43,19 +42,18 @@ export class FriendRequestModalComponent implements OnInit {
     modal.result.then(
       () => {},
       e => {
-        // All Events button | background clicks
-        console.log("Close Modal", e);
+        // background clicks
         this.store.dispatch(new CloseModal());
       }
     );
   }
 
-  // All Events button | background clicks
+  // click close btn
   closeModal() {
+    this.store.dispatch(new CloseModal());
     this.modalService.dismissAll();
   }
 
-  // Accept / Deny / View Friend Request
   viewProfile(requester, $event) {
     $event.preventDefault();
     console.log(requester);

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild } from "@angular/core";
+import { Component, Input, OnInit, ViewChild } from "@angular/core";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
 // rxjs
@@ -14,7 +14,7 @@ import { CloseModal } from "../modal.actions";
   templateUrl: "./match-users-modal.component.html",
   styleUrls: ["./match-users-modal.component.css"]
 })
-export class MatchUsersModalComponent implements OnInit, OnDestroy {
+export class MatchUsersModalComponent implements OnInit {
   @Input()
   modalData$;
   @Input()
@@ -33,37 +33,24 @@ export class MatchUsersModalComponent implements OnInit, OnDestroy {
     this.modalType$.subscribe(type => {
       if (type === "matchUser") {
         this.modalData$.pipe(first()).subscribe(data => {
-          console.log("Data", data);
           this.data = data;
-
           this.open(this.matchUser);
         });
       }
     });
   }
 
-  ngOnDestroy() {
-    console.log("Destroy Matched User Modal");
-  }
-
   open(modalRef) {
     const modal = this.modalService.open(modalRef);
-    modal.result.then(
-      () => {},
-      () => {
-        console.log("Close Modal");
-        this.store.dispatch(new CloseModal());
-      }
-    );
+    modal.result.then(() => {}, () => this.store.dispatch(new CloseModal()));
   }
 
   closeModal() {
+    this.store.dispatch(new CloseModal());
     this.modalService.dismissAll();
   }
 
   closeModalAndRoute(match, e) {
-    console.log(match);
-
     e.preventDefault();
     this.closeModal();
     const url = `/map/matches/storyList/${match._id}`;

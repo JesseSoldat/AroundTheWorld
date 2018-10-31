@@ -10,8 +10,9 @@ import {
 import { Observable } from "rxjs";
 import { finalize, tap } from "rxjs/operators";
 // ngrx
-import { Store } from "@ngrx/store";
+import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
+import { selectOverlay } from "../../map/story.selector";
 // services
 import { StoryService } from "../../services/story.service";
 
@@ -21,6 +22,7 @@ import { StoryService } from "../../services/story.service";
   styleUrls: ["./image-upload.component.css"]
 })
 export class ImageUploadComponent implements OnInit {
+  overlay$: Observable<boolean>;
   userId: string;
   storyId: string;
   // main task
@@ -43,6 +45,8 @@ export class ImageUploadComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.showOverlay();
+
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.userId = params.get("userId");
       this.storyId = params.get("storyId");
@@ -55,6 +59,11 @@ export class ImageUploadComponent implements OnInit {
       timeOut: 3000,
       positionClass: "toast-bottom-right"
     });
+  }
+
+  // store / api calls
+  showOverlay() {
+    this.overlay$ = this.store.pipe(select(selectOverlay));
   }
 
   // events & cbs
