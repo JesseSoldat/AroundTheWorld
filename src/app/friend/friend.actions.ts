@@ -5,11 +5,17 @@ import { FriendRequest } from "../models/friend-request.model";
 
 export enum FriendActionTypes {
   FriendError = "FriendError",
+  // loading
   FriendsRequested = "FriendsRequested",
   FriendsLoaded = "FriendsLoaded",
   FriendRequestRequested = "FriendRequestRequested",
-  FriendRequestLoaded = "FriendRequestLoaded"
+  FriendRequestLoaded = "FriendRequestLoaded",
+  // overlay
+  SendFriendRequestStarted = "SendFriendRequestStarted",
+  SendFriendRequestFinished = "SendFriendRequestFinished"
 }
+
+// ------------ loading ----------------
 
 // handle all profile errors
 export class FriendError implements Action {
@@ -39,9 +45,24 @@ export class FriendRequestLoaded implements Action {
   constructor(public payload: { friendRequests: FriendRequest[] }) {}
 }
 
+// -------------- overlay ---------------------
+export class SendFriendRequestStarted implements Action {
+  readonly type = FriendActionTypes.SendFriendRequestStarted;
+
+  constructor(public payload: { friendId: string }) {}
+}
+
+export class SendFriendRequestFinished implements Action {
+  readonly type = FriendActionTypes.SendFriendRequestFinished;
+
+  constructor(public payload: { friendRequest: FriendRequest }) {}
+}
+
 export type FriendActions =
   | FriendError
   | FriendsRequested
   | FriendsLoaded
   | FriendRequestRequested
-  | FriendRequestLoaded;
+  | FriendRequestLoaded
+  | SendFriendRequestStarted
+  | SendFriendRequestFinished;

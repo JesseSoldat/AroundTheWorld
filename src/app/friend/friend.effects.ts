@@ -12,10 +12,14 @@ import { HttpRes } from "../models/http-res.model";
 import {
   FriendError,
   FriendActionTypes,
+  // loading
   FriendsRequested,
   FriendsLoaded,
   FriendRequestRequested,
-  FriendRequestLoaded
+  FriendRequestLoaded,
+  // overlay
+  SendFriendRequestStarted,
+  SendFriendRequestFinished
 } from "./friend.actions";
 
 @Injectable()
@@ -26,25 +30,46 @@ export class FriendEffects {
   handleError() {
     return new FriendError({ error: "Could not fetch the profile" });
   }
+  // ------------- loading -----------------
 
+  // get all friends
   @Effect()
-  friendRequested$: Observable<FriendsLoaded | FriendError> = this.action$.pipe(
+  friendsLoaded$: Observable<FriendsLoaded | FriendError> = this.action$.pipe(
     ofType<FriendsRequested>(FriendActionTypes.FriendsRequested),
     switchMap(action =>
       this.friendService.getFriends().pipe(
-        map(
-          (res: HttpRes) => {
-            // any error will come back as null
-            if (!res) return this.handleError();
+        map((res: HttpRes) => {
+          // any error will come back as null
+          if (!res) return this.handleError();
 
-            const { payload } = res;
+          return new FriendsLoaded({ friends: res.payload.friends });
+        }),
+        catchError(err => of(null))
+      )
+    )
+  );
 
-            return new FriendsLoaded({ friends: payload.friends });
-          },
-          catchError(err => {
-            return of(null);
-          })
-        )
+  // -------------- overlay -----------------
+
+  // send a friend request
+  @Effect()
+  sendFriendRequestFinished: Observable<
+    SendFriendRequestFinished | FriendError
+  > = this.action$.pipe(
+    ofType<SendFriendRequestStarted>(
+      FriendActionTypes.SendFriendRequestStarted
+    ),
+    switchMap(action =>
+      this.friendService.sendFriendRequest(action.payload.friendId).pipe(
+        map((res: HttpRes) => {
+          // any error will come back as null
+          if (!res) return this.handleError();
+
+          return new SendFriendRequestFinished({
+            friendRequest: res.payload.friendRequest
+          });
+        }),
+        catchError(err => of(null))
       )
     )
   );

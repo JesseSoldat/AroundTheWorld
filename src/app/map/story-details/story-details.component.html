@@ -18,7 +18,7 @@
           </ngb-panel>
           <ngb-panel title="Map">
             <ng-template ngbPanelContent>
-
+              <!-- map -->
               <agm-map [longitude]="story.geometry.coordinates[0]" [latitude]="story.geometry.coordinates[1]" [zoom]="8">
 
                 <agm-marker [longitude]="story.geometry.coordinates[0]" [latitude]="story.geometry.coordinates[1]">
@@ -26,11 +26,11 @@
 
               </agm-map>
 
-
             </ng-template>
           </ngb-panel>
           <ngb-panel title="Photos">
             <ng-template ngbPanelContent>
+              <!-- photos -->
               <div class="row">
                 <div class="col-12">
                   <button (click)="addImage()" class="btn btn-dark btn-sm float-right">

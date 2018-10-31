@@ -91,14 +91,12 @@ export class FriendService {
 
   // send a friends request
   sendFriendRequest(friendId: string): Observable<HttpRes> {
-    return this.httpService
-      .httpPostRequest("friend/request", { userId: this.userId, friendId })
-      .pipe(
-        tap((res: HttpRes) => {
-          const { msg, payload } = res;
+    if (!this.userId) return of(null);
 
-          this.handleSuccess(msg);
-        }),
+    return this.httpService
+      .httpPostRequest(`friend/request/${this.userId}`, { friendId })
+      .pipe(
+        tap((res: HttpRes) => this.handleSuccess(res.msg)),
         catchError(err => this.handleError(err))
       );
   }

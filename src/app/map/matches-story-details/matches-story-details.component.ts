@@ -92,6 +92,7 @@ export class MatchesStoryDetailsComponent implements OnInit {
       .subscribe();
   }
 
+  // store & api calls
   getMatchedUsersStories() {
     this.story$ = this.matchedUserId$.pipe(
       switchMap((params: ParamMap) => {
