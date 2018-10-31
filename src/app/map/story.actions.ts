@@ -47,6 +47,8 @@ export class MyStoriesLoaded implements Action {
 // other persons stories
 export class OtherPersonsStoriesRequested implements Action {
   readonly type = StoryActionTypes.OtherPersonsStoriesRequested;
+
+  constructor(public payload: { matchedUserId: string }) {}
 }
 
 export class OtherPersonsStoriesLoaded implements Action {

@@ -142,16 +142,10 @@ export class StoryService {
   // get other persons stories
   getOtherPersonsStories(userId: string): Observable<HttpRes> {
     if (!this.userId) return of(null);
-    this.store.dispatch(new OtherPersonsStoriesRequested());
-    return this.httpService.httpGetRequest(`story/${userId}`).pipe(
-      tap((res: HttpRes) => {
-        const { payload } = res;
-        const { stories } = payload;
-        // console.log("otherPersonsStories", payload);
-        this.store.dispatch(new OtherPersonsStoriesLoaded({ stories }));
-      }),
-      catchError(err => this.handleError(err))
-    );
+
+    return this.httpService
+      .httpGetRequest(`story/${userId}`)
+      .pipe(catchError(err => this.handleError(err)));
   }
 
   // get other persons story

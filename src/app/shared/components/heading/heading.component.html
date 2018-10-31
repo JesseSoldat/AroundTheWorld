@@ -7,9 +7,11 @@
         (onBtnClick)="onBtnClick($event)"></app-top-row-btns>
     </div>
 
-    <h1 class="heading pb-2">
+    <h1 *ngIf="heading" class="heading pb-2">
       {{heading}}
     </h1>
+
+    <div *ngIf="!heading" class="spacer70"></div>
 
     <div class="d-block d-sm-none d-md-none d-lg-none d-xl-none">
       <app-bottom-row-btns [backBtn]="backBtn" [editBtn]="editBtn" [deleteBtn]="deleteBtn" [detailBtn]="detailBtn"

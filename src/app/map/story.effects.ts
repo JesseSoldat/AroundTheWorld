@@ -19,7 +19,9 @@ import {
   DeleteStoryImageStarted,
   DeleteStoryImageFinished,
   MatchOtherUsersStarted,
-  MatchOtherUsersFinished
+  MatchOtherUsersFinished,
+  OtherPersonsStoriesRequested,
+  OtherPersonsStoriesLoaded
 } from "./story.actions";
 
 @Injectable()
@@ -73,6 +75,24 @@ export class StoryEffects {
       );
     })
   );
+
+  @Effect()
+  getOtherPersonsStories$: Observable<OtherPersonsStoriesLoaded | StoryError> = this.action$.pipe(
+    ofType<OtherPersonsStoriesRequested>(StoryActionTypes.OtherPersonsStoriesRequested),
+    switchMap(action => {
+      const { matchedUserId } = action.payload
+      return this.storyService.getOtherPersonsStories(matchedUserId).pipe(
+        map((res: HttpRes) => {
+           // any error will come back as null
+           if (!res) return this.handleError();
+
+           const { stories } = res.payload;
+           
+           return new OtherPersonsStoriesLoaded({ stories })
+        })
+      )
+    }    
+  )
 
   @Effect()
   deleteStoryImage$: Observable<

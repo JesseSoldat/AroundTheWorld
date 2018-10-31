@@ -10,7 +10,7 @@ export class ImgCardComponent implements OnInit {
   onBtnClick = new EventEmitter();
   @Input()
   data;
-  fText: number = 30;
+  fText = 30;
 
   constructor() {}
 

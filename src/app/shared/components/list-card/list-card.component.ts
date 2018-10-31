@@ -23,6 +23,7 @@ export class ListCardComponent implements OnInit {
   data: Story;
   matchUsersForm: FormGroup;
   distances: string[];
+  fText = 100;
 
   constructor(private formBuilder: FormBuilder) {}
 

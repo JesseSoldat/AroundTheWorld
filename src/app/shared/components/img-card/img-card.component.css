@@ -11,3 +11,25 @@
 .card-img-top {
   height: 250px;
 }
+
+@media (max-width: 768px) {
+  .card {
+    width: 250px;
+    height: 400px;
+  }
+
+  .card-img-top {
+    height: 200px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .card {
+    width: 220px;
+    height: 340px;
+  }
+
+  .card-img-top {
+    height: 160px;
+  }
+}
