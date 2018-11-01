@@ -1,6 +1,9 @@
 import { Component, Output, Input, EventEmitter, OnInit } from "@angular/core";
-// Services\
+// services
 import { FriendService } from "../../../services/friend.service";
+import { Profile } from "../../../models/profile.model";
+import { Story } from "../../../models/story.model";
+
 @Component({
   selector: "app-friends-photos",
   templateUrl: "./friends-photos.component.html",
@@ -8,22 +11,26 @@ import { FriendService } from "../../../services/friend.service";
 })
 export class FriendsPhotosComponent implements OnInit {
   @Input()
-  story;
+  story: Story;
   @Input()
-  permission;
+  status;
 
   constructor(private friendsService: FriendService) {}
 
   ngOnInit() {}
 
-  // Events & Cbs
-  sendFriendRequest(matchedUserId) {
+  // events & cbs
+  sendFriendRequest(matchedUserId): void {
     // requested | accepted | rejected
     this.friendsService
       .sendFriendRequest(matchedUserId)
       .subscribe(res => {}, err => {});
   }
 
+  // received request to be friends
+  addUserToFriends() {}
+
+  // modal detail view
   viewImage(url) {
     console.log("viewImage", url);
   }

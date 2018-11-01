@@ -4,17 +4,22 @@ import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 import { switchMap, tap } from "rxjs/operators";
 import { Observable } from "rxjs";
 // ngrx
-import { Store } from "@ngrx/store";
+import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { selectOtherPersonsStory } from "../story.selector";
 import { OtherPersonsStoriesRequested } from "../story.actions";
+import { FriendsRequested } from "../../friend/friend.actions";
 import {
+  selectFriends,
   selectSentFriendRequest,
   selectReceivedRequestByMatchingUser
 } from "../../friend/friend.selector";
 import { selectUserId } from "../../auth/auth.selectors";
 // services
 import { FriendService } from "../../services/friend.service";
+// models
+import { Profile } from "../../models/profile.model";
+import { Story } from "../../models/story.model";
 
 @Component({
   selector: "app-matches-story-details",
@@ -22,11 +27,13 @@ import { FriendService } from "../../services/friend.service";
   styleUrls: ["./matches-story-details.component.css"]
 })
 export class MatchesStoryDetailsComponent implements OnInit {
-  story$: Observable<any>;
-  permission$: Observable<any>;
-  matchedUserId$: Observable<ParamMap>;
+  story$: Observable<Story>;
+  friends: Profile[];
   matchedUserId: string;
+  storyId: string;
   userId$: Observable<string>;
+
+  status = "statusLoading";
   receivedRequest;
 
   constructor(
@@ -37,70 +44,71 @@ export class MatchesStoryDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.matchedUserId$ = this.route.paramMap;
-    this.userId$ = this.store.select(selectUserId);
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      // get ids
+      this.userId$ = this.store.select(selectUserId);
+      this.matchedUserId = params.get("matchedUserId");
+      this.storyId = params.get("storyId");
 
-    this.getMatchedUsersStories();
-
-    // check if user is friends
-    this.getFriends();
-    // check if user received or sent a friend request to the matched user
-    // status requested || received
-    this.getFriendRequests();
-
-    // this.receivedRequest$ =
-    // this.matchedUserId$
-    //   .pipe(
-    //     switchMap((params: ParamMap) => {
-    //       const matchedUserId = params.get("matchedUserId");
-    //       return this.userId$.pipe(
-    //         tap((userId: string) => {
-    //           this.store
-    //             .select(
-    //               selectReceivedRequestByMatchingUser(matchedUserId, userId)
-    //             )
-    //             .subscribe(receivedRequest => {
-    //               this.receivedRequest = receivedRequest;
-    //               console.log("receivedRequest", receivedRequest);
-    //             });
-    //         })
-    //       );
-    //     })
-    //   )
-    //   .subscribe();
-
-    // this.permission$ =
-    // this.matchedUserId$
-    //   .pipe(
-    //     switchMap((params: ParamMap) => {
-    //       // return of(null);
-    //       return this.store.select(
-    //         selectSentFriendRequest(params.get("matchedUserId"))
-    //       );
-    //     }),
-    //     tap(friendRequest => {
-    //       if (friendRequest) console.log("sentRequest", friendRequest);
-    //       if (friendRequest) return;
-
-    //       this.friendsService.allFriendRequests().subscribe();
-    //     })
-    //   )
-    //   .subscribe();
+      // store & api calls
+      this.getMatchedUsersStories();
+      // check if user is friends
+      this.getFriends();
+      // check if user received or sent a friend request to the matched user
+      // status requested || received
+      this.getFriendRequests();
+    });
   }
 
   // store & api calls
-  getFriends() {}
+  getFriends() {
+    this.store
+      .pipe(
+        select(selectFriends),
+        tap(friends => {
+          if (!friends) return this.store.dispatch(new FriendsRequested());
+          this.friends = friends;
+        })
+      )
+      .subscribe();
+  }
 
-  getFriendRequests() {}
+  getFriendRequests() {
+    // get any request that was received from matching user
+    this.userId$
+      .pipe(
+        tap((userId: string) => {
+          this.store
+            .select(
+              selectReceivedRequestByMatchingUser(this.matchedUserId, userId)
+            )
+            .pipe(
+              tap(receivedFromMatchingUser => {
+                console.log(
+                  "receivedFromMatchingUser",
+                  receivedFromMatchingUser
+                );
+              })
+            )
+            .subscribe();
+        })
+      )
+      .subscribe();
+
+    // check if user already sent a request
+    this.store
+      .select(selectSentFriendRequest(this.matchedUserId))
+      .pipe(
+        tap(sentFriendRequest => {
+          console.log("sentFriendRequest", sentFriendRequest);
+        })
+      )
+      .subscribe();
+  }
 
   getMatchedUsersStories() {
-    this.story$ = this.matchedUserId$.pipe(
-      switchMap((params: ParamMap) => {
-        this.matchedUserId = params.get("matchedUserId");
-        return this.store.select(
-          selectOtherPersonsStory(params.get("storyId"))
-        );
-      }),
+    this.story$ = this.store.pipe(
+      select(selectOtherPersonsStory(this.storyId)),
       tap(story => {
         if (story) return;
         // request from api

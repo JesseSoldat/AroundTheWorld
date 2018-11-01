@@ -1,13 +1,29 @@
-<div *ngIf="permission?.status === 'notRequested'">
+<!-- have not sent a request -->
+<div *ngIf="status === 'notRequested'">
   <p>To view this users photos send a friend request</p>
-  <button (click)="sendFriendRequest(story.user._id)" class="btn btn-primary">Friend Request</button>
+  <button (click)="sendFriendRequest(story.user._id)" class="btn btn-dark">
+    <i class="fas fa-user-plus"></i>
+    Request
+  </button>
 </div>
 
-<div *ngIf="permission?.status === 'requested'">
+<!-- sent request waiting for response -->
+<div *ngIf="status === 'requested'">
   <p>A Friends Request has been sent. If accepted you will be able to view their photos.</p>
 </div>
 
-<div *ngIf="permission?.status === 'accepted'">
+
+<!-- received a friends request from this user -->
+<div *ngIf="status === 'receivedRequest'" class="d-flex justify-content-between align-items-start">
+  <p>You received a friend request. Click accept to view this user's photos.</p>
+  <button class="btn btn-dark btn-sm" (click)="addUserToFriends()">
+    <i class="fas fa-user-plus"></i>
+    Add to Friends
+  </button>
+</div>
+
+<!-- is friends already -->
+<div *ngIf="status === 'accepted'">
   <div *ngIf="story.images.length; else showPlaceholderImage">
 
     <img *ngFor="let image of story.images" (click)="viewImage(image)" [src]="image.downloadURL" class="smallImg">

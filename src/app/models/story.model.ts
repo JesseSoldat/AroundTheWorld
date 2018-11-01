@@ -1,12 +1,8 @@
+import { Profile } from "./profile.model";
+
 interface Geometry {
   type: string;
   coordinates: number[];
-}
-
-interface User {
-  username: string;
-  email: string;
-  _id: string;
 }
 
 export interface Story {
@@ -14,5 +10,5 @@ export interface Story {
   title: string;
   description: string;
   geometry: Geometry;
-  user?: User;
+  user?: Profile;
 }
