@@ -117,7 +117,6 @@ module.exports = app => {
 
         serverRes(res, 200, msg, {
           friends: user.friends,
-          friendId,
           friendRequestId
         });
       } catch (err) {

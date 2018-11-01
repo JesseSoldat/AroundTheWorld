@@ -24,8 +24,8 @@ import { FriendService } from "../../services/friend.service";
 export class MatchesStoryDetailsComponent implements OnInit {
   story$: Observable<any>;
   permission$: Observable<any>;
-  matchedUserId: string;
   matchedUserId$: Observable<ParamMap>;
+  matchedUserId: string;
   userId$: Observable<string>;
   receivedRequest;
 
@@ -38,61 +38,61 @@ export class MatchesStoryDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.matchedUserId$ = this.route.paramMap;
+    this.userId$ = this.store.select(selectUserId);
 
     this.getMatchedUsersStories();
 
-    // check if friend
-    const isFriend = false;
-    if (isFriend) {
-      // TODO user friends selector pass matchedUser id
-      return;
-    }
+    // check if user is friends
+    this.getFriends();
+    // check if user received or sent a friend request to the matched user
+    // status requested || received
+    this.getFriendRequests();
 
-    // check for friends request status requested || received
-    this.userId$ = this.store.select(selectUserId);
     // this.receivedRequest$ =
-    this.matchedUserId$
-      .pipe(
-        switchMap((params: ParamMap) => {
-          const matchedUserId = params.get("matchedUserId");
-          return this.userId$.pipe(
-            tap((userId: string) => {
-              console.log(matchedUserId);
-
-              this.store
-                .select(
-                  selectReceivedRequestByMatchingUser(matchedUserId, userId)
-                )
-                .subscribe(receivedRequest => {
-                  this.receivedRequest = receivedRequest;
-                  console.log("receivedRequest", receivedRequest);
-                });
-            })
-          );
-        })
-      )
-      .subscribe();
+    // this.matchedUserId$
+    //   .pipe(
+    //     switchMap((params: ParamMap) => {
+    //       const matchedUserId = params.get("matchedUserId");
+    //       return this.userId$.pipe(
+    //         tap((userId: string) => {
+    //           this.store
+    //             .select(
+    //               selectReceivedRequestByMatchingUser(matchedUserId, userId)
+    //             )
+    //             .subscribe(receivedRequest => {
+    //               this.receivedRequest = receivedRequest;
+    //               console.log("receivedRequest", receivedRequest);
+    //             });
+    //         })
+    //       );
+    //     })
+    //   )
+    //   .subscribe();
 
     // this.permission$ =
-    this.matchedUserId$
-      .pipe(
-        switchMap((params: ParamMap) => {
-          // return of(null);
-          return this.store.select(
-            selectSentFriendRequest(params.get("matchedUserId"))
-          );
-        }),
-        tap(friendRequest => {
-          if (friendRequest) console.log("sentRequest", friendRequest);
-          if (friendRequest) return;
+    // this.matchedUserId$
+    //   .pipe(
+    //     switchMap((params: ParamMap) => {
+    //       // return of(null);
+    //       return this.store.select(
+    //         selectSentFriendRequest(params.get("matchedUserId"))
+    //       );
+    //     }),
+    //     tap(friendRequest => {
+    //       if (friendRequest) console.log("sentRequest", friendRequest);
+    //       if (friendRequest) return;
 
-          this.friendsService.allFriendRequests().subscribe();
-        })
-      )
-      .subscribe();
+    //       this.friendsService.allFriendRequests().subscribe();
+    //     })
+    //   )
+    //   .subscribe();
   }
 
   // store & api calls
+  getFriends() {}
+
+  getFriendRequests() {}
+
   getMatchedUsersStories() {
     this.story$ = this.matchedUserId$.pipe(
       switchMap((params: ParamMap) => {
@@ -114,9 +114,10 @@ export class MatchesStoryDetailsComponent implements OnInit {
   }
 
   // events & cbs
-  addUserToFriends(receivedRequest) {
-    console.log(receivedRequest);
+  addUserToFriends() {
+    console.log(this.matchedUserId);
   }
+
   goBack() {
     this.router.navigateByUrl(`/map/matches/storyList/${this.matchedUserId}`);
   }

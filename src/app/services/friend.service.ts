@@ -13,8 +13,6 @@ import { HttpRes } from "../models/http-res.model";
 import { HttpService } from "./http.service";
 // actions
 import {
-  FriendsRequested,
-  FriendsLoaded,
   FriendRequestRequested,
   FriendRequestLoaded
 } from "../friend/friend.actions";
@@ -36,7 +34,6 @@ export class FriendService {
   // helpers
   handleError(err) {
     console.error("friend service handleError:", err);
-
     this.toastr.error("", err.error.msg, {
       timeOut: 3000,
       positionClass: "toast-bottom-right"
@@ -71,7 +68,7 @@ export class FriendService {
       .pipe(catchError(err => this.handleError(err)));
   }
 
-  // Get all Friends Request Sent or Received
+  // get all friends request sent or received
   allFriendRequests(): Observable<HttpRes> {
     if (!this.userId) return of(null);
     this.store.dispatch(new FriendRequestRequested());
@@ -95,6 +92,18 @@ export class FriendService {
 
     return this.httpService
       .httpPostRequest(`friend/request/${this.userId}`, { friendId })
+      .pipe(
+        tap((res: HttpRes) => this.handleSuccess(res.msg)),
+        catchError(err => this.handleError(err))
+      );
+  }
+
+  // accept a friend request
+  acceptFriendRequest(friendId: string): Observable<HttpRes> {
+    if (!this.userId) return of(null);
+
+    return this.httpService
+      .httpPostRequest(`friend/request/accept/${this.userId}`, { friendId })
       .pipe(
         tap((res: HttpRes) => this.handleSuccess(res.msg)),
         catchError(err => this.handleError(err))

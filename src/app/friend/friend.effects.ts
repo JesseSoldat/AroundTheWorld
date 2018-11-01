@@ -19,7 +19,9 @@ import {
   FriendRequestLoaded,
   // overlay
   SendFriendRequestStarted,
-  SendFriendRequestFinished
+  SendFriendRequestFinished,
+  AcceptFriendRequestFinished,
+  AcceptFriendRequestStarted
 } from "./friend.actions";
 
 @Injectable()
@@ -67,6 +69,31 @@ export class FriendEffects {
 
           return new SendFriendRequestFinished({
             friendRequest: res.payload.friendRequest
+          });
+        }),
+        catchError(err => of(null))
+      )
+    )
+  );
+
+  // accept a friend request
+  acceptFriendRequestFinished: Observable<
+    AcceptFriendRequestFinished | FriendError
+  > = this.action$.pipe(
+    ofType<AcceptFriendRequestStarted>(
+      FriendActionTypes.AcceptFriendRequestStarted
+    ),
+    switchMap(action =>
+      this.friendService.acceptFriendRequest(action.payload.friendId).pipe(
+        map((res: HttpRes) => {
+          // any error will come back as null
+          if (!res) return this.handleError();
+
+          const { friendRequestId, friends } = res.payload;
+
+          return new AcceptFriendRequestFinished({
+            friendRequestId,
+            friends
           });
         }),
         catchError(err => of(null))

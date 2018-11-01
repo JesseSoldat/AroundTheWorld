@@ -29,17 +29,19 @@
           <ngb-panel title="Photos">
             <ng-template ngbPanelContent>
               <!-- photos -->
-              <div *ngIf="(permission$ | async) as permission">
+              <!-- <div *ngIf="(permission$ | async) as permission">
                 <app-friends-photos [story]="story" [permission]="permission">
                 </app-friends-photos>
-              </div>
+              </div> -->
 
               <!-- received a friends request from this user -->
-              <div *ngIf="receivedRequest" class="d-flex justify-content-between align-items-start">
-                <p>To view photos use must be friends. It looks like you have received a friends request from this user
-                  already.</p>
-                <button class="btn btn-primary btn-sm" (click)="addUserToFriends(receivedRequest)">Add to Friends</button>
-              </div>
+              <!-- <div *ngIf="receivedRequest" class="d-flex justify-content-between align-items-start">
+                <p>You received a friend request. Click accept to view this user's photos.</p>
+                <button class="btn btn-dark btn-sm" (click)="addUserToFriends()">
+                  <i class="fas fa-user-plus"></i>
+                  Add to Friends
+                </button>
+              </div> -->
 
               <!-- loading -->
               <!-- <ng-template #showSmallSpinner>
