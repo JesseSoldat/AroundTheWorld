@@ -4,7 +4,7 @@ import { Observable } from "rxjs";
 // ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
-import { selectOverlay } from "../story.selector";
+import { selectStoryOverlay } from "../story.selector";
 // models
 import { Location } from "../../models/location.model";
 import { Story } from "../../models/story.model";
@@ -41,7 +41,7 @@ export class AddMapStoryComponent implements OnInit {
   }
 
   showOverlay() {
-    this.overlay$ = this.store.pipe(select(selectOverlay));
+    this.overlay$ = this.store.pipe(select(selectStoryOverlay));
   }
 
   // Events & Cbs

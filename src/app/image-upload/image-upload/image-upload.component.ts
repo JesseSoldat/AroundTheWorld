@@ -12,7 +12,7 @@ import { finalize, tap } from "rxjs/operators";
 // ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
-import { selectOverlay } from "../../map/story.selector";
+import { selectStoryOverlay } from "../../map/story.selector";
 // services
 import { StoryService } from "../../services/story.service";
 
@@ -63,7 +63,7 @@ export class ImageUploadComponent implements OnInit {
 
   // store / api calls
   showOverlay() {
-    this.overlay$ = this.store.pipe(select(selectOverlay));
+    this.overlay$ = this.store.pipe(select(selectStoryOverlay));
   }
 
   // events & cbs

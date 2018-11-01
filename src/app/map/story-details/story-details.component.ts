@@ -6,7 +6,7 @@ import { Observable } from "rxjs";
 // ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
-import { selectOverlay, selectStory } from "../story.selector";
+import { selectStoryOverlay, selectStory } from "../story.selector";
 import { selectUserId } from "../../auth/auth.selectors";
 // actions
 import { MyStoriesRequested } from "../story.actions";
@@ -37,7 +37,7 @@ export class StoryDetailsComponent implements OnInit {
 
   // store / api calls
   showOverlay() {
-    this.overlay$ = this.store.pipe(select(selectOverlay));
+    this.overlay$ = this.store.pipe(select(selectStoryOverlay));
   }
 
   getStory() {

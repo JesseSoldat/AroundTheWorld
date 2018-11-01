@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 // rxjs
-import { switchMap, tap } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 import { Observable, of } from "rxjs";
 // ngrx
 import { Store, select } from "@ngrx/store";
@@ -14,12 +14,10 @@ import {
 } from "../../friend/friend.actions";
 import {
   selectFriendOverlay,
-  selectFriendRequests, // temp
-  selectFriends,
-  selectMatchedUserStatus
+  selectFriends
 } from "../../friend/friend.selector";
+import { selectMatchedUserStatus } from "../_selectors/matches-story-details.selector";
 import { selectUserId } from "../../auth/auth.selectors";
-import { selectMatchesStoryDetailsUserId } from "../story.selector";
 // models
 import { Profile } from "../../models/profile.model";
 import { Story } from "../../models/story.model";
@@ -40,9 +38,6 @@ export class MatchesStoryDetailsComponent implements OnInit {
   status$ = of("statusLoading");
   status = "statusLoading";
   receivedRequest;
-
-  // temp
-  prevFriendReq = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -66,29 +61,6 @@ export class MatchesStoryDetailsComponent implements OnInit {
       // check if user received or sent a friend request to the matched user
       this.getFriendRequestsStatus();
     });
-
-    // ------------------------ temp ---------------------
-    this.store
-      .select(selectMatchesStoryDetailsUserId)
-      .pipe(
-        tap(state => {
-          console.log("router", state);
-        })
-      )
-      .subscribe();
-    // this.store
-    //   .select(selectFriendRequests)
-    //   .pipe(
-    //     tap(req => {
-    //       console.log("prev friend req", this.prevFriendReq);
-    //       console.log("current friend req", req);
-    //       if (this.prevFriendReq !== req) {
-    //         this.prevFriendReq = req;
-    //         this.getFriendRequestsStatus();
-    //       }
-    //     })
-    //   )
-    //   .subscribe();
   }
 
   // store & api calls
@@ -110,7 +82,7 @@ export class MatchesStoryDetailsComponent implements OnInit {
 
   getFriendRequestsStatus() {
     this.store
-      .select(selectMatchedUserStatus(this.matchedUserId))
+      .select(selectMatchedUserStatus)
       .pipe(
         tap(status => {
           console.log("Status:", status);
