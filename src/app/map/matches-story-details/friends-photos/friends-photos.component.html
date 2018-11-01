@@ -1,14 +1,14 @@
 <!-- have not sent a request -->
-<div *ngIf="status === 'notRequested'">
-  <p>To view this users photos send a friend request</p>
-  <button (click)="sendFriendRequest(story.user._id)" class="btn btn-dark">
+<div *ngIf="status === 'notRequested'" class="d-flex justify-content-between align-items-start">
+  <p>Send a friend request to view this users photos.</p>
+  <button (click)="sendFriendRequest(story.user._id)" class="btn btn-dark btn-sm">
     <i class="fas fa-user-plus"></i>
     Request
   </button>
 </div>
 
 <!-- sent request waiting for response -->
-<div *ngIf="status === 'requested'">
+<div *ngIf="status === 'sentRequest'">
   <p>A Friends Request has been sent. If accepted you will be able to view their photos.</p>
 </div>
 
@@ -23,7 +23,7 @@
 </div>
 
 <!-- is friends already -->
-<div *ngIf="status === 'accepted'">
+<div *ngIf="status === 'isFriend'">
   <div *ngIf="story.images.length; else showPlaceholderImage">
 
     <img *ngFor="let image of story.images" (click)="viewImage(image)" [src]="image.downloadURL" class="smallImg">

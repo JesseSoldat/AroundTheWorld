@@ -12,6 +12,7 @@ import { Story } from "../../../models/story.model";
 export class FriendsPhotosComponent implements OnInit {
   @Input()
   story: Story;
+  // status = notRequested | sentRequest | receivedRequest | isFriend
   @Input()
   status;
 
@@ -21,7 +22,7 @@ export class FriendsPhotosComponent implements OnInit {
 
   // events & cbs
   sendFriendRequest(matchedUserId): void {
-    // requested | accepted | rejected
+    // requested | accepted
     this.friendsService
       .sendFriendRequest(matchedUserId)
       .subscribe(res => {}, err => {});

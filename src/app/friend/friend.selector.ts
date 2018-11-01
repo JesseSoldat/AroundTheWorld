@@ -4,7 +4,6 @@ import {
   MemoizedSelector
 } from "@ngrx/store";
 import { FriendState } from "./friend.reducer";
-import { selectUserId } from "../auth/auth.selectors";
 import { AppState } from "../reducers";
 import { FriendRequest } from "../models/friend-request.model";
 
@@ -16,11 +15,31 @@ export const selectError = createSelector(
   friendState => friendState.error
 );
 
+// --------- friends --------------
+
 // get all of `my` friends
 export const selectFriends = createSelector(
   selectFriendState,
   friendState => friendState.friends
 );
+
+// check if matched user is `my` friend
+export const selectIsMyFriend = (
+  matchedUserId: string
+): MemoizedSelector<AppState, string> => {
+  return createSelector(
+    selectFriends,
+    (friends): string => {
+      if (!friends) return null;
+
+      const index = friends.findIndex(friend => friend._id === matchedUserId);
+
+      return index >= 0 ? "isFriend" : "isNotFriend";
+    }
+  );
+};
+
+// --------- friend requests -----------
 
 // get all of the friend requests
 export const selectFriendRequests = createSelector(
@@ -41,10 +60,7 @@ export const selectReceivedFriendRequest = (
     (friendRequests): FriendRequest[] => {
       if (!userId || !friendRequests) return null;
 
-      const friendRequest = friendRequests.filter(
-        obj => obj.recipient._id === userId
-      );
-      return friendRequest.length ? friendRequest : null;
+      return friendRequests.filter(obj => obj.recipient._id === userId);
     }
   );
 };
@@ -53,10 +69,10 @@ export const selectReceivedFriendRequest = (
 export const selectReceivedRequestByMatchingUser = (
   matchedUserId: string,
   userId: string
-): MemoizedSelector<AppState, FriendRequest> => {
+): MemoizedSelector<AppState, string> => {
   return createSelector(
     selectFriendRequests,
-    (friendRequests): FriendRequest => {
+    (friendRequests): string => {
       if (!friendRequests) return null;
 
       const request = friendRequests.find(
@@ -64,25 +80,75 @@ export const selectReceivedRequestByMatchingUser = (
           obj.recipient._id === userId && obj.requester._id === matchedUserId
       );
       // status not requested if the request has not been made yet
-      return request ? request : null;
+      return request ? "receivedRequest" : "didNotReceiveRequest";
     }
   );
 };
 
 // check if I sent a request to this persons or not
-export const selectSentFriendRequest = (
+export const selectSentFriendRequestToMatchingUser = (
   matchedUserId: string
-): MemoizedSelector<AppState, FriendRequest> => {
+): MemoizedSelector<AppState, string> => {
   return createSelector(
     selectFriendRequests,
-    (friendRequests): FriendRequest => {
+    (friendRequests): string => {
       if (!friendRequests) return null;
 
       const request = friendRequests.find(
         obj => obj.recipient._id === matchedUserId
       );
       // status not requested if the request has not been made yet
-      return request ? request : null;
+      return request ? "sentRequest" : "didNotSendRequest";
+    }
+  );
+};
+
+// ------------ friend status ----------------
+
+// check for friends, received request, and sent request | return 'status'
+export const selectMatchedUserStatus = (
+  matchedUserId: string,
+  userId: string
+) => {
+  return createSelector(
+    selectIsMyFriend(matchedUserId),
+    selectReceivedRequestByMatchingUser(matchedUserId, userId),
+    selectSentFriendRequestToMatchingUser(matchedUserId),
+    (
+      isFriend,
+      receivedRequestFromMatchingUser,
+      sentFriendRequestToMatchingUser
+    ): string => {
+      // ----------- logging -------------
+      // if (isFriend) console.log("isFriend", isFriend);
+      // if (receivedRequestFromMatchingUser)
+      //   console.log(
+      //     "receivedRequestFromMatchingUser",
+      //     receivedRequestFromMatchingUser
+      //   );
+      // if (sentFriendRequestToMatchingUser)
+      //   console.log(
+      //     "sentFriendRequestToMatchingUser",
+      //     sentFriendRequestToMatchingUser
+      //   );
+
+      if (isFriend === "isFriend") return isFriend;
+
+      // check if friend & friendRequest status is available
+      if (
+        isFriend &&
+        receivedRequestFromMatchingUser &&
+        sentFriendRequestToMatchingUser
+      ) {
+        if (receivedRequestFromMatchingUser === "receivedRequest")
+          return "receivedRequest";
+        else if (sentFriendRequestToMatchingUser === "sentRequest")
+          return "sentRequest";
+        // all api data is available
+        else return "notRequested";
+      }
+
+      return "statusLoading";
     }
   );
 };

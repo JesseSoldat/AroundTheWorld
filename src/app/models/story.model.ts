@@ -1,4 +1,5 @@
 import { Profile } from "./profile.model";
+import { Image } from "./image.model";
 
 interface Geometry {
   type: string;
@@ -10,5 +11,6 @@ export interface Story {
   title: string;
   description: string;
   geometry: Geometry;
+  images?: Image[];
   user?: Profile;
 }

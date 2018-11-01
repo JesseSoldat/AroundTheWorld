@@ -28,20 +28,24 @@
           </ngb-panel>
           <ngb-panel title="Photos">
             <ng-template ngbPanelContent>
-              <!-- photos -->
-              <div *ngIf="status !== 'statusLoading'">
+              <div *ngIf="(status$ | async) as status">
 
-                <app-friends-photos [story]="story" [status]="status">
-                </app-friends-photos>
-              </div>
+                <!-- photos -->
+                <div *ngIf="status !== 'statusLoading'">
 
-              <!-- loading -->
-              <div class="row" *ngIf="status === 'statusLoading'">
-                <div class="col-12 d-flex justify-content-center">
-                  <div class="spinnerSmallWrapper">
-                    <i class="fas fa-spinner fa-2x fa-spin my-2"></i>
+                  <app-friends-photos [story]="story" [status]="status">
+                  </app-friends-photos>
+                </div>
+
+                <!-- loading -->
+                <div class="row" *ngIf="status === 'statusLoading'">
+                  <div class="col-12 d-flex justify-content-center">
+                    <div class="spinnerSmallWrapper">
+                      <i class="fas fa-spinner fa-2x fa-spin my-2"></i>
+                    </div>
                   </div>
                 </div>
+
               </div>
 
             </ng-template>
