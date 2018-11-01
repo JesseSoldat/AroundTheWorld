@@ -20,7 +20,7 @@ export const initialFriendState: FriendState = {
 };
 
 // helpers
-const updateFriendRequests = (prevFriendRequests, friendRequest) =>
+const sendFriendRequest = (prevFriendRequests, friendRequest) =>
   prevFriendRequests ? [...prevFriendRequests, friendRequest] : [friendRequest];
 
 const acceptFriendRequest = (prevFriendRequests, friendRequestId) => {
@@ -54,8 +54,7 @@ export function friendReducer(state = initialFriendState, action) {
     case FriendActionTypes.FriendsLoaded:
       return { ...state, friends: [...payload.friends], error: null };
 
-    // ------------ overlay -----------------
-    // show overlay
+    // ----------- show overlay -----------
 
     // send friend request
     case FriendActionTypes.SendFriendRequestStarted:
@@ -63,14 +62,14 @@ export function friendReducer(state = initialFriendState, action) {
     case FriendActionTypes.AcceptFriendRequestStarted:
       return { ...state, overlay: true };
 
-    // hide overlay
+    // -------------- hide overlay -----------------
 
     // send friend request
     case FriendActionTypes.SendFriendRequestFinished:
       return {
         ...state,
         overlay: false,
-        friendRequests: updateFriendRequests(
+        friendRequests: sendFriendRequest(
           state.friendRequests,
           payload.friendRequest
         )

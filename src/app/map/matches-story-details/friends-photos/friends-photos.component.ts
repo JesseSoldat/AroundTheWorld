@@ -1,7 +1,5 @@
 import { Component, Output, Input, EventEmitter, OnInit } from "@angular/core";
-// services
-import { FriendService } from "../../../services/friend.service";
-import { Profile } from "../../../models/profile.model";
+// models
 import { Story } from "../../../models/story.model";
 
 @Component({
@@ -10,22 +8,21 @@ import { Story } from "../../../models/story.model";
   styleUrls: ["./friends-photos.component.css"]
 })
 export class FriendsPhotosComponent implements OnInit {
+  @Output()
+  sendFriendRequest = new EventEmitter();
   @Input()
   story: Story;
   // status = notRequested | sentRequest | receivedRequest | isFriend
   @Input()
   status;
 
-  constructor(private friendsService: FriendService) {}
+  constructor() {}
 
   ngOnInit() {}
 
   // events & cbs
-  sendFriendRequest(matchedUserId): void {
-    // requested | accepted
-    this.friendsService
-      .sendFriendRequest(matchedUserId)
-      .subscribe(res => {}, err => {});
+  onSendFriendRequest(): void {
+    this.sendFriendRequest.emit();
   }
 
   // received request to be friends

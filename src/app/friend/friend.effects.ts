@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 // rxjs
 import { switchMap, map, catchError } from "rxjs/operators";
 import { Observable, of } from "rxjs";
@@ -26,7 +27,11 @@ import {
 
 @Injectable()
 export class FriendEffects {
-  constructor(private action$: Actions, private friendService: FriendService) {}
+  constructor(
+    private action$: Actions,
+    private friendService: FriendService,
+    private router: Router
+  ) {}
 
   // helpers
   handleError() {

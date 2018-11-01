@@ -1,3 +1,5 @@
+<app-overlay [overlay$]="overlay$"></app-overlay>
+
 <div class="row mx-3" *ngIf="(story$ | async) as story; else showSpinner">
   <div class="col-xs-12 col-sm-10 mx-auto">
 
@@ -28,25 +30,25 @@
           </ngb-panel>
           <ngb-panel title="Photos">
             <ng-template ngbPanelContent>
-              <div *ngIf="(status$ | async) as status">
+              <!-- <div *ngIf="(status$ | async) as status"> -->
 
-                <!-- photos -->
-                <div *ngIf="status !== 'statusLoading'">
+              <!-- photos -->
+              <div *ngIf="status !== 'statusLoading'">
 
-                  <app-friends-photos [story]="story" [status]="status">
-                  </app-friends-photos>
-                </div>
+                <app-friends-photos (sendFriendRequest)="sendFriendRequest()" [story]="story" [status]="status">
+                </app-friends-photos>
+              </div>
 
-                <!-- loading -->
-                <div class="row" *ngIf="status === 'statusLoading'">
-                  <div class="col-12 d-flex justify-content-center">
-                    <div class="spinnerSmallWrapper">
-                      <i class="fas fa-spinner fa-2x fa-spin my-2"></i>
-                    </div>
+              <!-- loading -->
+              <div class="row" *ngIf="status === 'statusLoading'">
+                <div class="col-12 d-flex justify-content-center">
+                  <div class="spinnerSmallWrapper">
+                    <i class="fas fa-spinner fa-2x fa-spin my-2"></i>
                   </div>
                 </div>
-
               </div>
+
+              <!-- </div> -->
 
             </ng-template>
           </ngb-panel>

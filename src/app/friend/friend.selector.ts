@@ -3,9 +3,12 @@ import {
   createSelector,
   MemoizedSelector
 } from "@ngrx/store";
+// models
 import { FriendState } from "./friend.reducer";
 import { AppState } from "../reducers";
 import { FriendRequest } from "../models/friend-request.model";
+// selectors
+import { selectUserId } from "../auth/auth.selectors";
 
 export const selectFriendState = createFeatureSelector<FriendState>("friend");
 
@@ -13,6 +16,12 @@ export const selectFriendState = createFeatureSelector<FriendState>("friend");
 export const selectError = createSelector(
   selectFriendState,
   friendState => friendState.error
+);
+
+// overlay
+export const selectFriendOverlay = createSelector(
+  selectFriendState,
+  friendState => friendState.overlay
 );
 
 // --------- friends --------------
@@ -24,9 +33,7 @@ export const selectFriends = createSelector(
 );
 
 // check if matched user is `my` friend
-export const selectIsMyFriend = (
-  matchedUserId: string
-): MemoizedSelector<AppState, string> => {
+export const selectIsMyFriend = (matchedUserId: string) => {
   return createSelector(
     selectFriends,
     (friends): string => {
@@ -52,9 +59,7 @@ export const selectFriendRequests = createSelector(
 );
 
 // check if `I` have received any friends request
-export const selectReceivedFriendRequest = (
-  userId
-): MemoizedSelector<AppState, FriendRequest[]> => {
+export const selectReceivedFriendRequest = userId => {
   return createSelector(
     selectFriendRequests,
     (friendRequests): FriendRequest[] => {
@@ -66,13 +71,11 @@ export const selectReceivedFriendRequest = (
 };
 
 // check for received request by matching user
-export const selectReceivedRequestByMatchingUser = (
-  matchedUserId: string,
-  userId: string
-): MemoizedSelector<AppState, string> => {
+export const selectReceivedRequestByMatchingUser = (matchedUserId: string) => {
   return createSelector(
+    selectUserId,
     selectFriendRequests,
-    (friendRequests): string => {
+    (userId, friendRequests): string => {
       if (!friendRequests) return null;
 
       const request = friendRequests.find(
@@ -88,7 +91,7 @@ export const selectReceivedRequestByMatchingUser = (
 // check if I sent a request to this persons or not
 export const selectSentFriendRequestToMatchingUser = (
   matchedUserId: string
-): MemoizedSelector<AppState, string> => {
+) => {
   return createSelector(
     selectFriendRequests,
     (friendRequests): string => {
@@ -106,13 +109,10 @@ export const selectSentFriendRequestToMatchingUser = (
 // ------------ friend status ----------------
 
 // check for friends, received request, and sent request | return 'status'
-export const selectMatchedUserStatus = (
-  matchedUserId: string,
-  userId: string
-) => {
+export const selectMatchedUserStatus = (matchedUserId: string) => {
   return createSelector(
     selectIsMyFriend(matchedUserId),
-    selectReceivedRequestByMatchingUser(matchedUserId, userId),
+    selectReceivedRequestByMatchingUser(matchedUserId),
     selectSentFriendRequestToMatchingUser(matchedUserId),
     (
       isFriend,
@@ -131,6 +131,7 @@ export const selectMatchedUserStatus = (
       //     "sentFriendRequestToMatchingUser",
       //     sentFriendRequestToMatchingUser
       //   );
+      // console.log("update");
 
       if (isFriend === "isFriend") return isFriend;
 

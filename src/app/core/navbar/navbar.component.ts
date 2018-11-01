@@ -65,12 +65,12 @@ export class NavbarComponent implements OnInit {
         }),
         tap(receivedFriendRequest => {
           if (receivedFriendRequest)
-            console.log("receivedFriendRequest", receivedFriendRequest);
-          // fetch friendRequest from store
-          if (receivedFriendRequest) {
-            this.friendRequests = receivedFriendRequest;
-            return (this.requestLength = receivedFriendRequest.length);
-          }
+            if (receivedFriendRequest) {
+              // console.log("receivedFriendRequest", receivedFriendRequest);
+              // fetch friendRequest from store
+              this.friendRequests = receivedFriendRequest;
+              return (this.requestLength = receivedFriendRequest.length);
+            }
           // fetch friendRequest from api
           this.friendService.allFriendRequests().subscribe();
         })

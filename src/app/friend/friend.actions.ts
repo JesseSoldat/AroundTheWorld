@@ -52,7 +52,7 @@ export class FriendRequestLoaded implements Action {
 export class SendFriendRequestStarted implements Action {
   readonly type = FriendActionTypes.SendFriendRequestStarted;
 
-  constructor(public payload: { friendId: string }) {}
+  constructor(public payload: { friendId: string; storyId: string }) {}
 }
 
 export class SendFriendRequestFinished implements Action {

@@ -1,8 +1,35 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
 import { StoryState } from "./story.reducer";
 import { Story } from "../models/story.model";
+import * as root from "../router.selector";
 
 export const selectStoryState = createFeatureSelector<StoryState>("story");
+
+// router
+//"matches/storyDetails/:matchedUserId/:storyId"
+export const selectMatchesStoryDetailsUserId = createSelector(
+  root.routerState,
+  (state: any) => {
+    if (!state) return null;
+
+    return (
+      state &&
+      state.state &&
+      state.state.params &&
+      state.state.params.matchedUserId
+    );
+  }
+);
+
+export const selectMatchesStoryDetailsStoryId = createSelector(
+  root.routerState,
+  state =>
+    state &&
+    state.state &&
+    state.state.root.firstChild &&
+    state.state.root.firstChild.firstChild &&
+    state.state.root.firstChild.firstChild.params.id
+);
 
 // overlay
 export const selectOverlay = createSelector(

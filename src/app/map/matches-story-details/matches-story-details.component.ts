@@ -1,19 +1,25 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute, ParamMap } from "@angular/router";
 // rxjs
-import { switchMap, tap, map } from "rxjs/operators";
+import { switchMap, tap } from "rxjs/operators";
 import { Observable, of } from "rxjs";
 // ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../reducers";
 import { selectOtherPersonsStory } from "../story.selector";
 import { OtherPersonsStoriesRequested } from "../story.actions";
-import { FriendsRequested } from "../../friend/friend.actions";
 import {
+  FriendsRequested,
+  SendFriendRequestStarted
+} from "../../friend/friend.actions";
+import {
+  selectFriendOverlay,
+  selectFriendRequests, // temp
   selectFriends,
   selectMatchedUserStatus
 } from "../../friend/friend.selector";
 import { selectUserId } from "../../auth/auth.selectors";
+import { selectMatchesStoryDetailsUserId } from "../story.selector";
 // models
 import { Profile } from "../../models/profile.model";
 import { Story } from "../../models/story.model";
@@ -24,6 +30,7 @@ import { Story } from "../../models/story.model";
   styleUrls: ["./matches-story-details.component.css"]
 })
 export class MatchesStoryDetailsComponent implements OnInit {
+  overlay$: Observable<boolean>;
   story$: Observable<Story>;
   friends: Profile[];
   matchedUserId: string;
@@ -31,7 +38,11 @@ export class MatchesStoryDetailsComponent implements OnInit {
   userId$: Observable<string>;
 
   status$ = of("statusLoading");
+  status = "statusLoading";
   receivedRequest;
+
+  // temp
+  prevFriendReq = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -40,6 +51,8 @@ export class MatchesStoryDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.showOverlay();
+
     this.route.paramMap.subscribe((params: ParamMap) => {
       // get ids
       this.userId$ = this.store.select(selectUserId);
@@ -51,12 +64,38 @@ export class MatchesStoryDetailsComponent implements OnInit {
       // check if user is friends
       this.getFriends();
       // check if user received or sent a friend request to the matched user
-      // status requested || received
       this.getFriendRequestsStatus();
     });
+
+    // ------------------------ temp ---------------------
+    this.store
+      .select(selectMatchesStoryDetailsUserId)
+      .pipe(
+        tap(state => {
+          console.log("router", state);
+        })
+      )
+      .subscribe();
+    // this.store
+    //   .select(selectFriendRequests)
+    //   .pipe(
+    //     tap(req => {
+    //       console.log("prev friend req", this.prevFriendReq);
+    //       console.log("current friend req", req);
+    //       if (this.prevFriendReq !== req) {
+    //         this.prevFriendReq = req;
+    //         this.getFriendRequestsStatus();
+    //       }
+    //     })
+    //   )
+    //   .subscribe();
   }
 
   // store & api calls
+  showOverlay() {
+    this.overlay$ = this.store.pipe(select(selectFriendOverlay));
+  }
+
   getFriends() {
     this.store
       .pipe(
@@ -70,17 +109,15 @@ export class MatchesStoryDetailsComponent implements OnInit {
   }
 
   getFriendRequestsStatus() {
-    this.status$ = this.userId$.pipe(
-      switchMap((userId: string) =>
-        this.store
-          .select(selectMatchedUserStatus(this.matchedUserId, userId))
-          .pipe(
-            tap(status => {
-              console.log("Status:", status);
-            })
-          )
+    this.store
+      .select(selectMatchedUserStatus(this.matchedUserId))
+      .pipe(
+        tap(status => {
+          console.log("Status:", status);
+          this.status = status;
+        })
       )
-    );
+      .subscribe();
   }
 
   getMatchedUsersStories() {
@@ -99,8 +136,13 @@ export class MatchesStoryDetailsComponent implements OnInit {
   }
 
   // events & cbs
-  addUserToFriends() {
-    console.log(this.matchedUserId);
+  sendFriendRequest() {
+    this.store.dispatch(
+      new SendFriendRequestStarted({
+        friendId: this.matchedUserId,
+        storyId: this.storyId
+      })
+    );
   }
 
   goBack() {
