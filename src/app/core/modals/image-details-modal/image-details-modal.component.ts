@@ -24,7 +24,7 @@ export class ImageDetailsModalComponent implements OnInit {
   modalType$: Observable<string>;
   @ViewChild("imageDetails")
   imageDetails;
-  data: Image;
+  data;
 
   constructor(private modalService: NgbModal, private store: Store<AppState>) {}
 

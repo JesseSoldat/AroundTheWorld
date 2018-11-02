@@ -9,7 +9,7 @@
     <img [src]="data.downloadURL" class="img-fluid" alt="story photo">
   </div>
   <div class="modal-footer p-3">
-    <button type="button" class="btn btn-danger btn-sm" (click)="deleteImage()">
+    <button *ngIf="data.type !== 'matchedUser'" type="button" class="btn btn-danger btn-sm" (click)="deleteImage()">
       <i class="fas fa-trash-alt mr-1"></i>
       Delete
     </button>

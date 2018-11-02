@@ -104,7 +104,10 @@ module.exports = app => {
             userId,
             { $addToSet: { friends: friendId } },
             { new: true }
-          ),
+          ).populate({
+            path: "friends",
+            select: ["username", "avatar"]
+          }),
           User.findByIdAndUpdate(
             friendId,
             { $addToSet: { friends: userId } },

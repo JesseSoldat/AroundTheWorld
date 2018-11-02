@@ -1,10 +1,8 @@
-interface User {
-  _id: String;
-  username: String;
-}
+import { User } from "./user.model";
 
 export interface FriendRequest {
+  _id: string;
   requester: User;
   recipient: User;
-  status: String;
+  status: string;
 }

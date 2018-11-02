@@ -11,11 +11,11 @@
       <li class="list-group-item d-flex justify-content-between">
         <a href="" (click)="viewProfile(friend.requester, $event)">{{friend.requester.username | titlecase}}</a>
         <span>
-          <button class="btn btn-secondary mr-2 btn-sm" (click)="acceptRequest(friend.requester)">
+          <button class="btn btn-danger mr-2 btn-sm" (click)="acceptRequest(friend.requester)">
             <i class="fas fa-backspace mr-1"></i>
             Deny
           </button>
-          <button class="btn btn-primary btn-sm" (click)="denyRequest(friend.requester)">
+          <button class="btn btn-secondary btn-sm" (click)="denyRequest(friend.requester)">
             <i class="fas fa-check mr-1"></i>
             Accept
           </button>

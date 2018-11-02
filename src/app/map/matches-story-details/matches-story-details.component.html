@@ -35,7 +35,8 @@
               <!-- photos -->
               <div *ngIf="status !== 'statusLoading'">
 
-                <app-friends-photos (sendFriendRequest)="sendFriendRequest()" [story]="story" [status]="status">
+                <app-friends-photos (viewImage)="viewImage($event)" (sendFriendRequest)="sendFriendRequest()"
+                  (acceptFriendRequest)="acceptFriendRequest()" [story]="story" [status]="status">
                 </app-friends-photos>
               </div>
 

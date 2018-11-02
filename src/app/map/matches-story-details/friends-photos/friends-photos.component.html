@@ -16,7 +16,7 @@
 <!-- received a friends request from this user -->
 <div *ngIf="status === 'receivedRequest'" class="d-flex justify-content-between align-items-start">
   <p>You received a friend request. Click accept to view this user's photos.</p>
-  <button class="btn btn-dark btn-sm" (click)="addUserToFriends()">
+  <button class="btn btn-dark btn-sm" (click)="onAcceptFriendRequest()">
     <i class="fas fa-user-plus"></i>
     Add to Friends
   </button>
@@ -26,7 +26,7 @@
 <div *ngIf="status === 'isFriend'">
   <div *ngIf="story.images.length; else showPlaceholderImage">
 
-    <img *ngFor="let image of story.images" (click)="viewImage(image)" [src]="image.downloadURL" class="smallImg">
+    <img *ngFor="let image of story.images" (click)="onViewImage(image)" [src]="image.downloadURL" class="smallImg">
 
   </div>
 

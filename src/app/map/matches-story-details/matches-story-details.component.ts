@@ -10,8 +10,10 @@ import { selectOtherPersonsStory } from "../story.selector";
 import { OtherPersonsStoriesRequested } from "../story.actions";
 import {
   FriendsRequested,
-  SendFriendRequestStarted
+  SendFriendRequestStarted,
+  AcceptFriendRequestStarted
 } from "../../friend/friend.actions";
+import { OpenModal } from "../../core/modals/modal.actions";
 import {
   selectFriendOverlay,
   selectFriends
@@ -29,15 +31,13 @@ import { Story } from "../../models/story.model";
 })
 export class MatchesStoryDetailsComponent implements OnInit {
   overlay$: Observable<boolean>;
+  userId$: Observable<string>;
   story$: Observable<Story>;
   friends: Profile[];
   matchedUserId: string;
   storyId: string;
-  userId$: Observable<string>;
 
-  status$ = of("statusLoading");
   status = "statusLoading";
-  receivedRequest;
 
   constructor(
     private route: ActivatedRoute,
@@ -64,11 +64,11 @@ export class MatchesStoryDetailsComponent implements OnInit {
   }
 
   // store & api calls
-  showOverlay() {
+  showOverlay(): void {
     this.overlay$ = this.store.pipe(select(selectFriendOverlay));
   }
 
-  getFriends() {
+  getFriends(): void {
     this.store
       .pipe(
         select(selectFriends),
@@ -80,7 +80,7 @@ export class MatchesStoryDetailsComponent implements OnInit {
       .subscribe();
   }
 
-  getFriendRequestsStatus() {
+  getFriendRequestsStatus(): void {
     this.store
       .select(selectMatchedUserStatus)
       .pipe(
@@ -92,7 +92,7 @@ export class MatchesStoryDetailsComponent implements OnInit {
       .subscribe();
   }
 
-  getMatchedUsersStories() {
+  getMatchedUsersStories(): void {
     this.story$ = this.store.pipe(
       select(selectOtherPersonsStory(this.storyId)),
       tap(story => {
@@ -108,7 +108,7 @@ export class MatchesStoryDetailsComponent implements OnInit {
   }
 
   // events & cbs
-  sendFriendRequest() {
+  sendFriendRequest(): void {
     this.store.dispatch(
       new SendFriendRequestStarted({
         friendId: this.matchedUserId,
@@ -117,7 +117,22 @@ export class MatchesStoryDetailsComponent implements OnInit {
     );
   }
 
-  goBack() {
+  acceptFriendRequest(): void {
+    this.store.dispatch(
+      new AcceptFriendRequestStarted({ friendId: this.matchedUserId })
+    );
+  }
+
+  viewImage(imgObj): void {
+    this.store.dispatch(
+      new OpenModal({
+        modalType: "imageDetails",
+        data: { ...imgObj, storyId: this.storyId, type: "matchedUser" }
+      })
+    );
+  }
+
+  goBack(): void {
     this.router.navigateByUrl(`/map/matches/storyList/${this.matchedUserId}`);
   }
 }

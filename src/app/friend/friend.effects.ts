@@ -60,7 +60,7 @@ export class FriendEffects {
 
   // send a friend request
   @Effect()
-  sendFriendRequestFinished: Observable<
+  sendFriendRequestFinished$: Observable<
     SendFriendRequestFinished | FriendError
   > = this.action$.pipe(
     ofType<SendFriendRequestStarted>(
@@ -82,27 +82,30 @@ export class FriendEffects {
   );
 
   // accept a friend request
-  acceptFriendRequestFinished: Observable<
+  @Effect()
+  acceptFriendRequestFinished$: Observable<
     AcceptFriendRequestFinished | FriendError
   > = this.action$.pipe(
     ofType<AcceptFriendRequestStarted>(
       FriendActionTypes.AcceptFriendRequestStarted
     ),
-    switchMap(action =>
-      this.friendService.acceptFriendRequest(action.payload.friendId).pipe(
-        map((res: HttpRes) => {
-          // any error will come back as null
-          if (!res) return this.handleError();
+    switchMap(action => {
+      return this.friendService
+        .acceptFriendRequest(action.payload.friendId)
+        .pipe(
+          map((res: HttpRes) => {
+            // any error will come back as null
+            if (!res) return this.handleError();
 
-          const { friendRequestId, friends } = res.payload;
+            const { friendRequestId, friends } = res.payload;
 
-          return new AcceptFriendRequestFinished({
-            friendRequestId,
-            friends
-          });
-        }),
-        catchError(err => of(null))
-      )
-    )
+            return new AcceptFriendRequestFinished({
+              friendRequestId,
+              friends
+            });
+          }),
+          catchError(err => of(null))
+        );
+    })
   );
 }

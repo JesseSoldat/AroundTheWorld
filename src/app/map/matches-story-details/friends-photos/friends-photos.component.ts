@@ -1,4 +1,4 @@
-import { Component, Output, Input, EventEmitter, OnInit } from "@angular/core";
+import { Component, Output, Input, EventEmitter } from "@angular/core";
 // models
 import { Story } from "../../../models/story.model";
 
@@ -7,18 +7,18 @@ import { Story } from "../../../models/story.model";
   templateUrl: "./friends-photos.component.html",
   styleUrls: ["./friends-photos.component.css"]
 })
-export class FriendsPhotosComponent implements OnInit {
+export class FriendsPhotosComponent {
   @Output()
-  sendFriendRequest = new EventEmitter();
+  sendFriendRequest = new EventEmitter<void>();
+  @Output()
+  acceptFriendRequest = new EventEmitter<void>();
+  @Output()
+  viewImage = new EventEmitter<string>();
   @Input()
   story: Story;
   // status = notRequested | sentRequest | receivedRequest | isFriend
   @Input()
-  status;
-
-  constructor() {}
-
-  ngOnInit() {}
+  status: string;
 
   // events & cbs
   onSendFriendRequest(): void {
@@ -26,10 +26,12 @@ export class FriendsPhotosComponent implements OnInit {
   }
 
   // received request to be friends
-  addUserToFriends() {}
+  onAcceptFriendRequest(): void {
+    this.acceptFriendRequest.emit();
+  }
 
   // modal detail view
-  viewImage(url) {
-    console.log("viewImage", url);
+  onViewImage(url: string) {
+    this.viewImage.emit(url);
   }
 }
