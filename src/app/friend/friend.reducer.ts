@@ -4,6 +4,7 @@ import { AuthActionTypes } from "../auth/auth.actions";
 // models
 import { FriendRequest } from "../models/friend-request.model";
 import { Profile } from "../models/profile.model";
+import { ModalActionTypes } from "../core/modals/modal.actions";
 
 export interface FriendState {
   overlay: boolean;
@@ -52,6 +53,10 @@ export function friendReducer(state = initialFriendState, action) {
         error: null,
         spinner: false
       };
+
+    // close modal
+    case ModalActionTypes.CloseModal:
+      return { ...state, spinner: false, friendRequestDetails: null };
 
     // handle error
     case FriendActionTypes.FriendError:

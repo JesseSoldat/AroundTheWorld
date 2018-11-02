@@ -3,13 +3,16 @@ import { Router } from "@angular/router";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 // rxjs
 import { first, tap, filter, map } from "rxjs/operators";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 // ngrx
 import { Store, select } from "@ngrx/store";
 import { AppState } from "../../../reducers";
 import { CloseModal } from "../modal.actions";
 import { FriendRequestDetailsRequested } from "../../../friend/friend.actions";
-import { selectFriendRequestsDetails } from "../../../friend/friend.selector";
+import {
+  selectFriendRequestsDetails,
+  selectLoadingSpinner
+} from "../../../friend/friend.selector";
 // models
 import { Profile } from "../../../models/profile.model";
 
@@ -27,7 +30,10 @@ export class FriendRequestModalComponent implements OnInit {
   friendsRequest;
   data;
 
-  currentRequester$: Observable<Profile>;
+  na = "not available";
+
+  loadingSpinner$: Observable<boolean>;
+  currentRequester: Profile;
 
   constructor(
     private modalService: NgbModal,
@@ -36,6 +42,8 @@ export class FriendRequestModalComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.showLoadingSpinner();
+
     this.modalType$.subscribe(type => {
       if (type === "friendsRequest") {
         this.modalData$.pipe(first()).subscribe(data => {
@@ -46,6 +54,10 @@ export class FriendRequestModalComponent implements OnInit {
         });
       }
     });
+  }
+
+  showLoadingSpinner() {
+    this.loadingSpinner$ = this.store.select(selectLoadingSpinner);
   }
 
   open(modalRef: NgbModal): void {
@@ -68,15 +80,13 @@ export class FriendRequestModalComponent implements OnInit {
   }
 
   viewProfile(requester): void {
-    console.log(requester);
-
     const friendRequestIds = [];
 
     this.data.forEach(obj => {
       friendRequestIds.push(obj.requester._id);
     });
 
-    this.currentRequester$ = this.store
+    this.store
       .select(selectFriendRequestsDetails)
       .pipe(
         tap((friendRequestDetails: Profile[]) => {
@@ -89,11 +99,14 @@ export class FriendRequestModalComponent implements OnInit {
         filter(
           (friendRequestDetails: Profile) => friendRequestDetails !== null
         ),
-        map((friendRequestDetails: Profile[]) =>
-          friendRequestDetails.find(obj => obj._id === requester._id)
-        ),
-        tap(details => console.log("details", details))
-      );
+        map(
+          (friendRequestDetails: Profile[]) =>
+            (this.currentRequester = friendRequestDetails.find(
+              obj => obj._id === requester._id
+            ))
+        )
+      )
+      .subscribe();
   }
 
   hideProfile(): void {}

@@ -1,9 +1,7 @@
-.smallImg {
-  height: 20px;
-  margin-right: 10px;
+.friendTitle {
   vertical-align: middle;
 }
 
-.friendTitle {
-  vertical-align: middle;
+.list-group-flush .list-group-item {
+  border: 0;
 }

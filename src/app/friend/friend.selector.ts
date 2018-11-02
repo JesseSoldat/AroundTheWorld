@@ -21,6 +21,12 @@ export const selectFriendOverlay = createSelector(
   friendState => friendState.overlay
 );
 
+// small spinner
+export const selectLoadingSpinner = createSelector(
+  selectFriendState,
+  friendState => friendState.spinner
+);
+
 // --------- friends --------------
 
 // get all of `my` friends

@@ -1,6 +1,11 @@
 <ng-template #friendsRequest let-modal>
-  <div class="modal-header">
-    <h4 class="modal-title" id="modal-basic-title">Friend Requests</h4>
+  <div class="modal-header ">
+
+    <h4 class="modal-title" id="modal-basic-title">
+      <span class="mr-3">Friend Requests</span>
+      <i *ngIf="(loadingSpinner$ | async) as loadingSpinner" class="fas fa-spinner fa-1x fa-spin"></i>
+
+    </h4>
     <button type="button" class="close" aria-label="Close" (click)="closeModal()">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -25,11 +30,27 @@
         </span>
       </li>
 
+      <!-- user details -->
+      <li class="list-group-item" *ngIf="currentRequester">
+        <div class="row" *ngIf="currentRequester._id === friend.requester._id">
+          <ul class="col-8 list-group list-group-flush">
+            <li class="list-group-item">
+              <strong class="mr-2">Gender: </strong> {{friend.requester.gender ? friend.requester.gender : na}}
+            </li>
+            <li class="list-group-item">
+              <strong class="mr-2">Occupation: </strong> {{friend.requester.occupation ? friend.requester.occupation :
+              na}}
+            </li>
+            <li class="list-group-item">
+              <strong class="mr-2">Hometown: </strong> {{friend.requester.hometown ? friend.requester.hometown : na}}
+            </li>
 
-      <li *ngIf="(currentRequester$ | async) as currentRequester">
-        <div *ngIf="currentRequester._id === friend.requester._id">
-          <img class="smallImg" [src]="friend.requester.avatar ? friend.requester.avatar : '../../../../assets/img/userdefault.png'"
-            alt="requester">
+          </ul>
+          <div class="col-4 d-flex justify-content-center align-items-center">
+            <img class="img-fluid img-thumbnail" [src]="friend.requester.avatar ? friend.requester.avatar : '../../../../assets/img/userdefault.png'"
+              alt="requester">
+          </div>
+
         </div>
       </li>
 
