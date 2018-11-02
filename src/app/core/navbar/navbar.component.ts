@@ -1,18 +1,19 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-// Rxjs
+// rxjs
 import { Observable } from "rxjs";
 import { tap, switchMap, filter } from "rxjs/operators";
-// Ngrx
+// ngrx
 import { AuthState } from "../../auth/auth.reducer";
 import { Store, select } from "@ngrx/store";
-import { selectIsAuth } from "../../auth/auth.selectors";
-import { selectUserId } from "../../auth/auth.selectors";
+import { selectIsAuth, selectUserId } from "../../auth/auth.selectors";
 import { selectReceivedFriendRequest } from "../../friend/friend.selector";
 import { OpenModal } from "../modals/modal.actions";
-// Services
+import { FriendRequestRequested } from "../../friend/friend.actions";
+// services
 import { AuthService } from "../../services/auth.service";
-import { FriendService } from "../../services/friend.service";
+// modals
+import { FriendRequest } from "src/app/models/friend-request.model";
 
 @Component({
   selector: "app-navbar",
@@ -24,55 +25,52 @@ export class NavbarComponent implements OnInit {
   isAuth: boolean;
   userId$: Observable<string>;
   requestLength: number;
-  friendRequests;
+  friendRequests: FriendRequest[];
 
   constructor(
     private router: Router,
     private authService: AuthService,
-    private store: Store<AuthState>,
-    private friendService: FriendService
+    private store: Store<AuthState>
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.checkForAuthenticatedUser();
     this.getUserId();
     this.getFriendRequests();
   }
 
   // store & api calls
-  checkForAuthenticatedUser() {
+  checkForAuthenticatedUser(): void {
     this.isAuth$ = this.store.pipe(
       select(selectIsAuth),
-      tap(isAuth => (this.isAuth = isAuth))
+      tap((isAuth: boolean) => (this.isAuth = isAuth))
     );
   }
 
-  getUserId() {
+  getUserId(): void {
     this.userId$ = this.store.pipe(
       select(selectUserId),
-      tap(userId => {
+      tap((userId: string) => {
         if (!userId) return;
       })
     );
   }
 
-  getFriendRequests() {
+  getFriendRequests(): void {
     this.userId$
       .pipe(
         filter(userId => userId !== null),
-        switchMap(userId => {
+        switchMap((userId: string) => {
           return this.store.select(selectReceivedFriendRequest(userId));
         }),
-        tap(receivedFriendRequest => {
-          if (receivedFriendRequest)
-            if (receivedFriendRequest) {
-              // console.log("receivedFriendRequest", receivedFriendRequest);
-              // fetch friendRequest from store
-              this.friendRequests = receivedFriendRequest;
-              return (this.requestLength = receivedFriendRequest.length);
-            }
+        tap((receivedFriendRequest: FriendRequest[]) => {
+          if (receivedFriendRequest) {
+            // fetch friendRequest from store
+            this.friendRequests = receivedFriendRequest;
+            return (this.requestLength = receivedFriendRequest.length);
+          }
           // fetch friendRequest from api
-          this.friendService.allFriendRequests().subscribe();
+          this.store.dispatch(new FriendRequestRequested());
         })
       )
       .subscribe();

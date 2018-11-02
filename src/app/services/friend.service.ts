@@ -69,21 +69,12 @@ export class FriendService {
   }
 
   // get all friends request sent or received
-  allFriendRequests(): Observable<HttpRes> {
+  getAllFriendRequests(): Observable<HttpRes> {
     if (!this.userId) return of(null);
-    this.store.dispatch(new FriendRequestRequested());
+
     return this.httpService
       .httpGetRequest(`friend/requests/${this.userId}`)
-      .pipe(
-        tap((res: HttpRes) => {
-          const { payload } = res;
-          // console.log("getFriendRequests", payload);
-          this.store.dispatch(
-            new FriendRequestLoaded({ friendRequests: payload.friendsRequest })
-          );
-        }),
-        catchError(err => this.handleError(err))
-      );
+      .pipe(catchError(err => this.handleError(err)));
   }
 
   // send a friends request

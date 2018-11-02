@@ -9,10 +9,32 @@
 
         <div *ngIf="(friends$ | async) as friends; else showFetchAndRetry">
 
+          <!-- search / filter friends -->
+          <div class="row">
+            <div class="col-xs-12 col-sm-10 mx-auto">
+              <input placeholder="Search for a friend by name..." type="text" class="form-control" />
+            </div>
+          </div>
+
+
           <!-- have friends -->
           <div class="row">
             <div *ngFor="let friend of friends" class="card col-10 mx-auto my-4">
-              friend
+
+              <div class="card m-3">
+                <div class="card-body">
+                  <div class="row d-flex flex-column justify-content-around align-items-center flex-wrap">
+                    <img class="img-fluid img-thumbnail" [src]="friend.avatar ? friend.avatar : '../../../assets/img/userdefault.png'"
+                      alt="user" />
+
+                    <h3 class="card-title mt-4">{{friend.username}}</h3>
+
+                    <div class="btn-group mt-4">
+
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 

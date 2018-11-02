@@ -56,6 +56,29 @@ export class FriendEffects {
     )
   );
 
+  // get all friend requests
+  @Effect()
+  friendRequestsLoaded$: Observable<
+    FriendRequestLoaded | FriendError
+  > = this.action$.pipe(
+    ofType<FriendRequestRequested>(FriendActionTypes.FriendRequestRequested),
+    switchMap(action => {
+      return this.friendService.getAllFriendRequests().pipe(
+        map((res: HttpRes) => {
+          // any error will come back as null
+          if (!res) return this.handleError();
+
+          const { payload } = res;
+
+          return new FriendRequestLoaded({
+            friendRequests: payload.friendsRequest
+          });
+        }),
+        catchError(err => of(null))
+      );
+    })
+  );
+
   // -------------- overlay -----------------
 
   // send a friend request

@@ -23,6 +23,7 @@ import { selectUserId } from "../../auth/auth.selectors";
 // models
 import { Profile } from "../../models/profile.model";
 import { Story } from "../../models/story.model";
+import { Image } from "../../models/image.model";
 
 @Component({
   selector: "app-matches-story-details",
@@ -123,7 +124,7 @@ export class MatchesStoryDetailsComponent implements OnInit {
     );
   }
 
-  viewImage(imgObj): void {
+  viewImage(imgObj: Image): void {
     this.store.dispatch(
       new OpenModal({
         modalType: "imageDetails",
