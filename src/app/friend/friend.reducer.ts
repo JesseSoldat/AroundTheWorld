@@ -7,16 +7,20 @@ import { Profile } from "../models/profile.model";
 
 export interface FriendState {
   overlay: boolean;
+  spinner: boolean;
   error: string;
   friends: Profile[];
   friendRequests: FriendRequest[];
+  friendRequestsDetails: Profile[];
 }
 
 export const initialFriendState: FriendState = {
   overlay: false,
+  spinner: false,
   error: null,
   friends: null,
-  friendRequests: null
+  friendRequests: null,
+  friendRequestsDetails: null
 };
 
 // helpers
@@ -41,11 +45,17 @@ export function friendReducer(state = initialFriendState, action) {
   switch (type) {
     // clear all state
     case AuthActionTypes.LogoutAction:
-      return { friends: null, friendRequests: null, error: null };
+      return {
+        friends: null,
+        friendRequests: null,
+        friendRequestsDetails: null,
+        error: null,
+        spinner: false
+      };
 
     // handle error
     case FriendActionTypes.FriendError:
-      return { ...state, error: payload.error };
+      return { ...state, error: payload.error, spinner: false };
 
     // ----------- loading ---------------
 
@@ -59,6 +69,20 @@ export function friendReducer(state = initialFriendState, action) {
     // get friends
     case FriendActionTypes.FriendsLoaded:
       return { ...state, friends: [...payload.friends], error: null };
+
+    // ------------ small spinner ------------------
+
+    case FriendActionTypes.FriendRequestDetailsRequested:
+      return { ...state, spinner: true };
+
+    case FriendActionTypes.FriendRequestDetailsLoaded:
+      return {
+        ...state,
+        spinner: false,
+        friendRequestsDetails: [...payload.friendRequestDetails]
+      };
+
+    // TODO on close of the modal return to NULL
 
     // ----------- show overlay -----------
 

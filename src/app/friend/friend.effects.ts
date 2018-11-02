@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
 // rxjs
 import { switchMap, map, catchError } from "rxjs/operators";
 import { Observable, of } from "rxjs";
@@ -18,6 +17,9 @@ import {
   FriendsLoaded,
   FriendRequestRequested,
   FriendRequestLoaded,
+  // small spinner
+  FriendRequestDetailsRequested,
+  FriendRequestDetailsLoaded,
   // overlay
   SendFriendRequestStarted,
   SendFriendRequestFinished,
@@ -27,11 +29,7 @@ import {
 
 @Injectable()
 export class FriendEffects {
-  constructor(
-    private action$: Actions,
-    private friendService: FriendService,
-    private router: Router
-  ) {}
+  constructor(private action$: Actions, private friendService: FriendService) {}
 
   // helpers
   handleError() {
@@ -76,6 +74,36 @@ export class FriendEffects {
         }),
         catchError(err => of(null))
       );
+    })
+  );
+
+  // -------------- small spinner -------------
+  @Effect()
+  friendRequestDetailsLoaded$: Observable<
+    FriendRequestDetailsLoaded | FriendError
+  > = this.action$.pipe(
+    ofType<FriendRequestDetailsRequested>(
+      FriendActionTypes.FriendRequestDetailsRequested
+    ),
+    switchMap(action => {
+      const { friendRequestIds } = action.payload;
+      return this.friendService
+        .getAllFriendRequestsDetails(friendRequestIds)
+        .pipe(
+          map((res: HttpRes) => {
+            // any error will come back as null
+            if (!res) return this.handleError();
+
+            const { payload } = res;
+
+            console.log(payload);
+
+            return new FriendRequestDetailsLoaded({
+              friendRequestDetails: payload.friendRequestDetails
+            });
+          }),
+          catchError(err => of(null))
+        );
     })
   );
 

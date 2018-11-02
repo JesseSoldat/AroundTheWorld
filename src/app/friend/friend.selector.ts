@@ -1,4 +1,8 @@
-import { createFeatureSelector, createSelector } from "@ngrx/store";
+import {
+  createFeatureSelector,
+  createSelector,
+  MemoizedSelector
+} from "@ngrx/store";
 // models
 import { FriendState } from "./friend.reducer";
 import { FriendRequest } from "../models/friend-request.model";
@@ -31,9 +35,17 @@ export const selectFriends = createSelector(
 export const selectFriendRequests = createSelector(
   selectFriendState,
   friendState => {
-    // This selector is called from another module so if will be undefined at first because of lazy loading
     if (!friendState) return null;
     return friendState.friendRequests;
+  }
+);
+
+// get all friend request details
+export const selectFriendRequestsDetails = createSelector(
+  selectFriendState,
+  friendState => {
+    if (!friendState) return null;
+    return friendState.friendRequestsDetails;
   }
 );
 

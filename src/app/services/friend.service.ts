@@ -77,6 +77,17 @@ export class FriendService {
       .pipe(catchError(err => this.handleError(err)));
   }
 
+  // get all friend request details
+  getAllFriendRequestsDetails(friendRequestIds: string[]): Observable<HttpRes> {
+    if (!this.userId) return of(null);
+
+    return this.httpService
+      .httpPostRequest(`friend/requests/details/${this.userId}`, {
+        friendRequestIds
+      })
+      .pipe(catchError(err => this.handleError(err)));
+  }
+
   // send a friends request
   sendFriendRequest(friendId: string): Observable<HttpRes> {
     if (!this.userId) return of(null);
@@ -100,4 +111,7 @@ export class FriendService {
         catchError(err => this.handleError(err))
       );
   }
+
+  // deny a friend request
+  denyFriendRequest(friendId: string) {}
 }

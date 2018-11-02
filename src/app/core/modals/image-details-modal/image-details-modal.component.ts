@@ -44,7 +44,7 @@ export class ImageDetailsModalComponent implements OnInit {
     this.store.dispatch(new DeleteStoryImageStarted({ image: this.data }));
   }
 
-  open(modalRef) {
+  open(modalRef: NgbModal) {
     const modal = this.modalService.open(modalRef);
 
     modal.result.then(

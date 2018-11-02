@@ -9,6 +9,7 @@ import { SharedModule } from "../shared/shared.module";
 import { FriendRoutingModule } from "./friend-routing.module";
 // components
 import { FriendsComponent } from "./friends/friends.component";
+import { FriendDetailsComponent } from "./friend-details/friend-details.component";
 
 @NgModule({
   imports: [
@@ -18,6 +19,6 @@ import { FriendsComponent } from "./friends/friends.component";
     EffectsModule.forFeature([FriendEffects])
   ],
   exports: [FriendRoutingModule],
-  declarations: [FriendsComponent]
+  declarations: [FriendsComponent, FriendDetailsComponent]
 })
 export class FriendModule {}

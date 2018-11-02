@@ -9,7 +9,10 @@
   <div *ngIf="data?.length; else noFriendsRequest" class="modal-body">
     <ul class="list-group list-group-flush" *ngFor="let friend of data">
       <li class="list-group-item d-flex justify-content-between">
-        <a href="" (click)="viewProfile(friend.requester, $event)">{{friend.requester.username | titlecase}}</a>
+        <p class=" cursorPointer btn-link" (click)="viewProfile(friend.requester)">
+          <span class="friendTitle">{{friend.requester.username | titlecase}}</span>
+        </p>
+
         <span>
           <button class="btn btn-danger mr-2 btn-sm" (click)="acceptRequest(friend.requester)">
             <i class="fas fa-backspace mr-1"></i>
@@ -21,6 +24,16 @@
           </button>
         </span>
       </li>
+
+
+      <li *ngIf="(currentRequester$ | async) as currentRequester">
+        <div *ngIf="currentRequester._id === friend.requester._id">
+          <img class="smallImg" [src]="friend.requester.avatar ? friend.requester.avatar : '../../../../assets/img/userdefault.png'"
+            alt="requester">
+        </div>
+      </li>
+
+
     </ul>
   </div>
 

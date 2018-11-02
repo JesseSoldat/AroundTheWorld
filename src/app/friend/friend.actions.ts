@@ -10,6 +10,9 @@ export enum FriendActionTypes {
   FriendsLoaded = "FriendsLoaded",
   FriendRequestRequested = "FriendRequestRequested",
   FriendRequestLoaded = "FriendRequestLoaded",
+  // small spinner
+  FriendRequestDetailsRequested = "FriendRequestDetailsRequested",
+  FriendRequestDetailsLoaded = "FriendRequestDetailsLoaded",
   // overlay
   SendFriendRequestStarted = "SendFriendRequestStarted",
   SendFriendRequestFinished = "SendFriendRequestFinished",
@@ -45,6 +48,19 @@ export class FriendRequestLoaded implements Action {
   readonly type = FriendActionTypes.FriendRequestLoaded;
 
   constructor(public payload: { friendRequests: FriendRequest[] }) {}
+}
+
+// ------------- small spinner ------------------
+export class FriendRequestDetailsRequested implements Action {
+  readonly type = FriendActionTypes.FriendRequestDetailsRequested;
+
+  constructor(public payload: { friendRequestIds: string[] }) {}
+}
+
+export class FriendRequestDetailsLoaded implements Action {
+  readonly type = FriendActionTypes.FriendRequestDetailsLoaded;
+
+  constructor(public payload: { friendRequestDetails: Profile[] }) {}
 }
 
 // -------------- overlay ---------------------
@@ -85,6 +101,8 @@ export type FriendActions =
   | FriendsLoaded
   | FriendRequestRequested
   | FriendRequestLoaded
+  | FriendRequestDetailsRequested
+  | FriendRequestDetailsLoaded
   | SendFriendRequestStarted
   | SendFriendRequestFinished
   | AcceptFriendRequestStarted
